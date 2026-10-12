@@ -1,13 +1,814 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="LearnLoop school management dashboard" />
-    <title>LearnLoop | Digital Syndicate</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LearnLoop | School Management</title>
+  <style>
+    :root {
+      --bg: #0b1020;
+      --panel: #151d32;
+      --line: #293550;
+      --text: #f3f6ff;
+      --muted: #aab5ce;
+      --accent: #8b7cff;
+      --green: #51dfad;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    header {
+      background: var(--panel);
+      border-bottom: 1px solid var(--line);
+      padding: 1.5rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+
+    .logo span {
+      color: var(--accent);
+    }
+
+    .tag {
+      color: var(--green);
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    header .tag {
+      font-size: 0.7rem;
+    }
+
+    .sidebar {
+      position: fixed;
+      left: 0;
+      top: 0;
+      width: 280px;
+      height: 100vh;
+      background: var(--panel);
+      border-right: 1px solid var(--line);
+      padding: 2rem 1rem;
+      overflow-y: auto;
+      z-index: 100;
+    }
+
+    .sidebar-header {
+      margin-bottom: 2rem;
+    }
+
+    .sidebar-header .tag {
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+
+    .sidebar-header h2 {
+      font-size: 1.3rem;
+      color: var(--text);
+    }
+
+    .sidebar-user {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--line);
+      border-radius: 0.75rem;
+      padding: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .sidebar-user .tag {
+      margin-bottom: 0.5rem;
+    }
+
+    .sidebar-user p {
+      color: var(--muted);
+      font-size: 0.875rem;
+      margin-top: 0.5rem;
+    }
+
+    nav {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      margin-bottom: 2rem;
+    }
+
+    nav a {
+      display: block;
+      padding: 0.75rem 1rem;
+      border: 1px solid transparent;
+      border-radius: 0.75rem;
+      color: var(--muted);
+      text-decoration: none;
+      transition: all 0.2s;
+      cursor: pointer;
+    }
+
+    nav a:hover {
+      background: rgba(255, 255, 255, 0.05);
+      border-color: var(--line);
+      color: var(--text);
+    }
+
+    nav a.active {
+      background: var(--accent);
+      color: white;
+      border-color: var(--accent);
+    }
+
+    .logout-btn {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      background: rgba(139, 124, 255, 0.1);
+      border: 1px solid var(--line);
+      color: var(--accent);
+      border-radius: 0.75rem;
+      cursor: pointer;
+      font-weight: 500;
+      transition: all 0.2s;
+    }
+
+    .logout-btn:hover {
+      background: var(--accent);
+      color: white;
+    }
+
+    main {
+      margin-left: 280px;
+      padding: 2rem;
+      min-height: 100vh;
+    }
+
+    .page {
+      display: none;
+    }
+
+    .page.active {
+      display: block;
+    }
+
+    .page-header {
+      margin-bottom: 2rem;
+    }
+
+    .page-header .tag {
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+
+    .page-header h1 {
+      font-size: 2rem;
+      color: var(--text);
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .stat-card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 1rem;
+      padding: 1.5rem;
+      text-align: center;
+    }
+
+    .stat-card .label {
+      font-size: 0.875rem;
+      color: var(--muted);
+      margin-bottom: 0.5rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .stat-card .value {
+      font-size: 2.5rem;
+      font-weight: bold;
+      color: var(--accent);
+    }
+
+    .stat-card.students .value { color: #a78bfa; }
+    .stat-card.teachers .value { color: #60a5fa; }
+    .stat-card.classes .value { color: #34d399; }
+    .stat-card.announcements .value { color: #fbbf24; }
+
+    .section {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 1rem;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .section h2 {
+      margin-bottom: 1rem;
+      font-size: 1.25rem;
+    }
+
+    .section p {
+      color: var(--muted);
+      margin-bottom: 1rem;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.875rem;
+    }
+
+    table thead {
+      border-bottom: 1px solid var(--line);
+    }
+
+    table th {
+      text-align: left;
+      padding: 1rem;
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    table td {
+      padding: 1rem;
+      border-bottom: 1px solid var(--line);
+    }
+
+    table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 3rem 1rem;
+      color: var(--muted);
+    }
+
+    .empty-state h3 {
+      font-size: 1.25rem;
+      margin-bottom: 0.5rem;
+      color: var(--text);
+    }
+
+    .login-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 1rem;
+    }
+
+    .login-form {
+      width: 100%;
+      max-width: 400px;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 1.5rem;
+      padding: 2rem;
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
+    }
+
+    .login-form .header {
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .login-form .tag {
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+
+    .login-form h1 {
+      font-size: 1.875rem;
+      margin-top: 0.5rem;
+    }
+
+    .form-group {
+      margin-bottom: 1.25rem;
+    }
+
+    label {
+      display: block;
+      font-size: 0.875rem;
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+      color: var(--muted);
+    }
+
+    input[type="text"],
+    input[type="password"],
+    select {
+      width: 100%;
+      padding: 0.75rem;
+      background: #0d1425;
+      border: 1px solid var(--line);
+      border-radius: 0.75rem;
+      color: var(--text);
+      font-size: 1rem;
+      transition: border-color 0.2s;
+    }
+
+    input[type="text"]:focus,
+    input[type="password"]:focus,
+    select:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
+
+    button {
+      padding: 0.75rem 1.5rem;
+      background: var(--accent);
+      color: white;
+      border: none;
+      border-radius: 0.75rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+
+    button:hover {
+      opacity: 0.9;
+    }
+
+    button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .submit-btn {
+      width: 100%;
+      padding: 0.875rem;
+      margin-top: 1rem;
+    }
+
+    .error-message {
+      background: rgba(239, 68, 68, 0.1);
+      border: 1px solid rgba(239, 68, 68, 0.5);
+      color: #fca5a5;
+      padding: 0.75rem;
+      border-radius: 0.75rem;
+      margin-bottom: 1rem;
+      font-size: 0.875rem;
+    }
+
+    .info-text {
+      text-align: center;
+      font-size: 0.75rem;
+      color: var(--muted);
+      margin-top: 1rem;
+    }
+
+    @media (max-width: 768px) {
+      .sidebar {
+        width: 100%;
+        height: auto;
+        border-right: none;
+        border-bottom: 1px solid var(--line);
+        padding: 1rem;
+        position: relative;
+      }
+
+      main {
+        margin-left: 0;
+        padding: 1rem;
+      }
+
+      .stats-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .login-form {
+        border-radius: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar" style="display: none;">
+    <div class="sidebar-header">
+      <span class="tag">LearnLoop</span>
+      <h2>Digital Syndicate</h2>
+    </div>
+
+    <div class="sidebar-user">
+      <span class="tag">Signed in as</span>
+      <p id="userNameDisplay">School Account</p>
+      <p id="userRoleDisplay" style="text-transform: capitalize;">user</p>
+    </div>
+
+    <nav id="sidebar-nav"></nav>
+
+    <button class="logout-btn" onclick="logout()">Sign out</button>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <main id="main-content" style="display: none;">
+    <!-- DASHBOARD PAGE -->
+    <div id="dashboard-page" class="page active">
+      <div class="page-header">
+        <span class="tag">LearnLoop</span>
+        <h1 id="dashboard-title">Dashboard</h1>
+      </div>
+
+      <div class="stats-grid" id="stats-container"></div>
+
+      <div class="section">
+        <h2>Welcome to LearnLoop</h2>
+        <p>A modern school management and assessment platform.</p>
+        <p>Select a section from the menu to get started.</p>
+      </div>
+    </div>
+
+    <!-- STUDENTS PAGE -->
+    <div id="students-page" class="page">
+      <div class="page-header">
+        <span class="tag">LearnLoop</span>
+        <h1>Students</h1>
+      </div>
+      <div class="section">
+        <table id="students-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>User ID</th>
+              <th>Roll Number</th>
+            </tr>
+          </thead>
+          <tbody id="students-tbody">
+            <tr><td colspan="3" class="empty-state" style="border: none; padding: 3rem 1rem;"><strong>No students found</strong></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- TEACHERS PAGE -->
+    <div id="teachers-page" class="page">
+      <div class="page-header">
+        <span class="tag">LearnLoop</span>
+        <h1>Teachers</h1>
+      </div>
+      <div class="section">
+        <table id="teachers-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Subject</th>
+              <th>Contact</th>
+            </tr>
+          </thead>
+          <tbody id="teachers-tbody">
+            <tr><td colspan="3" class="empty-state" style="border: none; padding: 3rem 1rem;"><strong>No teachers found</strong></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- CLASSES PAGE -->
+    <div id="classes-page" class="page">
+      <div class="page-header">
+        <span class="tag">LearnLoop</span>
+        <h1>Classes</h1>
+      </div>
+      <div id="classes-container" class="stats-grid">
+        <div class="empty-state" style="grid-column: 1/-1;">
+          <h3>No classes found</h3>
+        </div>
+      </div>
+    </div>
+
+    <!-- ATTENDANCE PAGE -->
+    <div id="attendance-page" class="page">
+      <div class="page-header">
+        <span class="tag">LearnLoop</span>
+        <h1>Attendance</h1>
+      </div>
+      <div class="section">
+        <table id="attendance-table">
+          <thead>
+            <tr>
+              <th>Student Name</th>
+              <th>Status</th>
+              <th>Date</th>
+            </tr>
+          </thead>
+          <tbody id="attendance-tbody">
+            <tr><td colspan="3" class="empty-state" style="border: none; padding: 3rem 1rem;"><strong>No records</strong></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- RESULTS PAGE -->
+    <div id="results-page" class="page">
+      <div class="page-header">
+        <span class="tag">LearnLoop</span>
+        <h1>Results</h1>
+      </div>
+      <div class="section">
+        <table id="results-table">
+          <thead>
+            <tr>
+              <th>Student Name</th>
+              <th>Subject</th>
+              <th>Marks</th>
+            </tr>
+          </thead>
+          <tbody id="results-tbody">
+            <tr><td colspan="3" class="empty-state" style="border: none; padding: 3rem 1rem;"><strong>No results</strong></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ANNOUNCEMENTS PAGE -->
+    <div id="announcements-page" class="page">
+      <div class="page-header">
+        <span class="tag">LearnLoop</span>
+        <h1>Announcements</h1>
+      </div>
+      <div id="announcements-container">
+        <div class="empty-state">
+          <h3>No announcements</h3>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- LOGIN PAGE -->
+  <div id="login-page">
+    <div class="login-container">
+      <div class="login-form">
+        <div class="header">
+          <span class="tag">LearnLoop</span>
+          <h1>Sign in</h1>
+        </div>
+
+        <div id="login-error" class="error-message" style="display: none;"></div>
+
+        <form onsubmit="handleLogin(event)">
+          <div class="form-group">
+            <label for="userRole">Login as</label>
+            <select id="userRole" required>
+              <option value="">Select role</option>
+              <option value="admin">School Admin</option>
+              <option value="teacher">Teacher</option>
+              <option value="student">Student</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="schoolUserId">School-issued user ID</label>
+            <input type="text" id="schoolUserId" placeholder="e.g. S-2048" required>
+          </div>
+
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" placeholder="Enter your password" required>
+          </div>
+
+          <button type="submit" class="submit-btn">Sign in</button>
+
+          <p class="info-text">
+            Demo Mode: No backend connection required
+          </p>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let currentUser = null;
+    let navItems = [
+      { id: 'dashboard', label: 'Dashboard', show: true },
+      { id: 'students', label: 'Students', show: true },
+      { id: 'teachers', label: 'Teachers', show: true },
+      { id: 'classes', label: 'Classes', show: true },
+      { id: 'attendance', label: 'Attendance', show: true },
+      { id: 'results', label: 'Results', show: true },
+      { id: 'announcements', label: 'Announcements', show: true },
+    ];
+
+    function showPage(pageId) {
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      const page = document.getElementById(pageId + '-page');
+      if (page) page.classList.add('active');
+
+      document.querySelectorAll('#sidebar-nav a').forEach(a => a.classList.remove('active'));
+      const link = document.querySelector(`#sidebar-nav a[data-page="${pageId}"]`);
+      if (link) link.classList.add('active');
+
+      if (pageId === 'students') loadStudents();
+      if (pageId === 'teachers') loadTeachers();
+      if (pageId === 'classes') loadClasses();
+      if (pageId === 'attendance') loadAttendance();
+      if (pageId === 'results') loadResults();
+      if (pageId === 'announcements') loadAnnouncements();
+    }
+
+    function buildNavigation() {
+      const nav = document.getElementById('sidebar-nav');
+      nav.innerHTML = navItems
+        .map(item => `<a data-page="${item.id}" onclick="showPage('${item.id}'); return false;">${item.label}</a>`)
+        .join('');
+      showPage('dashboard');
+    }
+
+    function handleLogin(event) {
+      event.preventDefault();
+      const role = document.getElementById('userRole').value.trim();
+      const userId = document.getElementById('schoolUserId').value.trim();
+      const password = document.getElementById('password').value.trim();
+
+      if (!role || !userId || !password) {
+        showLoginError('Please fill all fields.');
+        return;
+      }
+
+      currentUser = {
+        id: '1',
+        name: userId,
+        role: role,
+        school_id: '1'
+      };
+
+      document.getElementById('login-page').style.display = 'none';
+      document.getElementById('sidebar').style.display = 'block';
+      document.getElementById('main-content').style.display = 'block';
+
+      document.getElementById('userNameDisplay').textContent = userId;
+      document.getElementById('userRoleDisplay').textContent = role.charAt(0).toUpperCase() + role.slice(1);
+
+      const titles = { admin: 'Admin Dashboard', teacher: 'Teacher Dashboard', student: 'Student Dashboard' };
+      document.getElementById('dashboard-title').textContent = titles[role] || 'Dashboard';
+
+      buildNavigation();
+      loadDashboard();
+    }
+
+    function showLoginError(message) {
+      const errorDiv = document.getElementById('login-error');
+      errorDiv.textContent = message;
+      errorDiv.style.display = 'block';
+    }
+
+    function logout() {
+      currentUser = null;
+      document.getElementById('login-page').style.display = 'flex';
+      document.getElementById('sidebar').style.display = 'none';
+      document.getElementById('main-content').style.display = 'none';
+      document.getElementById('schoolUserId').value = '';
+      document.getElementById('password').value = '';
+      document.getElementById('userRole').value = '';
+      document.getElementById('login-error').style.display = 'none';
+    }
+
+    function loadDashboard() {
+      const stats = [
+        { label: 'Students', value: '245', class: 'students' },
+        { label: 'Teachers', value: '32', class: 'teachers' },
+        { label: 'Classes', value: '18', class: 'classes' },
+        { label: 'Announcements', value: '12', class: 'announcements' },
+      ];
+
+      const container = document.getElementById('stats-container');
+      container.innerHTML = stats.map(s => `
+        <div class="stat-card ${s.class}">
+          <div class="label">${s.label}</div>
+          <div class="value">${s.value}</div>
+        </div>
+      `).join('');
+    }
+
+    function loadStudents() {
+      const students = [
+        { name: 'John Doe', user_id: 'S-001', roll: '01' },
+        { name: 'Jane Smith', user_id: 'S-002', roll: '02' },
+        { name: 'Bob Johnson', user_id: 'S-003', roll: '03' },
+        { name: 'Alice Brown', user_id: 'S-004', roll: '04' },
+      ];
+
+      const tbody = document.getElementById('students-tbody');
+      tbody.innerHTML = students.map(s => `
+        <tr>
+          <td>${s.name}</td>
+          <td>${s.user_id}</td>
+          <td>${s.roll}</td>
+        </tr>
+      `).join('');
+    }
+
+    function loadTeachers() {
+      const teachers = [
+        { name: 'Prof. Alice', subject: 'Mathematics', contact: 'alice@school.edu' },
+        { name: 'Prof. Bob', subject: 'English', contact: 'bob@school.edu' },
+        { name: 'Prof. Carol', subject: 'Science', contact: 'carol@school.edu' },
+      ];
+
+      const tbody = document.getElementById('teachers-tbody');
+      tbody.innerHTML = teachers.map(t => `
+        <tr>
+          <td>${t.name}</td>
+          <td>${t.subject}</td>
+          <td>${t.contact}</td>
+        </tr>
+      `).join('');
+    }
+
+    function loadClasses() {
+      const classes = [
+        { name: 'Class 10A', students: '32' },
+        { name: 'Class 10B', students: '28' },
+        { name: 'Class 11A', students: '30' },
+        { name: 'Class 11B', students: '29' },
+      ];
+
+      const container = document.getElementById('classes-container');
+      container.innerHTML = classes.map(c => `
+        <div class="stat-card">
+          <div class="label">Class</div>
+          <div style="font-size: 1.5rem; color: var(--accent); margin-bottom: 0.5rem;">${c.name}</div>
+          <div style="color: var(--muted);">${c.students} students</div>
+        </div>
+      `).join('');
+    }
+
+    function loadAttendance() {
+      const attendance = [
+        { student: 'John Doe', status: 'Present', date: '2026-10-12' },
+        { student: 'Jane Smith', status: 'Absent', date: '2026-10-12' },
+        { student: 'Bob Johnson', status: 'Present', date: '2026-10-12' },
+        { student: 'Alice Brown', status: 'Present', date: '2026-10-12' },
+      ];
+
+      const tbody = document.getElementById('attendance-tbody');
+      tbody.innerHTML = attendance.map(a => `
+        <tr>
+          <td>${a.student}</td>
+          <td>${a.status}</td>
+          <td>${a.date}</td>
+        </tr>
+      `).join('');
+    }
+
+    function loadResults() {
+      const results = [
+        { student: 'John Doe', subject: 'Math', marks: '92' },
+        { student: 'Jane Smith', subject: 'English', marks: '88' },
+        { student: 'Bob Johnson', subject: 'Science', marks: '85' },
+        { student: 'Alice Brown', subject: 'History', marks: '90' },
+      ];
+
+      const tbody = document.getElementById('results-tbody');
+      tbody.innerHTML = results.map(r => `
+        <tr>
+          <td>${r.student}</td>
+          <td>${r.subject}</td>
+          <td>${r.marks}</td>
+        </tr>
+      `).join('');
+    }
+
+    function loadAnnouncements() {
+      const announcements = [
+        { title: 'School Closed', message: 'School will be closed on Oct 31 for maintenance.' },
+        { title: 'Exam Schedule', message: 'Final exams are scheduled for next month.' },
+        { title: 'New Library', message: 'Our new library wing is now open for all students.' },
+      ];
+
+      const container = document.getElementById('announcements-container');
+      container.innerHTML = announcements.map(a => `
+        <div class="section">
+          <h2>${a.title}</h2>
+          <p>${a.message}</p>
+        </div>
+      `).join('');
+    }
+  </script>
+</body>
 </html>
