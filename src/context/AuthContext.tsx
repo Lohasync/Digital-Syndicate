@@ -1,12 +1,16 @@
 import { createContext, useContext, useEffect, useMemo, useState } from 'react';
 import type { ReactNode } from 'react';
-import type { Session } from '@supabase/supabase-js';
-import { fetchProfileForUser, signInWithSchoolId } from '../lib/auth';
-import { supabase } from '../lib/supabase';
+import { clearAuthState, fetchProfileForUser, persistAuthState, signInWithSchoolId } from '../lib/auth';
 import type { Profile } from '../types';
 
+interface AuthSession {
+  user: {
+    id: string;
+  } | null;
+}
+
 interface AuthContextValue {
-  session: Session | null;
+  session: AuthSession | null;
   profile: Profile | null;
   loading: boolean;
   authError: string | null;
@@ -16,13 +20,26 @@ interface AuthContextValue {
 
 const AuthContext = createContext<AuthContextValue | undefined>(undefined);
 
+function readStoredSession(): AuthSession | null {
+  if (typeof window === 'undefined') {
+    return null;
+  }
+
+  try {
+    const rawSession = window.localStorage.getItem('learnloop-session');
+    return rawSession ? (JSON.parse(rawSession) as AuthSession) : null;
+  } catch {
+    return null;
+  }
+}
+
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [session, setSession] = useState<Session | null>(null);
+  const [session, setSession] = useState<AuthSession | null>(null);
   const [profile, setProfile] = useState<Profile | null>(null);
   const [loading, setLoading] = useState(true);
   const [authError, setAuthError] = useState<string | null>(null);
 
-  const hydrateProfile = async (nextSession: Session | null) => {
+  const hydrateProfile = async (nextSession: AuthSession | null) => {
     if (!nextSession) {
       setProfile(null);
       return;
@@ -42,9 +59,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     let isMounted = true;
 
     const initialize = async () => {
-      const {
-        data: { session: activeSession },
-      } = await supabase.auth.getSession();
+      const activeSession = readStoredSession();
 
       if (!isMounted) {
         return;
@@ -57,21 +72,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     void initialize();
 
-    const {
-      data: { subscription },
-    } = supabase.auth.onAuthStateChange(async (_event, nextSession) => {
-      if (!isMounted) {
-        return;
-      }
-
-      setSession(nextSession);
-      await hydrateProfile(nextSession);
-      setLoading(false);
-    });
-
     return () => {
       isMounted = false;
-      subscription.unsubscribe();
     };
   }, []);
 
@@ -81,9 +83,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     try {
       const authData = await signInWithSchoolId({ schoolUserId, password });
-      const nextSession = authData.session ?? (await supabase.auth.getSession()).data.session;
+      const nextSession = authData.session ?? { user: { id: authData.profile.id } };
+
+      if (typeof window !== 'undefined') {
+        window.localStorage.setItem('learnloop-session', JSON.stringify(nextSession));
+      }
+
+      persistAuthState(authData.profile);
       setSession(nextSession);
-      await hydrateProfile(nextSession);
+      setProfile(authData.profile);
     } catch (error) {
       setProfile(null);
       setAuthError(error instanceof Error ? error.message : 'Unable to sign in.');
@@ -94,7 +102,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const signOut = async () => {
     setLoading(true);
-    await supabase.auth.signOut();
+    clearAuthState();
     setSession(null);
     setProfile(null);
     setLoading(false);

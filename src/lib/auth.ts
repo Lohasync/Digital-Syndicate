@@ -1,10 +1,54 @@
-import type { PostgrestError } from '@supabase/supabase-js';
-import { supabase } from './supabase';
-import type { Profile, Role } from '../types';
+import type { Profile } from '../types';
 
 export interface SchoolUserLookupInput {
   schoolUserId: string;
   password: string;
+}
+
+const MOCK_ACCOUNTS: Array<{ schoolUserId: string; password: string; profile: Profile }> = [
+  {
+    schoolUserId: 'ADMIN-001',
+    password: 'demo123',
+    profile: {
+      id: 'admin-1',
+      school_id: 'S-100',
+      role: 'school_admin',
+      full_name: 'Alicia Rowan',
+      email: 'admin@learnloop.local',
+      user_id: 'ADMIN-001',
+    },
+  },
+  {
+    schoolUserId: 'T-2048',
+    password: 'demo123',
+    profile: {
+      id: 'teacher-1',
+      school_id: 'S-100',
+      role: 'teacher',
+      full_name: 'Mia Carter',
+      email: 'mia.carter@learnloop.local',
+      user_id: 'T-2048',
+    },
+  },
+  {
+    schoolUserId: 'ST-3001',
+    password: 'demo123',
+    profile: {
+      id: 'student-1',
+      school_id: 'S-100',
+      role: 'student',
+      full_name: 'Noah Patel',
+      email: 'noah.patel@learnloop.local',
+      user_id: 'ST-3001',
+    },
+  },
+];
+
+function findMockAccount(schoolUserId: string, password: string) {
+  return MOCK_ACCOUNTS.find(
+    (account) =>
+      account.schoolUserId.toLowerCase() === schoolUserId.trim().toLowerCase() && account.password === password.trim(),
+  );
 }
 
 export async function lookupSchoolUserEmail({ schoolUserId, password }: SchoolUserLookupInput) {
@@ -15,83 +59,61 @@ export async function lookupSchoolUserEmail({ schoolUserId, password }: SchoolUs
     throw new Error('Please provide both your school user ID and password.');
   }
 
-  const attempts = [
-    { name: 'resolve_school_login', params: { p_school_user_id: trimmedId, p_password: trimmedPassword } },
-    { name: 'authenticate_school_user', params: { school_user_id: trimmedId, password: trimmedPassword } },
-    { name: 'school_user_login', params: { school_user_id: trimmedId, password: trimmedPassword } },
-    { name: 'lookup_school_user', params: { user_id: trimmedId, password: trimmedPassword } },
-  ];
+  const account = findMockAccount(trimmedId, trimmedPassword);
 
-  let lastError: PostgrestError | Error | null = null;
-
-  for (const attempt of attempts) {
-    try {
-      const { data, error } = await supabase.rpc(attempt.name, attempt.params as Record<string, unknown>);
-
-      if (!error && data) {
-        const record = Array.isArray(data) ? data[0] : data;
-
-        if (record && typeof record.email === 'string' && record.email.includes('@')) {
-          return {
-            email: record.email,
-            user_id: typeof record.user_id === 'string' ? record.user_id : undefined,
-          };
-        }
-      }
-
-      lastError = error ?? new Error(`Lookup failed for ${attempt.name}.`);
-    } catch (error) {
-      lastError = error instanceof Error ? error : new Error('Unable to resolve school login.');
-    }
+  if (!account) {
+    throw new Error('No matching demo account was found. Use one of the configured school IDs and the shared demo password.');
   }
 
-  if (lastError) {
-    throw new Error(
-      'The trusted backend lookup is not configured in this Supabase project. Please connect the approved school-ID mapping before using this login flow.',
-    );
-  }
-
-  throw new Error('No valid user record was returned by the backend lookup.');
+  return {
+    email: account.profile.email ?? `${trimmedId.toLowerCase()}@learnloop.local`,
+    user_id: account.profile.user_id ?? trimmedId,
+  };
 }
 
 export async function signInWithSchoolId({ schoolUserId, password }: SchoolUserLookupInput) {
-  const lookup = await lookupSchoolUserEmail({ schoolUserId, password });
+  const account = findMockAccount(schoolUserId, password);
 
-  const { data, error } = await supabase.auth.signInWithPassword({
-    email: lookup.email,
-    password,
-  });
-
-  if (error) {
-    throw new Error(error.message || 'Sign-in failed.');
+  if (!account) {
+    throw new Error('Invalid school ID or password.');
   }
 
-  return data;
+  return {
+    session: {
+      user: { id: account.profile.id },
+    },
+    profile: account.profile,
+  };
 }
 
 export async function fetchProfileForUser(): Promise<Profile> {
-  const {
-    data: { user },
-    error: userError,
-  } = await supabase.auth.getUser();
-
-  if (userError || !user) {
+  if (typeof window === 'undefined') {
     throw new Error('Session expired. Please sign in again.');
   }
 
-  const { data, error } = await supabase
-    .from('profiles')
-    .select('*')
-    .eq('id', user.id)
-    .maybeSingle();
+  const rawProfile = window.localStorage.getItem('learnloop-profile');
 
-  if (error) {
-    throw new Error(error.message || 'Unable to load your profile.');
+  if (!rawProfile) {
+    throw new Error('Session expired. Please sign in again.');
   }
 
-  if (!data) {
-    throw new Error('No profile was found for this account. Please contact the school administrator.');
+  try {
+    const parsed = JSON.parse(rawProfile) as Profile;
+    return parsed;
+  } catch {
+    throw new Error('Session expired. Please sign in again.');
   }
+}
 
-  return data as Profile;
+export function persistAuthState(profile: Profile) {
+  if (typeof window !== 'undefined') {
+    window.localStorage.setItem('learnloop-profile', JSON.stringify(profile));
+  }
+}
+
+export function clearAuthState() {
+  if (typeof window !== 'undefined') {
+    window.localStorage.removeItem('learnloop-profile');
+    window.localStorage.removeItem('learnloop-session');
+  }
 }

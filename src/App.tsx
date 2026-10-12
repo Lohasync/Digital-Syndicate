@@ -1,21 +1,86 @@
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { useAuth } from './context/AuthContext';
-import { supabase, isSupabaseConfigured } from './lib/supabase';
 import type { Profile } from './types';
 import { Sidebar } from './components/Sidebar';
 import { StatCard } from './components/StatCard';
 import { EmptyState } from './components/EmptyState';
-import { useEffect, useState } from 'react';
 
-function AppLayout({
-  title,
-  actions,
-  children,
-}: {
-  title: string;
-  actions?: React.ReactNode;
-  children: React.ReactNode;
-}) {
+const MOCK_PROFILES: Profile[] = [
+  {
+    id: 'admin-1',
+    school_id: 'S-100',
+    role: 'school_admin',
+    full_name: 'Alicia Rowan',
+    email: 'admin@learnloop.local',
+    user_id: 'ADMIN-001',
+  },
+  {
+    id: 'teacher-1',
+    school_id: 'S-100',
+    role: 'teacher',
+    full_name: 'Mia Carter',
+    email: 'mia.carter@learnloop.local',
+    user_id: 'T-2048',
+  },
+  {
+    id: 'teacher-2',
+    school_id: 'S-100',
+    role: 'teacher',
+    full_name: 'Liam Brooks',
+    email: 'liam.brooks@learnloop.local',
+    user_id: 'T-2051',
+  },
+  {
+    id: 'student-1',
+    school_id: 'S-100',
+    role: 'student',
+    full_name: 'Noah Patel',
+    email: 'noah.patel@learnloop.local',
+    user_id: 'ST-3001',
+  },
+  {
+    id: 'student-2',
+    school_id: 'S-100',
+    role: 'student',
+    full_name: 'Priya Shah',
+    email: 'priya.shah@learnloop.local',
+    user_id: 'ST-3002',
+  },
+  {
+    id: 'student-3',
+    school_id: 'S-100',
+    role: 'student',
+    full_name: 'Ethan Walker',
+    email: 'ethan.walker@learnloop.local',
+    user_id: 'ST-3003',
+  },
+];
+
+const MOCK_CLASSES = [
+  { id: 'class-1', school_id: 'S-100', name: 'Algebra I', teacher_id: 'teacher-1' },
+  { id: 'class-2', school_id: 'S-100', name: 'English Literature', teacher_id: 'teacher-2' },
+  { id: 'class-3', school_id: 'S-100', name: 'Biology', teacher_id: 'teacher-1' },
+];
+
+const MOCK_ATTENDANCE = [
+  { id: 'attendance-1', school_id: 'S-100', student_id: 'student-1', status: 'Present', date: '2026-10-12' },
+  { id: 'attendance-2', school_id: 'S-100', student_id: 'student-1', status: 'Late', date: '2026-10-11' },
+  { id: 'attendance-3', school_id: 'S-100', student_id: 'student-2', status: 'Present', date: '2026-10-12' },
+  { id: 'attendance-4', school_id: 'S-100', student_id: 'student-3', status: 'Absent', date: '2026-10-12' },
+];
+
+const MOCK_RESULTS = [
+  { id: 'result-1', school_id: 'S-100', student_id: 'student-1', subject: 'Math', score: 92 },
+  { id: 'result-2', school_id: 'S-100', student_id: 'student-2', subject: 'English', score: 88 },
+  { id: 'result-3', school_id: 'S-100', student_id: 'student-3', subject: 'Science', score: 81 },
+];
+
+const MOCK_ANNOUNCEMENTS = [
+  { id: 'announcement-1', school_id: 'S-100', title: 'Parent conference day', message: 'We are hosting a parent conference day on Friday.', created_at: '2026-10-12T09:00:00Z' },
+  { id: 'announcement-2', school_id: 'S-100', title: 'Library hours', message: 'The library is extending hours for exam week.', created_at: '2026-10-10T14:00:00Z' },
+];
+
+function AppLayout({ title, actions, children }: { title: string; actions?: React.ReactNode; children: React.ReactNode }) {
   const { profile, signOut } = useAuth();
 
   if (!profile) {
@@ -73,56 +138,33 @@ function DashboardSwitch() {
 
 function AdminOverviewPage() {
   const { profile } = useAuth();
-  const [stats, setStats] = useState({ students: 0, teachers: 0, classes: 0, announcements: 0 });
-  const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const loadStats = async () => {
-      if (!profile?.school_id || !isSupabaseConfigured) {
-        setLoading(false);
-        return;
-      }
+  if (!profile) {
+    return <Navigate to="/login" replace />;
+  }
 
-      try {
-        const [studentsResult, teachersResult, classesResult, announcementsResult] = await Promise.all([
-          supabase.from('profiles').select('*', { count: 'exact' }).eq('school_id', profile.school_id).eq('role', 'student'),
-          supabase.from('profiles').select('*', { count: 'exact' }).eq('school_id', profile.school_id).eq('role', 'teacher'),
-          supabase.from('classes').select('*', { count: 'exact' }).eq('school_id', profile.school_id),
-          supabase.from('announcements').select('*', { count: 'exact' }).eq('school_id', profile.school_id),
-        ]);
-
-        setStats({
-          students: studentsResult.data?.length ?? 0,
-          teachers: teachersResult.data?.length ?? 0,
-          classes: classesResult.data?.length ?? 0,
-          announcements: announcementsResult.data?.length ?? 0,
-        });
-      } catch (error) {
-        console.error('Failed to load admin stats:', error);
-        setStats({ students: 0, teachers: 0, classes: 0, announcements: 0 });
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    void loadStats();
-  }, [profile]);
+  const stats = {
+    students: MOCK_PROFILES.filter((entry) => entry.school_id === profile.school_id && entry.role === 'student').length,
+    teachers: MOCK_PROFILES.filter((entry) => entry.school_id === profile.school_id && entry.role === 'teacher').length,
+    classes: MOCK_CLASSES.filter((entry) => entry.school_id === profile.school_id).length,
+    announcements: MOCK_ANNOUNCEMENTS.filter((entry) => entry.school_id === profile.school_id).length,
+  };
 
   return (
     <AppLayout title="Admin dashboard">
       <div className="space-y-6">
         <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-          <StatCard label="Students" value={loading ? '...' : String(stats.students)} accent="bg-violet-500" />
-          <StatCard label="Teachers" value={loading ? '...' : String(stats.teachers)} accent="bg-sky-500" />
-          <StatCard label="Classes" value={loading ? '...' : String(stats.classes)} accent="bg-emerald-500" />
-          <StatCard label="Announcements" value={loading ? '...' : String(stats.announcements)} accent="bg-amber-500" />
+          <StatCard label="Students" value={String(stats.students)} accent="bg-violet-500" />
+          <StatCard label="Teachers" value={String(stats.teachers)} accent="bg-sky-500" />
+          <StatCard label="Classes" value={String(stats.classes)} accent="bg-emerald-500" />
+          <StatCard label="Announcements" value={String(stats.announcements)} accent="bg-amber-500" />
         </div>
 
         <div className="grid gap-6 xl:grid-cols-2">
           <section className="rounded-2xl border border-line bg-panel p-5">
             <h2 className="mb-4 text-lg font-semibold text-text">School summary</h2>
             <ul className="space-y-3 text-sm text-muted">
-              <li>• School separation is enforced through Supabase RLS.</li>
+              <li>• This demo build no longer connects to the Supabase database.</li>
               <li>• Admin actions are limited to the current school context.</li>
               <li>• Role-based permissions are enforced by profile role checks.</li>
             </ul>
@@ -142,38 +184,17 @@ function AdminOverviewPage() {
 
 function StudentsPage() {
   const { profile } = useAuth();
-  const [rows, setRows] = useState<Profile[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    const load = async () => {
-      if (!profile?.school_id || !isSupabaseConfigured) {
-        setIsLoading(false);
-        return;
-      }
+  if (!profile) {
+    return <Navigate to="/login" replace />;
+  }
 
-      const { data, error } = await supabase
-        .from('profiles')
-        .select('*')
-        .eq('school_id', profile.school_id)
-        .eq('role', 'student')
-        .order('full_name');
-
-      if (!error) {
-        setRows((data ?? []) as Profile[]);
-      }
-      setIsLoading(false);
-    };
-
-    void load();
-  }, [profile]);
+  const rows = MOCK_PROFILES.filter((entry) => entry.school_id === profile.school_id && entry.role === 'student');
 
   return (
     <AppLayout title="Students">
       <section className="rounded-2xl border border-line bg-panel p-5">
-        {isLoading ? (
-          <p className="text-sm text-muted">Loading students...</p>
-        ) : rows.length === 0 ? (
+        {rows.length === 0 ? (
           <EmptyState title="No students found" message="Student records will appear here once they are assigned to this school." />
         ) : (
           <div className="overflow-x-auto">
@@ -204,37 +225,17 @@ function StudentsPage() {
 
 function TeachersPage() {
   const { profile } = useAuth();
-  const [rows, setRows] = useState<Profile[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    const load = async () => {
-      if (!profile?.school_id || !isSupabaseConfigured) {
-        setIsLoading(false);
-        return;
-      }
+  if (!profile) {
+    return <Navigate to="/login" replace />;
+  }
 
-      const { data, error } = await supabase
-        .from('profiles')
-        .select('*')
-        .eq('school_id', profile.school_id)
-        .eq('role', 'teacher');
-
-      if (!error) {
-        setRows((data ?? []) as Profile[]);
-      }
-      setIsLoading(false);
-    };
-
-    void load();
-  }, [profile]);
+  const rows = MOCK_PROFILES.filter((entry) => entry.school_id === profile.school_id && entry.role === 'teacher');
 
   return (
     <AppLayout title="Teachers">
       <section className="rounded-2xl border border-line bg-panel p-5">
-        {isLoading ? (
-          <p className="text-sm text-muted">Loading teachers...</p>
-        ) : rows.length === 0 ? (
+        {rows.length === 0 ? (
           <EmptyState title="No teachers found" message="Teacher profiles will appear here once they are assigned to this school." />
         ) : (
           <div className="overflow-x-auto">
@@ -265,32 +266,17 @@ function TeachersPage() {
 
 function ClassesPage() {
   const { profile } = useAuth();
-  const [rows, setRows] = useState<Array<{ id: string; name?: string; school_id?: string | number }>>([]);
-  const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    const load = async () => {
-      if (!profile?.school_id || !isSupabaseConfigured) {
-        setIsLoading(false);
-        return;
-      }
+  if (!profile) {
+    return <Navigate to="/login" replace />;
+  }
 
-      const { data, error } = await supabase.from('classes').select('*').eq('school_id', profile.school_id);
-      if (!error) {
-        setRows((data ?? []) as Array<{ id: string; name?: string; school_id?: string | number }>);
-      }
-      setIsLoading(false);
-    };
-
-    void load();
-  }, [profile]);
+  const rows = MOCK_CLASSES.filter((entry) => entry.school_id === profile.school_id);
 
   return (
     <AppLayout title="Classes">
       <section className="rounded-2xl border border-line bg-panel p-5">
-        {isLoading ? (
-          <p className="text-sm text-muted">Loading classes...</p>
-        ) : rows.length === 0 ? (
+        {rows.length === 0 ? (
           <EmptyState title="No classes found" message="Classes for this school will appear here after they are created." />
         ) : (
           <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
@@ -310,32 +296,17 @@ function ClassesPage() {
 
 function AttendancePage() {
   const { profile } = useAuth();
-  const [rows, setRows] = useState<Array<{ id: string; student_id?: string; status?: string; date?: string }>>([]);
-  const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    const load = async () => {
-      if (!profile?.school_id || !isSupabaseConfigured) {
-        setIsLoading(false);
-        return;
-      }
+  if (!profile) {
+    return <Navigate to="/login" replace />;
+  }
 
-      const { data, error } = await supabase.from('attendance').select('*').eq('school_id', profile.school_id).limit(20);
-      if (!error) {
-        setRows((data ?? []) as Array<{ id: string; student_id?: string; status?: string; date?: string }>);
-      }
-      setIsLoading(false);
-    };
-
-    void load();
-  }, [profile]);
+  const rows = MOCK_ATTENDANCE.filter((entry) => entry.school_id === profile.school_id);
 
   return (
     <AppLayout title="Attendance">
       <section className="rounded-2xl border border-line bg-panel p-5">
-        {isLoading ? (
-          <p className="text-sm text-muted">Loading attendance...</p>
-        ) : rows.length === 0 ? (
+        {rows.length === 0 ? (
           <EmptyState title="No attendance records" message="Attendance data for this school will appear here." />
         ) : (
           <div className="overflow-x-auto">
@@ -366,32 +337,17 @@ function AttendancePage() {
 
 function ResultsPage() {
   const { profile } = useAuth();
-  const [rows, setRows] = useState<Array<{ id: string; student_id?: string; score?: number; subject?: string }>>([]);
-  const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    const load = async () => {
-      if (!profile?.school_id || !isSupabaseConfigured) {
-        setIsLoading(false);
-        return;
-      }
+  if (!profile) {
+    return <Navigate to="/login" replace />;
+  }
 
-      const { data, error } = await supabase.from('results').select('*').eq('school_id', profile.school_id).limit(20);
-      if (!error) {
-        setRows((data ?? []) as Array<{ id: string; student_id?: string; score?: number; subject?: string }>);
-      }
-      setIsLoading(false);
-    };
-
-    void load();
-  }, [profile]);
+  const rows = MOCK_RESULTS.filter((entry) => entry.school_id === profile.school_id);
 
   return (
     <AppLayout title="Results">
       <section className="rounded-2xl border border-line bg-panel p-5">
-        {isLoading ? (
-          <p className="text-sm text-muted">Loading results...</p>
-        ) : rows.length === 0 ? (
+        {rows.length === 0 ? (
           <EmptyState title="No results yet" message="Assessment results will appear once students are graded." />
         ) : (
           <div className="overflow-x-auto">
@@ -422,32 +378,17 @@ function ResultsPage() {
 
 function AnnouncementsPage() {
   const { profile } = useAuth();
-  const [rows, setRows] = useState<Array<{ id: string; title?: string; message?: string; created_at?: string }>>([]);
-  const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    const load = async () => {
-      if (!profile?.school_id || !isSupabaseConfigured) {
-        setIsLoading(false);
-        return;
-      }
+  if (!profile) {
+    return <Navigate to="/login" replace />;
+  }
 
-      const { data, error } = await supabase.from('announcements').select('*').eq('school_id', profile.school_id).order('created_at', { ascending: false });
-      if (!error) {
-        setRows((data ?? []) as Array<{ id: string; title?: string; message?: string; created_at?: string }>);
-      }
-      setIsLoading(false);
-    };
-
-    void load();
-  }, [profile]);
+  const rows = MOCK_ANNOUNCEMENTS.filter((entry) => entry.school_id === profile.school_id);
 
   return (
     <AppLayout title="Announcements">
       <section className="space-y-4">
-        {isLoading ? (
-          <p className="text-sm text-muted">Loading announcements...</p>
-        ) : rows.length === 0 ? (
+        {rows.length === 0 ? (
           <EmptyState title="No announcements" message="School-wide notices will appear here when published." />
         ) : (
           rows.map((announcement) => (
@@ -466,56 +407,25 @@ function AnnouncementsPage() {
 
 function TeacherOverviewPage() {
   const { profile } = useAuth();
-  const [assignedClasses, setAssignedClasses] = useState<Array<{ id: string; name?: string }>>([]);
-  const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const load = async () => {
-      if (!profile || !isSupabaseConfigured) {
-        setLoading(false);
-        return;
-      }
+  if (!profile) {
+    return <Navigate to="/login" replace />;
+  }
 
-      try {
-        const { data: assignmentRows } = await supabase
-          .from('teacher_class_assignments')
-          .select('class_id')
-          .eq('teacher_id', profile.id);
-
-        const classIds = (assignmentRows ?? []).map((row) => row.class_id).filter(Boolean);
-
-        let classResult;
-        if (classIds.length > 0) {
-          classResult = await supabase.from('classes').select('*').in('id', classIds).eq('school_id', profile.school_id);
-        } else {
-          classResult = await supabase.from('classes').select('*').eq('teacher_id', profile.id).eq('school_id', profile.school_id);
-        }
-
-        setAssignedClasses((classResult?.data ?? []) as Array<{ id: string; name?: string }>);
-      } catch {
-        setAssignedClasses([]);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    void load();
-  }, [profile]);
+  const assignedClasses = MOCK_CLASSES.filter((entry) => entry.teacher_id === profile.id && entry.school_id === profile.school_id);
 
   return (
     <AppLayout title="Teacher dashboard">
       <div className="space-y-6">
         <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-          <StatCard label="Assigned classes" value={loading ? '...' : String(assignedClasses.length)} accent="bg-violet-500" />
+          <StatCard label="Assigned classes" value={String(assignedClasses.length)} accent="bg-violet-500" />
           <StatCard label="Students" value="-" accent="bg-sky-500" />
           <StatCard label="Assessments" value="-" accent="bg-emerald-500" />
         </div>
 
         <section className="rounded-2xl border border-line bg-panel p-5">
           <h2 className="mb-4 text-lg font-semibold text-text">My classes</h2>
-          {loading ? (
-            <p className="text-sm text-muted">Loading assigned classes...</p>
-          ) : assignedClasses.length === 0 ? (
+          {assignedClasses.length === 0 ? (
             <EmptyState title="No assigned classes" message="You have not been assigned a class in this school yet." />
           ) : (
             <div className="grid gap-4 md:grid-cols-2">
@@ -535,51 +445,27 @@ function TeacherOverviewPage() {
 
 function StudentOverviewPage() {
   const { profile } = useAuth();
-  const [attendance, setAttendance] = useState<Array<{ id: string; status?: string; date?: string }>>([]);
-  const [results, setResults] = useState<Array<{ id: string; subject?: string; score?: number }>>([]);
-  const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const load = async () => {
-      if (!profile || !isSupabaseConfigured) {
-        setLoading(false);
-        return;
-      }
+  if (!profile) {
+    return <Navigate to="/login" replace />;
+  }
 
-      try {
-        const [attendanceResult, resultResult] = await Promise.all([
-          supabase.from('attendance').select('*').eq('student_id', profile.id).order('date', { ascending: false }).limit(5),
-          supabase.from('results').select('*').eq('student_id', profile.id).limit(5),
-        ]);
-
-        setAttendance((attendanceResult.data ?? []) as Array<{ id: string; status?: string; date?: string }>);
-        setResults((resultResult.data ?? []) as Array<{ id: string; subject?: string; score?: number }>);
-      } catch {
-        setAttendance([]);
-        setResults([]);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    void load();
-  }, [profile]);
+  const attendance = MOCK_ATTENDANCE.filter((entry) => entry.student_id === profile.id);
+  const results = MOCK_RESULTS.filter((entry) => entry.student_id === profile.id);
 
   return (
     <AppLayout title="Student dashboard">
       <div className="space-y-6">
         <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-          <StatCard label="Attendance" value={loading ? '...' : String(attendance.length)} accent="bg-violet-500" />
-          <StatCard label="Results" value={loading ? '...' : String(results.length)} accent="bg-sky-500" />
+          <StatCard label="Attendance" value={String(attendance.length)} accent="bg-violet-500" />
+          <StatCard label="Results" value={String(results.length)} accent="bg-sky-500" />
           <StatCard label="Profile" value={profile?.full_name ?? 'Student'} accent="bg-emerald-500" />
         </div>
 
         <div className="grid gap-6 xl:grid-cols-2">
           <section className="rounded-2xl border border-line bg-panel p-5">
             <h2 className="mb-4 text-lg font-semibold text-text">Recent attendance</h2>
-            {loading ? (
-              <p className="text-sm text-muted">Loading attendance...</p>
-            ) : attendance.length === 0 ? (
+            {attendance.length === 0 ? (
               <EmptyState title="No attendance records" message="Your attendance history will show here as it is recorded." />
             ) : (
               <ul className="space-y-3 text-sm text-muted">
@@ -595,9 +481,7 @@ function StudentOverviewPage() {
 
           <section className="rounded-2xl border border-line bg-panel p-5">
             <h2 className="mb-4 text-lg font-semibold text-text">Recent marks</h2>
-            {loading ? (
-              <p className="text-sm text-muted">Loading marks...</p>
-            ) : results.length === 0 ? (
+            {results.length === 0 ? (
               <EmptyState title="No marks yet" message="Your assessment results will appear here once available." />
             ) : (
               <ul className="space-y-3 text-sm text-muted">
@@ -650,7 +534,7 @@ function LoginPage() {
               id="schoolUserId"
               value={schoolUserId}
               onChange={(event) => setSchoolUserId(event.target.value)}
-              placeholder="e.g. S-2048"
+              placeholder="e.g. T-2048"
               className="w-full rounded-xl border border-line bg-[#0d1425] px-3 py-3 text-text outline-none transition focus:border-accent"
             />
           </div>
@@ -684,7 +568,7 @@ function LoginPage() {
           </button>
 
           <p className="text-center text-xs text-muted">
-            Your school must configure the trusted backend mapping before this sign-in flow can complete.
+            Demo credentials: ADMIN-001, T-2048, or ST-3001 with password <strong>demo123</strong>.
           </p>
         </form>
       </div>
