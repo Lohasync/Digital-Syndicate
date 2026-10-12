@@ -159,6 +159,24 @@ footer { text-align:center; padding:25px; color:var(--muted); }
 <script>
 let cameraStream = null;
 let screenStream = null;
+async function copyPhoneSessionId() {
+  const id = document.getElementById("phoneSessionId").textContent;
+
+  if (!id || id === "Connecting...") {
+    document.getElementById("phoneStatus").textContent =
+      "Wait for the session ID to appear.";
+    return;
+  }
+
+  try {
+    await navigator.clipboard.writeText(id);
+    document.getElementById("phoneStatus").textContent =
+      "Session ID copied.";
+  } catch (error) {
+    document.getElementById("phoneStatus").textContent =
+      "Copy unavailable. Select and copy the session ID manually.";
+  }
+}
 
 let phonePeer = null;
 let phoneCall = null;
@@ -234,24 +252,6 @@ function startPhoneSession() {
 }
 
 
-async function copyPhoneSessionId() {
-  const id = document.getElementById("phoneSessionId").textContent;
-
-  if (!id || id === "Connecting...") {
-    document.getElementById("phoneStatus").textContent =
-      "Wait for the session ID to appear.";
-    return;
-  }
-
-  try {
-    await navigator.clipboard.writeText(id);
-    document.getElementById("phoneStatus").textContent =
-      "Session ID copied.";
-  } catch (error) {
-    document.getElementById("phoneStatus").textContent =
-      "Copy unavailable. Select and copy the session ID manually.";
-  }
-}
 
 
 
