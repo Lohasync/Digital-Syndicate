@@ -1,0 +1,1017 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LearnLoop</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap">
+<style>
+:root{--p:#0037b0;--pc:#1d4ed8;--s:#712ae2;--t:#00685f;--tx:#131b2e;--mu:#434655;--bg:#faf8ff;--s1:#f2f3ff;--s2:#eaedff;--s3:#e2e7ff;--s4:#dce1ff;--ol:#c4c5d7;--g:linear-gradient(90deg,#0037b0,#712ae2)}
+*{box-sizing:border-box;margin:0}
+body{font-family:Inter,system-ui,sans-serif;background:var(--bg);color:var(--tx);line-height:1.5;font-size:16px}
+body.dys{font-family:"Comic Sans MS",Verdana,sans-serif;letter-spacing:.04em}
+body.hc{--bg:#fff;--tx:#000;--mu:#000;--s1:#fff;--s2:#fff;--s3:#fff;--p:#00008b}
+body.hc .card,body.hc .pill{border:2px solid #000}
+h1,h2,h3,.j{font-family:"Plus Jakarta Sans",Inter,sans-serif}
+a{color:inherit;text-decoration:none}button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
+.v{display:none}.v.on{display:block}
+.i{width:1.1em;height:1.1em;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:-.15em}
+.w{max-width:1280px;margin:0 auto;padding:0 24px}
+.row{display:flex;align-items:center;gap:12px;flex-wrap:wrap}.sb{justify-content:space-between}
+.pill{display:inline-flex;align-items:center;gap:8px;border-radius:999px;padding:8px 14px;background:#fff;font-size:12px;font-weight:700;box-shadow:0 1px 1px #0000000d}
+.pill.s{background:var(--s1);color:var(--p)}
+.card{background:#fff;border-radius:24px;box-shadow:0 10px 15px -3px #0000001a,0 4px 6px -4px #0000001a;padding:32px;position:relative;overflow:hidden}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:12px;border-radius:16px;padding:16px 32px;font-weight:700;color:#fff;background:linear-gradient(90deg,var(--p),var(--pc));box-shadow:0 10px 15px -3px #1d4ed840}
+.btn.o{background:#fff;color:var(--p);box-shadow:0 4px 6px -1px #0000001a}
+.btn.pu{background:linear-gradient(90deg,var(--s),#8a4cfc)}
+.btn.f{width:100%}
+.lab{font-size:14px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--p)}
+h2.sec{font-size:36px;letter-spacing:-.9px;line-height:44px}
+.mu{color:var(--mu)}
+.grad{background:var(--g);-webkit-background-clip:text;background-clip:text;color:transparent}
+.g2{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:32px}
+.g3{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:32px}
+.ic{width:48px;height:48px;border-radius:16px;display:grid;place-items:center;background:var(--s4);color:var(--p);flex:none}
+.tag{display:inline-block;border-radius:8px;background:var(--s1);padding:4px 10px;font-size:12px;margin:8px 8px 0 0}
+.chip{border-radius:999px;background:var(--s3);padding:4px 12px;font-size:12px;font-weight:700;color:var(--mu)}
+/* header + bars */
+header.top{position:sticky;top:0;z-index:5;background:#fffffff2;backdrop-filter:blur(8px);height:80px;box-shadow:0 1px 1px #0000000d}
+header .w{height:80px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.logo{display:flex;align-items:center;gap:12px;font-size:20px;font-weight:700;color:var(--p)}
+.logo img{height:32px;width:128px;object-fit:contain}
+nav a{padding:8px 12px;font-weight:600;font-size:14px;color:var(--mu)}nav a.a{color:var(--p);font-weight:700}
+.tb{display:flex;background:var(--s1);border-radius:999px;padding:5px;gap:4px}.tb button{width:36px;height:36px;border-radius:50%;font-weight:700}
+.qb{background:var(--s2);border-bottom:1px solid #c4c5d733;padding:12px 0}
+.hero{display:grid;grid-template-columns:1.1fr .9fr;gap:32px;align-items:center;padding:32px 0 80px}
+.hero h1{font-size:48px;line-height:60px;letter-spacing:-1.2px;font-weight:800}
+.mock{background:#fff;border-radius:24px;padding:21px;box-shadow:0 25px 50px -12px #00000040;position:relative}
+.bars{display:flex;gap:36px;align-items:center;height:36px;padding-left:8px}.bars i{width:6px;border-radius:3px;background:var(--p)}
+.sub{background:var(--s1);border-radius:16px;padding:16px;margin-top:16px}
+.sec{padding:0}.pad{padding:80px 0}
+.bt{height:8px;background:linear-gradient(90deg,var(--p),var(--s),var(--t));position:absolute;left:0;right:0;top:0}
+.step{border:1px solid #c4c5d733}.num{width:48px;height:48px;border-radius:50%;display:grid;place-items:center;font:700 20px "Plus Jakarta Sans";background:var(--s4)}
+.pic{height:208px;background-size:cover;background-position:center;position:relative}
+.pic span{position:absolute;left:16px;top:18px;background:#fffffff2;border-radius:999px;padding:3px 12px;font-size:12px;font-weight:700}
+.cta{background:linear-gradient(163deg,#0037b0,#1d4ed8 50%,#712ae2);color:#fff;border-radius:24px;padding:56px;display:flex;gap:56px;align-items:center;flex-wrap:wrap;justify-content:space-between}
+.cta h2{font-size:48px;line-height:56px;font-weight:800}
+footer{background:#fff;border-top:1px solid var(--s2);padding:48px 0 24px;margin-top:80px}
+footer a{display:block;color:var(--mu);font-size:14px;margin:12px 0}
+.fg{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:48px}
+.fb{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;border-top:1px solid var(--s2);margin-top:32px;padding-top:24px;font-size:14px;color:var(--mu)}
+/* role + auth */
+.bar{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;padding:16px 24px}
+.center{text-align:center;max-width:768px;margin:0 auto;padding:24px}
+.center h1{font-size:48px;line-height:56px;font-weight:800;letter-spacing:-1.2px}
+.rc .st{height:12px;position:absolute;left:0;right:0;top:0;background:linear-gradient(90deg,var(--p),var(--pc),#89f5e7)}
+.rc.t .st{background:linear-gradient(90deg,var(--s),#8a4cfc,#eaddff)}
+.ill{height:224px;border-radius:16px;background-size:cover;background-position:center;display:flex;align-items:flex-end;padding:20px;margin:24px 0}
+.ill b{background:#fffffff2;border-radius:12px;padding:6px 14px;font-size:12px}
+.fp{background:#f2f3ffb3;border-radius:12px;padding:12px;margin-top:12px;font-size:14px}.fp b{display:block}
+.auth{display:grid;grid-template-columns:5fr 7fr;gap:32px;padding:0 32px 32px;max-width:1280px;margin:0 auto}
+.auth.t{grid-template-columns:1fr 1fr;gap:48px;padding-top:32px}
+.L{border-radius:24px;padding:40px;color:#fff;background:linear-gradient(116deg,#0037b0,#1d4ed8 50%,#712ae2);box-shadow:0 20px 25px -5px #0000001a}
+.t .L{background:linear-gradient(119deg,#283044,#251b47 50%,#712ae2);padding:48px}
+.L h1{font-size:48px;line-height:52px;font-weight:800;letter-spacing:-1.2px;margin:24px 0 16px}
+.L p{color:var(--s4)}
+.gl{background:#ffffff1a;border-radius:16px;padding:16px;margin-top:14px;display:flex;gap:16px}
+.gl b{display:block;color:#fff}.gl .ic{background:#fff3;color:#fff;border-radius:12px}
+.tabs{display:flex;background:var(--s2);border-radius:16px;padding:6px;gap:4px;margin-bottom:24px}
+.tabs button{flex:1;padding:12px;border-radius:12px;font-weight:600;color:var(--mu)}.tabs button.on{background:#fff;color:var(--p);box-shadow:0 1px 1px #0000000d}
+.fld{margin-bottom:20px}.fld label{display:block;font-weight:700;margin-bottom:8px}.fld label em{color:#ba1a1a;font-style:normal}
+.in{position:relative}.in svg{position:absolute;left:16px;top:17px;color:var(--mu)}
+.in input{width:100%;height:52px;border:0;border-radius:12px;background:var(--bg);padding:0 16px 0 48px;font:inherit;box-shadow:0 1px 2px #0000000d}
+.in input:focus{outline:3px solid #0037b033}
+.fld small{display:block;margin-top:8px;font-size:14px;color:var(--mu)}
+.sbtn{width:100%;min-height:52px;border-radius:16px;color:#fff;background:var(--g);font:600 20px "Plus Jakarta Sans";box-shadow:0 10px 15px -3px #0000001a;display:flex;gap:12px;align-items:center;justify-content:center}
+.msg{margin-top:12px;font-weight:600;min-height:24px}.msg.ok{color:#00685f}.msg.er{color:#ba1a1a}
+.or{border-top:1px solid var(--s2);margin-top:24px;padding-top:17px;text-align:center;font-size:12px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:var(--mu)}
+.or button{display:flex;gap:8px;justify-content:center;align-items:center;width:100%;min-height:48px;margin-top:12px;border-radius:12px;background:var(--s1);color:var(--tx);font-size:14px;font-weight:600;text-transform:none;letter-spacing:0}
+.trust{background:var(--s1);border-radius:16px;padding:20px;display:flex;gap:16px;align-items:center;max-width:848px;margin:40px auto;flex-wrap:wrap}
+@media(max-width:900px){.hero,.auth,.auth.t,.fg{grid-template-columns:1fr}.hero h1,.center h1,.cta h2{font-size:36px;line-height:44px}nav{display:none}.cta{padding:32px}}
+/* ===== app shell (student + teacher) ===== */
+.apphead .w{height:auto!important;padding-top:10px;padding-bottom:10px}
+.btn.o{box-shadow:inset 0 0 0 1.5px var(--ol)}
+.btn.o:hover{background:var(--s1)}
+.apphead .tb button{width:34px;height:34px}
+
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.apphead{position:sticky;top:0;z-index:6;background:#fffffff2;backdrop-filter:blur(8px);box-shadow:0 1px 1px #0000000d}
+.apphead .w{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:72px;flex-wrap:wrap;padding-top:8px;padding-bottom:8px}
+.snav{display:flex;gap:4px;background:var(--s1);border-radius:999px;padding:4px;flex-wrap:wrap}
+.snav button{padding:10px 18px;border-radius:999px;font-weight:700;font-size:14px;color:var(--mu)}
+.snav button.on{background:#fff;color:var(--p);box-shadow:0 1px 3px #0000001a}
+.snav button:focus-visible,.btn:focus-visible,.pill:focus-visible,.opt:focus-within,.pal button:focus-visible{outline:3px solid var(--pc);outline-offset:2px}
+.badge{background:#ba1a1a;color:#fff;border-radius:999px;font-size:11px;padding:2px 7px;margin-left:6px}
+.main{padding:32px 24px 80px;max-width:1280px;margin:0 auto}
+.ah{font-size:34px;line-height:42px;font-weight:800;letter-spacing:-.8px;margin-bottom:6px}
+.grid{display:grid;gap:24px;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));margin-top:24px}
+.grid2{display:grid;gap:24px;grid-template-columns:repeat(auto-fit,minmax(380px,1fr));margin-top:24px}
+.c2{background:#fff;border-radius:20px;box-shadow:0 4px 6px -1px #0000001a,0 2px 4px -2px #0000001a;padding:24px;position:relative}
+.c2 h3{font-size:20px;margin-bottom:8px}
+.stat b{display:block;font:800 34px "Plus Jakarta Sans",Inter,sans-serif;color:var(--p)}
+.btn.sm{padding:10px 18px;font-size:14px;border-radius:12px;box-shadow:none}
+.btn.dg{background:#fff;color:#ba1a1a;box-shadow:inset 0 0 0 1.5px #ba1a1a55}
+.btn[disabled]{opacity:.45;cursor:not-allowed}
+.chip.ok{background:#89f5e74d;color:#004e47}.chip.wa{background:#ffe3b8;color:#6b3a00}.chip.bad{background:#ffdad6;color:#93000a}.chip.pu{background:#eaddff;color:#4f00a8}
+table.t{width:100%;border-collapse:collapse;font-size:14px}
+.t th{text-align:left;font-size:12px;letter-spacing:.05em;text-transform:uppercase;color:var(--mu);padding:10px 12px}
+.t td{padding:12px;border-top:1px solid var(--s2);vertical-align:top}
+.t tr.clk{cursor:pointer}.t tr.clk:hover td{background:var(--s1)}
+.tw{overflow-x:auto}
+.bar2{height:10px;border-radius:99px;background:var(--s3);overflow:hidden}.bar2 i{display:block;height:100%;background:var(--g)}
+.fi,.c2 textarea,.c2 select{width:100%;border:0;border-radius:12px;background:var(--bg);padding:12px 14px;font:inherit;color:inherit;box-shadow:inset 0 0 0 1px var(--ol)}
+.fi:focus,.c2 textarea:focus,.c2 select:focus{outline:3px solid #0037b033}
+.lbl{display:block;font-weight:700;font-size:14px;margin:14px 0 6px}
+.optrow{display:flex;gap:10px;align-items:center;margin-top:8px}.optrow input[type=radio]{width:20px;height:20px;accent-color:var(--p);flex:none}
+.note{background:var(--s1);border-radius:14px;padding:12px 16px;font-size:14px}
+.note.wa{background:#fff7e6;box-shadow:inset 0 0 0 1px #f2d9a6}
+.empty{text-align:center;padding:40px 16px;color:var(--mu)}
+/* quiz taking */
+.qwrap{max-width:860px;margin:0 auto;padding:24px 24px 80px}
+.progress{height:8px;border-radius:99px;background:var(--s3);margin:16px 0}.progress i{display:block;height:100%;border-radius:99px;background:var(--g)}
+.qt{font-size:26px;line-height:36px;margin:8px 0 12px}
+.opt{display:flex;gap:14px;align-items:center;padding:16px 18px;border-radius:16px;background:var(--s1);margin-top:12px;cursor:pointer;border:2px solid transparent;font-weight:600}
+.opt.sel{border-color:var(--p);background:#fff}
+.opt input{width:22px;height:22px;accent-color:var(--p);flex:none}
+.pal{display:flex;gap:8px;flex-wrap:wrap;margin-top:20px}
+.pal button{width:42px;height:42px;border-radius:12px;background:var(--s2);font-weight:700}
+.pal .ans{background:var(--s4);color:var(--p)}.pal .cur{box-shadow:0 0 0 3px var(--p)}
+.qnav{display:flex;justify-content:space-between;gap:12px;margin-top:28px;flex-wrap:wrap}
+.ov{position:fixed;inset:0;background:#131b2e99;display:none;place-items:center;z-index:50;padding:16px}.ov.on{display:grid}
+.modal{background:#fff;border-radius:24px;max-width:480px;width:100%;padding:32px;box-shadow:0 25px 50px -12px #00000066}
+.modal h2{font-size:24px;margin-bottom:8px}
+#toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#131b2e;color:#fff;padding:12px 20px;border-radius:12px;z-index:60;display:none;font-size:14px;max-width:90vw}
+.tl{border-left:3px solid var(--s3);margin:12px 0 0 6px;padding-left:18px}
+.tl div{position:relative;margin-bottom:8px;font-size:14px}
+.tl div:before{content:"";position:absolute;left:-25px;top:6px;width:10px;height:10px;border-radius:50%;background:var(--pc)}
+.tl .ev:before{background:#d97706}.tl .ev{font-weight:600}
+.slog{background:var(--bg);border-radius:12px;padding:12px;min-height:90px;max-height:220px;overflow:auto;font-size:13px;white-space:pre-wrap}
+.slog .e{color:#ba1a1a}.slog .g{color:#00685f}
+.af .reg{display:none}.af.regmode .reg{display:block}
+.demo{margin-top:16px;font-size:13px;color:var(--mu)}
+.demo button{background:var(--s1);border-radius:999px;padding:6px 12px;margin:4px 6px 0 0;font-weight:600;font-size:12px;color:var(--p)}
+.demo button:hover{background:var(--s3)}
+.ev-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:4px 16px}
+.ev-grid label{display:flex;gap:10px;align-items:flex-start;font-size:14px;padding:6px 0}
+.ev-grid input{margin-top:4px;accent-color:var(--p)}
+body.hc .c2,body.hc .modal,body.hc .opt,body.hc .note{border:2px solid #000}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+@media(max-width:700px){.ah{font-size:28px;line-height:36px}.main{padding:20px 16px 60px}.qt{font-size:22px;line-height:30px}.grid2{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute"><defs>
+<symbol id="ar" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+<symbol id="vo" viewBox="0 0 24 24"><path d="M11 5 6 9H3v6h3l5 4zM16 8a5 5 0 0 1 0 8M19 5a9 9 0 0 1 0 14"/></symbol>
+<symbol id="co" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 3v18" /></symbol>
+<symbol id="us" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></symbol>
+<symbol id="ma" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></symbol>
+<symbol id="ph" viewBox="0 0 24 24"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></symbol>
+<symbol id="sh" viewBox="0 0 24 24"><path d="M12 3 4 6v6c0 5 3.5 8 8 9 4.5-1 8-4 8-9V6z"/><path d="m9 12 2 2 4-4"/></symbol>
+<symbol id="bk" viewBox="0 0 24 24"><path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2zM4 19V5"/></symbol>
+<symbol id="ck" viewBox="0 0 24 24"><path d="m5 12 5 5 9-10"/></symbol>
+<symbol id="st" viewBox="0 0 24 24"><path d="m12 3 3 6 6 1-4.5 4.5 1 6.5-5.5-3-5.5 3 1-6.5L3 10l6-1z"/></symbol>
+<symbol id="lk" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></symbol>
+<symbol id="lo" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></symbol>
+<symbol id="al" viewBox="0 0 24 24"><path d="M12 3 2 20h20z"/><path d="M12 10v4M12 17h.01"/></symbol>
+</defs></svg>
+
+<!-- ============ 1. HOMEPAGE ============ -->
+<div id="home" class="v">
+<header class="top"><div class="w">
+ <a class="logo" href="#home"><img src="https://www.figma.com/api/mcp/asset/54522cad-2ee3-417e-a6f4-205ea615e5ad.png" alt="LearnLoop"><span class="j">LearnLoop</span></a>
+ <nav><a class="a" href="#home">Home</a><a href="#feat">Explore</a><a href="#how">Learning</a><a href="#who">About</a><a href="#cta">Contact</a></nav>
+ <div class="row" style="gap:12px;flex-wrap:nowrap">
+  <div class="tb" role="toolbar" aria-label="Accessibility quick controls"><button data-z="-1" aria-label="Decrease text size">A-</button><button data-z="1" aria-label="Increase text size">A+</button><button data-t="hc" aria-label="High contrast"><svg class="i"><use href="#co"/></svg></button><button data-read aria-label="Read aloud"><svg class="i"><use href="#vo"/></svg></button></div>
+  <a class="btn" style="padding:10px 20px;font-size:14px" href="#roles">Login / Sign Up</a>
+ </div>
+</div></header>
+
+<div class="qb"><div class="w row sb">
+ <div class="row"><span class="ic" style="width:32px;height:32px;border-radius:50%;background:var(--pc);color:#fff"><svg class="i"><use href="#co"/></svg></span><div><b style="font-size:14px;letter-spacing:.28px">Interactive Accessibility Playground</b><div class="mu" style="font-size:14px">Test live adjustments before you register</div></div></div>
+ <div class="row" style="gap:10px">
+  <button class="pill" data-t="dys">Dyslexia Font <span class="chip" style="font-size:10px;padding:2px 6px" data-s="dys">OFF</span></button>
+  <button class="pill" data-t="hc">High Contrast <span class="chip" style="font-size:10px;padding:2px 6px" data-s="hc">DEFAULT</span></button>
+  <span class="pill" style="font-weight:400">Text: <b style="color:var(--p)">100%</b> <b class="mu">125%</b> <b class="mu">150%</b></span>
+  <button class="pill" data-read><svg class="i"><use href="#vo"/></svg>Speech Pacing Switch</button>
+ </div>
+</div></div>
+
+<section class="w hero">
+ <div>
+  <div class="pill" style="font-size:14px;padding:10px 17px"><svg class="i" style="color:var(--s)"><use href="#st"/></svg>National Hackathon 2025 Finalist <span style="color:var(--ol)">•</span> <span class="mu" style="font-size:12px">Inclusive EdTech</span></div>
+  <h1 class="j" style="margin:24px 0">Learning Without Limits.<br><span class="grad">A Future Without Barriers.</span></h1>
+  <p class="mu" style="font-size:20px;max-width:672px">Discover accessible learning tools designed to help every student communicate, learn, and grow with confidence — bridging neurodiversity, visual, motor, and auditory learning needs across India.</p>
+  <div class="row" style="margin:32px 0"><a class="btn" href="#roles">Start Learning <svg class="i"><use href="#ar"/></svg></a><a class="btn o" href="#feat"><svg class="i"><use href="#vo"/></svg>Explore Our Tools</a></div>
+  <div class="row"><span class="pill"><svg class="i" style="color:var(--t)"><use href="#sh"/></svg>100% WCAG</span><span class="pill">Personalized</span><span class="pill">Inclusive EdTech</span><span class="pill">Indian Accents</span></div>
+ </div>
+ <div class="mock" aria-label="Assistive device preview">
+  <div class="pill" style="position:absolute;right:-16px;top:-16px;padding:12px 16px;box-shadow:0 20px 25px -5px #0000001a"><span class="num" style="width:32px;height:32px;font-size:12px">A</span><span class="num" style="width:32px;height:32px;font-size:12px;background:#eaddff;margin-left:-14px">R</span><span class="num" style="width:32px;height:32px;font-size:12px;background:#89f5e7;margin-left:-14px">P</span><span><b style="font-size:14px"><svg class="i" style="color:#fbbf24"><use href="#st"/></svg> 4.9 / 5.0</b><br><small class="mu">250+ Partner Schools</small></span></div>
+  <div class="row sb" style="font-size:12px;font-weight:600"><span>● ● ● &nbsp;Accessible Workspace: Grade 9</span><span class="pill s">Live Assist</span></div>
+  <div class="sub"><div class="row sb"><div class="row"><span class="ic" style="width:36px;height:36px;background:#fff"><svg class="i"><use href="#vo"/></svg></span><div><b style="font-size:12px">Sentence Aloud</b><div class="mu" style="font-size:12px">Natural voice (Hindi / English)</div></div></div><b style="font-size:12px;color:var(--p)">00:14 / 00:32</b></div>
+   <div class="bars" style="margin:16px 0"><i style="height:12px"></i><i style="height:24px"></i><i style="height:32px"></i><i style="height:16px"></i><i style="height:28px"></i><i style="height:20px"></i><i style="height:32px"></i><i style="height:12px"></i><i style="height:24px"></i><i style="height:16px"></i></div>
+   <div style="background:#fff;border-radius:8px;padding:8px;font-size:14px">"Photosynthesis is the biological process used by green plants to synthesize energy from light."</div></div>
+  <div class="row sb" style="margin:16px 0 8px;font-size:12px"><b>One-Tap AAC Express Cards</b><span style="color:var(--s)">Classroom Ready</span></div>
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;text-align:center;font-size:12px;font-weight:600"><div class="sub" style="margin:0;padding:10px">Ask a Question</div><div class="sub" style="margin:0;padding:10px">Need More Time</div><div class="sub" style="margin:0;padding:10px">Explain Again</div></div>
+  <div class="row sb sub" style="background:#fff;box-shadow:0 1px 4px #0000001a"><div class="row"><span class="ic" style="width:48px;height:48px;border-radius:50%;background:url(https://www.figma.com/api/mcp/asset/2c515b0b-f30c-4f21-a1d2-564ed0370fab.png) center/cover"></span><div><b style="font-size:14px">Pooja Sharma</b><div class="mu" style="font-size:12px">Grade 9 • STEM Learner</div></div></div><span class="pill s">Streak: 18 Days</span></div>
+ </div>
+</section>
+
+<section id="feat" class="pad"><div class="w">
+ <div class="row sb" style="align-items:flex-end;margin-bottom:48px"><div style="max-width:664px"><div class="lab">ASSISTIVE LEARNING SUITE</div><h2 class="sec j" style="margin:12px 0">Everything You Need to Learn Your Way</h2><p class="mu" style="font-size:18px">Purpose-built assistive technologies integrated directly into everyday school and college curriculums, certified neuroinclusive.</p></div><a href="#roles" class="lab" style="font-size:16px">Explore All 12 Tools <svg class="i"><use href="#ar"/></svg></a></div>
+ <div class="g2">
+  <div class="card"><div class="bt"></div><div class="row sb"><span class="ic"><svg class="i"><use href="#vo"/></svg></span><span class="chip">Multilingual Indian TTS</span></div><h3 class="j" style="font-size:24px;margin:16px 0">Text-to-Speech (TTS)</h3><p class="mu">Convert written notes, textbooks, and exam questions into clear spoken words with natural Indian accent options, regional language support, and variable pacing controls.</p><span class="tag">Custom Speech Speeds</span><span class="tag">Bilingual Pacing</span><span class="tag">Word-by-word Highlighting</span><p style="margin-top:24px;border-top:1px solid var(--s2);padding-top:16px;font-size:14px;font-weight:700;color:var(--p)">Try Live TTS Reader <svg class="i"><use href="#ar"/></svg></p></div>
+  <div class="card"><div class="bt"></div><div class="row sb"><span class="ic" style="background:#eaddff;color:var(--s)"><svg class="i"><use href="#us"/></svg></span><span class="chip">Classroom AAC</span></div><h3 class="j" style="font-size:24px;margin:16px 0">Smart Communication (AAC)</h3><p class="mu">Visual communication cards, customizable sound boards, and intuitive pictograms empowering students to express thoughts, ask queries in live lectures, and collaborate seamlessly.</p><span class="tag">One-Tap Queries</span><span class="tag">Custom Vocabulary Cards</span><span class="tag">Teacher Audio Beacon</span><p style="margin-top:24px;border-top:1px solid var(--s2);padding-top:16px;font-size:14px;font-weight:700;color:var(--s)">Explore AAC Boards <svg class="i"><use href="#ar"/></svg></p></div>
+  <div class="card"><div class="bt"></div><div class="row sb"><span class="ic" style="background:#89f5e7;color:var(--t)"><svg class="i"><use href="#bk"/></svg></span><span class="chip">Neuroinclusive Content</span></div><h3 class="j" style="font-size:24px;margin:16px 0">Accessible Learning Resources</h3><p class="mu">Customizable interfaces with high-contrast themes, screen-reader optimized textbook PDFs, visual mind maps, and simplified chapter summaries designed for cognitive clarity.</p><span class="tag">High Contrast Modes</span><span class="tag">Reading Ruler Focus</span><span class="tag">Simplified Concepts</span><p style="margin-top:24px;border-top:1px solid var(--s2);padding-top:16px;font-size:14px;font-weight:700;color:var(--t)">View Sample Lessons <svg class="i"><use href="#ar"/></svg></p></div>
+  <div class="card"><div class="bt"></div><div class="row sb"><span class="ic"><svg class="i"><use href="#sh"/></svg></span><span class="chip">Zero-Disclosure Setup</span></div><h3 class="j" style="font-size:24px;margin:16px 0">Personalized Support &amp; Profiles</h3><p class="mu">Save custom motor, cognitive, and sensory preferences once; automatically apply them across every lesson, quiz, homework assignment, and classroom tablet.</p><span class="tag">Instant Device Sync</span><span class="tag">No Medical Label Needed</span><span class="tag">Custom Keyboards</span><p style="margin-top:24px;border-top:1px solid var(--s2);padding-top:16px;font-size:14px;font-weight:700;color:var(--pc)">Create Free Profile <svg class="i"><use href="#ar"/></svg></p></div>
+ </div>
+</div></section>
+
+<section id="how" class="pad" style="background:#fff8"><div class="w">
+ <div class="center" style="max-width:672px;margin-bottom:48px"><div class="lab">SIMPLE, DIGNIFIED ONBOARDING</div><h2 class="sec j" style="margin:12px 0">How LearnLoop Works</h2><p class="mu" style="font-size:18px">Empowering learners, educators, and schools with frictionless access in three transparent steps.</p></div>
+ <div class="g3">
+  <div class="card step"><div class="row sb"><span class="num">1</span><span class="chip" style="background:var(--s4);color:#001551">Step 1</span></div><h3 class="j" style="font-size:24px;margin:20px 0 16px">Choose Your Role</h3><p class="mu">Onboard as a Student, Teacher, or Special Educator with an interface designed specifically for your daily classroom context.</p><p style="margin-top:16px;font-size:14px" class="mu"><svg class="i" style="color:var(--p)"><use href="#ck"/></svg> Learner-centric visual navigation<br><svg class="i" style="color:var(--p)"><use href="#ck"/></svg> Educator lesson generator access</p></div>
+  <div class="card step"><div class="row sb"><span class="num" style="background:#eaddff">2</span><span class="chip" style="background:#eaddff;color:#25005a">Step 2</span></div><h3 class="j" style="font-size:24px;margin:20px 0 16px">Set Up Preferences</h3><p class="mu">Select font size, contrast, speech speed, or communication boards in under two minutes with zero medical diagnosis disclosure required.</p><p style="margin-top:16px;font-size:14px" class="mu"><svg class="i" style="color:var(--s)"><use href="#ck"/></svg> Personalized sensory comfort settings<br><svg class="i" style="color:var(--s)"><use href="#ck"/></svg> One-click universal preset profiles</p></div>
+  <div class="card step"><div class="row sb"><span class="num" style="background:#89f5e7">3</span><span class="chip" style="background:#89f5e7;color:#00201d">Step 3</span></div><h3 class="j" style="font-size:24px;margin:20px 0 16px">Start Learning Confidently</h3><p class="mu">Engage with interactive lessons, voice-driven tools, assistive note summaries, and classroom communication in real time.</p><p style="margin-top:16px;font-size:14px" class="mu"><svg class="i" style="color:var(--t)"><use href="#ck"/></svg> Full curriculum compatibility<br><svg class="i" style="color:var(--t)"><use href="#ck"/></svg> Real-time voice and AAC feedback</p></div>
+ </div>
+ <p style="text-align:center;margin-top:48px"><a class="btn" style="padding:12px 32px;font-size:14px" href="#roles">Get Started in 2 Minutes <svg class="i"><use href="#ar"/></svg></a></p>
+</div></section>
+
+<section id="who" class="pad"><div class="w">
+ <div style="max-width:660px;margin-bottom:56px"><div class="lab" style="color:var(--s)">INCLUSIVE ECOSYSTEM</div><h2 class="sec j" style="margin:12px 0">Who LearnLoop Supports</h2><p class="mu" style="font-size:18px">Tailored tools built with and for educators, students with diverse needs, and educational institutions.</p></div>
+ <div class="g3">
+  <div class="card" style="padding:0"><div class="pic" style="background-image:linear-gradient(#0037b000,#0037b0cc),url(https://www.figma.com/api/mcp/asset/40d18656-1ab7-4b93-b8f8-d43f54d31dab.png)"><span>For Students</span></div><div style="padding:24px"><h3 class="j" style="font-size:24px;margin-bottom:8px">Empowering Every Learner</h3><p class="mu">Designed for students experiencing dyslexia, ADHD, autism spectrum, motor fatigue, low vision, and auditory processing needs. Gives every child dignity, voice, and academic autonomy.</p><a href="#student" style="display:block;margin-top:24px;font-size:14px;font-weight:700;color:var(--p)">Join as Student <svg class="i"><use href="#ar"/></svg></a></div></div>
+  <div class="card" style="padding:0"><div class="pic" style="background-image:linear-gradient(#712ae200,#712ae2cc),url(https://www.figma.com/api/mcp/asset/bf53dc15-084d-41b2-aebd-4c8175909627.png)"><span>For Teachers &amp; Mentors</span></div><div style="padding:24px"><h3 class="j" style="font-size:24px;margin-bottom:8px">Effortless Classroom Adaptations</h3><p class="mu">1-click lesson accessibility transforms, simplified printable worksheets, auto-generated bilingual audio notes, and instant feedback monitoring without increasing workload.</p><a href="#teacher" style="display:block;margin-top:24px;font-size:14px;font-weight:700;color:var(--s)">Teacher Portal <svg class="i"><use href="#ar"/></svg></a></div></div>
+  <div class="card" style="padding:0"><div class="pic" style="background-image:linear-gradient(#00685f00,#00685fcc),url(https://www.figma.com/api/mcp/asset/278f1419-0c71-4243-a737-5e35c37127a7.png)"><span>For Institutions &amp; Colleges</span></div><div style="padding:24px"><h3 class="j" style="font-size:24px;margin-bottom:8px">Campus-Wide Inclusion</h3><p class="mu">Comprehensive accessibility audit dashboards, WCAG 2.1 AAA compliance reporting, NEP 2020 inclusive education mandates, and scalable cloud deployment for colleges.</p><a href="#cta" style="display:block;margin-top:24px;font-size:14px;font-weight:700;color:var(--t)">Request Campus Demo <svg class="i"><use href="#ar"/></svg></a></div></div>
+ </div>
+</div></section>
+
+<section id="cta" class="w"><div class="cta">
+ <div style="max-width:486px"><div style="color:#cad3ff;font-weight:700;font-size:14px;margin-bottom:16px"><svg class="i"><use href="#st"/></svg> National Educational Inclusion Initiative</div><h2 class="j">Your Learning Journey Starts Here.</h2><p style="margin-top:16px;font-size:18px;color:#ffffffe6">Join thousands of students and teachers building an education system where every ability thrives. Free for government schools and non-profit institutions.</p></div>
+ <div class="row"><a class="btn o" href="#student"><svg class="i"><use href="#us"/></svg>Continue as Student</a><a class="btn o" style="color:var(--s)" href="#teacher">Continue as Teacher</a></div>
+</div></section>
+
+<footer><div class="w">
+ <div class="fg">
+  <div><div class="logo"><img src="https://www.figma.com/api/mcp/asset/54522cad-2ee3-417e-a6f4-205ea615e5ad.png" alt=""><span class="j">LearnLoop</span></div><p class="mu" style="margin:16px 0">Democratizing education with universal accessibility, neuroinclusive design, and AI-enabled assistive tools built for every student across India.</p><span class="pill s" style="color:#001551">Every Ability. Every Opportunity. Every Learner.</span></div>
+  <div><h3 class="j" style="font-size:20px">Platform</h3><a href="#feat">Features</a><a href="#how">Learning Support</a><a href="#teacher">Teachers &amp; Mentors</a><a href="#home">Hackathon 2025 Demo</a></div>
+  <div><h3 class="j" style="font-size:20px">Initiative</h3><a href="#who">About Us</a><a href="#home">Accessibility Guide</a><a href="#cta">Contact Helpdesk</a><a href="#home">Privacy Policy</a></div>
+  <div><h3 class="j" style="font-size:20px">Compliance</h3><div class="card" style="padding:17px;box-shadow:none;border:1px solid var(--s2);margin-top:12px"><b style="font-size:14px;color:#004e47"><svg class="i"><use href="#sh"/></svg> WCAG 2.1 AAA</b><p class="mu" style="font-size:14px;margin-top:8px">Certified neuroinclusive standards with high contrast, screen reader compatibility, and motor assistance.</p></div></div>
+ </div>
+ <div class="fb"><span>© 2025 LearnLoop EdTech Foundation. All rights reserved.</span><span style="display:flex;gap:24px"><a href="#home" style="margin:0">Privacy Policy</a><a href="#home" style="margin:0">Accessibility Statement</a><a href="#cta" style="margin:0">Support</a></span></div>
+</div></footer>
+</div>
+
+<!-- ============ 2. ROLE SELECTION ============ -->
+<div id="roles" class="v">
+<div class="bar"><a class="pill s" style="padding:10px 16px;font-size:14px;font-weight:600" href="#home">← Back to Home</a>
+ <div class="pill" style="padding:8px 16px"><button class="pill s" data-read><svg class="i"><use href="#vo"/></svg>Listen (TTS)</button><button class="pill s" data-t="dys">Dyslexia Font</button><button class="pill s" data-t="hc"><svg class="i"><use href="#co"/></svg>High Contrast</button></div></div>
+<div class="center"><div class="pill" style="background:var(--s4);color:#001551;font-size:14px;margin-bottom:16px"><svg class="i"><use href="#st"/></svg>Empowering Every Mind Across India &amp; Beyond</div>
+ <h1 class="j">Welcome to <span class="grad">Learn Loop</span></h1><p class="mu" style="font-size:20px;line-height:32px;margin-top:16px">Choose how you want to continue your learning journey. Every interface is tailored to your workflow and accessibility needs.</p></div>
+<div class="w g2" style="max-width:1280px;padding:24px;align-items:stretch">
+ <div class="card rc" style="padding:40px"><div class="st"></div><div class="row sb"><span class="pill" style="background:#89f5e74d;color:#004e47;font-size:14px">● Learner Centric</span><small class="mu" style="font-weight:700;letter-spacing:1.2px">PORTAL 01</small></div>
+  <div class="ill" style="background-image:linear-gradient(#0037b000,#0037b0cc),url(https://www.figma.com/api/mcp/asset/96dd7d7e-de97-4df6-8e2b-6ce290bbc059.png)"><b><svg class="i"><use href="#vo"/></svg> Self-Paced AAC &amp; Audio</b></div>
+  <div class="row" style="flex-wrap:nowrap"><span class="ic"><svg class="i"><use href="#us"/></svg></span><h2 class="j" style="font-size:36px;letter-spacing:-.72px">I am a Student</h2></div>
+  <p class="mu" style="margin:12px 0 24px">Access personalized learning tools, Text-to-Speech, smart visual communication boards, and customized study materials.</p>
+  <div class="fp"><b>Text-to-Speech &amp; Audio Readers</b><span class="mu">Natural multi-lingual synthesis with speed adjustments</span></div><div class="fp"><b>Visual AAC Communication Board</b><span class="mu">Tap-to-speak iconography and sentence construct tools</span></div><div class="fp"><b>Custom High-Contrast &amp; Dyslexia Modes</b><span class="mu">OpenDyslexic typography, focus rulers, and reduced motion</span></div>
+  <a class="btn f" style="margin-top:32px" href="#student">Continue as Student <svg class="i"><use href="#ar"/></svg></a><p style="text-align:center;margin-top:16px;font-size:14px;color:var(--p)"><a href="#student"><b style="font-weight:600">New student?</b> <b>Register here</b> →</a></p></div>
+ <div class="card rc t" style="padding:40px"><div class="st"></div><div class="row sb"><span class="pill" style="background:#eaddff80;color:var(--s);font-size:14px">● Faculty &amp; Mentor Suite</span><small class="mu" style="font-weight:700;letter-spacing:1.2px">PORTAL 02</small></div>
+  <div class="ill" style="background-image:linear-gradient(#712ae200,#712ae2cc),url(https://www.figma.com/api/mcp/asset/b6319874-19f5-468b-8c6c-e402d957337c.png)"><b><svg class="i"><use href="#bk"/></svg> Inclusive Curriculum Studio</b></div>
+  <div class="row" style="flex-wrap:nowrap"><span class="ic" style="background:#eaddff;color:var(--s)"><svg class="i"><use href="#bk"/></svg></span><h2 class="j" style="font-size:36px;letter-spacing:-.72px">I am a Teacher / Educator</h2></div>
+  <p class="mu" style="margin:12px 0 24px">Create inclusive lesson materials, configure classroom communication cards, and support diverse student learning needs with ease.</p>
+  <div class="fp"><b>1-Click Accessible Lesson Converter</b><span class="mu">Transform standard PDFs and slides into screen-reader ready formats</span></div><div class="fp"><b>Classroom AAC Board Creator</b><span class="mu">Design bespoke symbol cards and printable communication grids</span></div><div class="fp"><b>Inclusive Learning Analytics</b><span class="mu">Private engagement insights without punitive algorithmic grading</span></div>
+  <a class="btn pu f" style="margin-top:32px" href="#teacher">Continue as Teacher <svg class="i"><use href="#ar"/></svg></a><p style="text-align:center;margin-top:16px;font-size:14px;color:var(--s)"><a href="#teacher"><b style="font-weight:600">Institution or School Staff?</b> <b>Register here</b> →</a></p></div>
+</div>
+<div class="trust"><span class="ic" style="background:#fff"><svg class="i"><use href="#sh"/></svg></span><div style="flex:1;min-width:240px"><b>Privacy First Architecture</b><div class="mu" style="font-size:14px">We never require clinical medical disclosures. Accessibility settings are 100% self-determined, private, and stored locally on your device.</div></div><span class="pill">WCAG 2.2 AAA Compliant</span></div>
+</div>
+
+<!-- ============ 3 + 4. STUDENT / TEACHER AUTH ============ -->
+<div id="student" class="v">
+<div class="w" style="padding-top:32px"><div class="card bar" style="padding:16px;border-radius:16px"><div class="row"><span class="ic" style="background:var(--p);color:#fff;width:40px;height:40px;border-radius:12px"><svg class="i"><use href="#bk"/></svg></span><div><b class="j" style="font-size:20px">Learn Loop</b><div class="mu" style="font-size:12px;font-weight:700;letter-spacing:.48px">Universal Adaptive Learning Environment</div></div></div>
+ <div class="row"><button class="pill s" style="min-height:48px;font-size:14px" data-read><svg class="i"><use href="#vo"/></svg>Audio Guide: Off</button><button class="pill s" style="min-height:48px;font-size:14px;color:var(--s)" data-t="hc"><svg class="i"><use href="#co"/></svg>High Contrast</button><a class="pill" style="min-height:48px;font-size:14px;background:var(--s3);color:var(--mu)" href="#roles">Change Role</a></div></div></div>
+<div class="auth" style="padding-top:24px">
+ <aside class="L"><span class="pill" style="background:#ffffff26;color:#fff">● Adaptive Student Portal</span><h1 class="j">Welcome Back,<br>Student!</h1><p style="font-size:18px">Your personalized learning space is configured, synchronized, and ready for you.</p>
+  <div class="gl" style="align-items:center;background:#ffffff1a;margin:32px 0"><span style="width:64px;height:64px;border-radius:12px;background:url(https://www.figma.com/api/mcp/asset/aa2083b5-d03c-4836-bb1d-cfc0fb228a83.png) center/cover;flex:none"></span><div><b style="font-size:14px">Aarav M. completed Physics Module</b><span style="font-size:14px">Streak: 14 days • 850 XP earned</span></div></div>
+  <div class="gl"><span class="ic"><svg class="i"><use href="#vo"/></svg></span><div><b>Instant Text-to-Speech</b><span style="font-size:14px">High-fidelity voice synthesis reads diagrams, formulas, and long readings automatically.</span></div></div>
+  <div class="gl"><span class="ic"><svg class="i"><use href="#us"/></svg></span><div><b>Interactive AAC Boards</b><span style="font-size:14px">Pre-loaded visual communication grids tailored for active live-classroom interactions.</span></div></div>
+  <div class="gl"><span class="ic"><svg class="i"><use href="#bk"/></svg></span><div><b>Saved Ergonomic Presets</b><span style="font-size:14px">Custom reading rulers, color temperature tints, and font weights boot automatically.</span></div></div>
+  <p style="margin-top:56px;border-top:1px solid #ffffff26;padding-top:33px;font-size:14px"><svg class="i"><use href="#sh"/></svg> <b>Inclusive Guarantee:</b> <span style="color:var(--s4)">No diagnosis disclosure required. Learn safely at your own pace.</span></p></aside>
+ <div class="card" style="padding:48px">
+  <div class="tabs" role="tablist"><button class="on" data-tab="Login as Student"><svg class="i"><use href="#us"/></svg> Login as Student</button><button data-tab="Create Account"><svg class="i"><use href="#ma"/></svg> Create Account</button></div>
+  <h2 class="j" style="font-size:36px;letter-spacing:-.9px;line-height:44px">Student Sign In</h2><p class="mu" style="margin:4px 0 24px">Enter your student ID or email to access your personal dashboard.</p>
+  <div class="row sb" style="background:var(--s1);border-radius:16px;padding:14px;margin-bottom:24px"><b style="font-size:14px"><svg class="i"><use href="#vo"/></svg> Form Assistance Mode</b><label class="mu" style="font-size:12px;font-weight:700"><input type="checkbox" data-read> Enable Audio Prompts</label></div>
+  <form class="af" data-role="student" novalidate>
+   <div class="fld reg"><label>Full Name <em>*</em></label><div class="in"><svg class="i"><use href="#us"/></svg><input name="name" autocomplete="name" placeholder="e.g., Aarav Mehta"></div></div>
+   <div class="fld"><label>Email <em>*</em></label><div class="in"><svg class="i"><use href="#ma"/></svg><input name="email" type="email" required autocomplete="email" placeholder="me@learner.edu"></div></div>
+   <div class="fld reg"><label>Phone Number <em>*</em></label><div class="in"><svg class="i"><use href="#ph"/></svg><input name="phone" type="tel" autocomplete="tel" placeholder="e.g. 98765 43210"></div></div>
+   <div class="fld"><label>Password <em>*</em></label><div class="in"><svg class="i"><use href="#lk"/></svg><input name="password" type="password" required autocomplete="current-password" placeholder="At least 6 characters"></div></div>
+   <div class="row sb" style="margin-bottom:20px"><label style="font-size:14px;font-weight:600"><input type="checkbox" name="remember" style="width:20px;height:20px;vertical-align:middle;margin-right:10px">Keep me signed in on this device</label><button type="button" data-read style="font-size:12px;font-weight:700;color:var(--p)"><svg class="i"><use href="#vo"/></svg> Audio help</button></div>
+   <button class="sbtn" type="submit"><span class="bl">Login as Student</span> <svg class="i"><use href="#ar"/></svg></button><div class="msg" role="status" aria-live="polite"></div>
+   <div class="demo">Demo accounts (synthetic data): <button type="button" data-demo="aarav@learner.edu|learn123">Aarav</button><button type="button" data-demo="diya@learner.edu|learn123">Diya</button><button type="button" data-demo="kabir@learner.edu|learn123">Kabir</button><button type="button" data-demo="meera@learner.edu|learn123">Meera</button> (password learn123)</div>
+  </form>
+
+  <div class="or">OR QUICK LOGIN WITH VISUAL ID CARD<button type="button">Scan Student Visual QR Badge</button></div>
+  <div class="row sb" style="border-top:1px solid var(--s2);margin-top:32px;padding-top:25px;font-size:14px"><span class="mu"><svg class="i"><use href="#sh"/></svg> Encrypted with ISO/IEC 27001 accessibility safety</span><a href="#teacher" style="font-weight:600;color:var(--p)">Need Teacher Assistance?</a></div>
+ </div>
+</div></div>
+
+<div id="teacher" class="v">
+<div class="row sb" style="background:var(--s1);padding:10px 32px;box-shadow:0 1px 1px #0000000d"><span style="font-size:12px;font-weight:600;letter-spacing:.6px" class="mu"><svg class="i" style="color:#004e47"><use href="#sh"/></svg> UNIVERSAL ASSIST ACTIVE</span><div class="row"><button class="pill" style="color:var(--p)" data-read><svg class="i"><use href="#vo"/></svg>Screen Voiceover</button><button class="pill" data-t="dys">High-Read Font</button><button class="pill" data-t="hc"><svg class="i"><use href="#co"/></svg>High Contrast</button></div></div>
+<div class="auth t">
+ <aside class="L"><div class="row sb"><div class="row"><span class="ic" style="background:linear-gradient(135deg,#0037b0,#8a4cfc);color:#fff"><svg class="i"><use href="#bk"/></svg></span><div><b class="j" style="font-size:20px">Learn Loop</b><div style="font-size:12px;font-weight:700;letter-spacing:1.2px;color:#b7c4ff">EDUCATOR PORTAL</div></div></div><span class="pill" style="background:#ffffff1a;color:#fff">● Inclusive Classrooms 4.0</span></div>
+  <h1 class="j" style="line-height:56px">Welcome Back,<br>Teacher!</h1><p style="font-size:20px">Empower every student in your classroom with barrier-free, neuroinclusive learning experiences.</p><div style="height:16px"></div>
+  <div class="gl" style="background:#ffffff0d"><span class="ic" style="background:#dce1ff33"><svg class="i"><use href="#bk"/></svg></span><div><b class="j" style="font-size:20px">Instant Textbook Adaptation</b><span style="font-size:14px">Convert printed syllabi into high-contrast audiobooks, dyslexic-friendly formats, and simplified summaries in seconds.</span></div></div>
+  <div class="gl" style="background:#ffffff0d"><span class="ic" style="background:#eaddff33"><svg class="i"><use href="#us"/></svg></span><div><b class="j" style="font-size:20px">Visual Communication Cards</b><span style="font-size:14px">Curate tactile, symbol-based micro-cards tailored for interactive non-verbal lectures and multi-sensory recall.</span></div></div>
+  <div class="gl" style="background:#ffffff0d"><span class="ic" style="background:#89f5e733"><svg class="i"><use href="#sh"/></svg></span><div><b class="j" style="font-size:20px">Dignified, Non-Stigmatizing Tools</b><span style="font-size:14px">Deliver discrete, personalized accommodations compliant with student privacy laws without singling out learners.</span></div></div>
+  <div class="gl" style="align-items:center;background:#ffffff1a;margin-top:32px"><span style="width:64px;height:64px;border-radius:12px;background:url(https://www.figma.com/api/mcp/asset/eeb6db74-ace1-4601-b5d7-e25f286f6928.png) center/cover;flex:none"></span><div><small style="color:#89f5e7;font-weight:600;letter-spacing:.48px">LIVE CLASSROOM IMPACT</small><b style="font-weight:400;font-size:14px">Prof. Ananya Sen converted 42 chapters this week</b><small style="color:#b7c4ff">Kendriya Vidyalaya Network</small></div></div>
+  <div class="gl" style="background:#0003;margin-top:56px;align-items:center"><b style="font-size:14px;white-space:nowrap"><svg class="i"><use href="#sh"/></svg> Academic Trust</b><span style="font-size:14px;color:#eef0ff">Trusted by inclusive educators across Indian schools, central universities, and state special-education boards.</span></div></aside>
+ <div class="card" style="padding:40px">
+  <div class="row sb" style="margin-bottom:24px"><a href="#roles" style="font-size:14px;font-weight:600" class="mu">← Back to Role Selection</a><span class="chip" style="color:var(--p)">Verified Portal</span></div>
+  <div class="tabs"><button class="on" data-tab="Login as Teacher">Login as Teacher</button><button data-tab="Register as Teacher">Register as Teacher</button></div>
+  <h2 class="j" style="font-size:36px;letter-spacing:-.9px;line-height:44px">Educator Sign In</h2><p class="mu" style="margin:8px 0 24px">Sign in with your official school email or verified staff ID to access your tailored workspace.</p>
+  <form class="af" data-role="teacher" novalidate>
+   <div class="fld reg"><label>Full Name <em>*</em></label><div class="in"><svg class="i"><use href="#us"/></svg><input name="name" autocomplete="name" placeholder="e.g. Sunita Rao"></div></div>
+   <div class="fld"><label>Email <em>*</em></label><div class="in"><svg class="i"><use href="#ma"/></svg><input name="email" type="email" required autocomplete="email" placeholder="sunita.rao@delhischool.edu.in"></div></div>
+   <div class="fld reg"><label>Phone Number <em>*</em></label><div class="in"><svg class="i"><use href="#ph"/></svg><input name="phone" type="tel" autocomplete="tel" placeholder="e.g. 98765 43210"></div></div>
+   <div class="fld"><label>Password <em>*</em></label><div class="in"><svg class="i"><use href="#lk"/></svg><input name="password" type="password" required autocomplete="current-password" placeholder="At least 6 characters"></div></div>
+   <div class="row sb" style="margin-bottom:20px"><label style="font-size:14px;font-weight:600"><input type="checkbox" name="remember" style="width:20px;height:20px;vertical-align:middle;margin-right:10px">Keep me signed in on this device</label><button type="button" data-read style="font-size:12px;font-weight:700;color:var(--p)"><svg class="i"><use href="#vo"/></svg> Audio help</button></div>
+   <button class="sbtn" type="submit"><span class="bl">Login as Teacher</span> <svg class="i"><use href="#ar"/></svg></button><div class="msg" role="status" aria-live="polite"></div>
+   <div class="demo">Demo accounts (synthetic data): <button type="button" data-demo="sunita.rao@delhischool.edu.in|teach123">Sunita Rao</button> (password teach123)</div>
+  </form>
+
+  <div class="or" style="border:0;margin-top:24px"><div class="row" style="gap:12px;flex-wrap:nowrap"><hr style="flex:1;border:0;height:1px;background:var(--s3)">OR CONTINUE WITH<hr style="flex:1;border:0;height:1px;background:var(--s3)"></div><div class="row" style="gap:12px;flex-wrap:nowrap"><button type="button">DIKSHA / NDEAR</button><button type="button">Campus SSO</button></div></div>
+  <div class="row sb" style="background:var(--s2);border-radius:16px;padding:16px;margin-top:24px;font-size:14px"><span>Not a teacher or faculty member?</span><a href="#student" style="font-weight:700;color:var(--s)">Continue as Student →</a></div>
+  <div class="row sb" style="border-top:1px solid #e2e7ff66;margin-top:24px;padding-top:25px;font-size:12px" ><span class="mu"><svg class="i"><use href="#sh"/></svg> 256-bit Encrypted Educator Session</span><span class="mu">WCAG 2.2 AAA • RPwD Act 2016 Compliant</span></div>
+ </div>
+</div></div>
+
+<!-- ============ 5. STUDENT DASHBOARD ============ -->
+<div id="s-app" class="v">
+<header class="apphead"><div class="w">
+ <div class="row" style="gap:12px;flex-wrap:nowrap"><span class="ic" style="background:var(--p);color:#fff;width:40px;height:40px;border-radius:12px"><svg class="i"><use href="#bk"/></svg></span><div><b class="j" style="font-size:20px">Learn Loop</b><div class="mu" style="font-size:12px;font-weight:700;letter-spacing:.48px">Student portal</div></div></div>
+ <div class="snav" role="tablist" aria-label="Student sections"><button data-act="s-tab" data-stab="quizzes" class="on">My quizzes</button><button data-act="s-tab" data-stab="results">My results</button></div>
+ <div class="row" style="gap:10px"><div class="tb" role="toolbar" aria-label="Accessibility quick controls"><button data-z="-1" aria-label="Decrease text size">A-</button><button data-z="1" aria-label="Increase text size">A+</button><button data-t="hc" aria-label="High contrast"><svg class="i"><use href="#co"/></svg></button><button data-read aria-label="Read aloud"><svg class="i"><use href="#vo"/></svg></button></div><span class="chip" id="s-name"></span><button class="pill s" data-act="logout"><svg class="i"><use href="#lo"/></svg>Log out</button></div>
+</div></header>
+<main class="main" id="s-app-body"></main>
+</div>
+
+<!-- ============ 6. QUIZ (student) ============ -->
+<div id="s-quiz" class="v"></div>
+
+<!-- ============ 7. TEACHER DASHBOARD ============ -->
+<div id="t-app" class="v">
+<header class="apphead"><div class="w">
+ <div class="row" style="gap:12px;flex-wrap:nowrap"><span class="ic" style="background:linear-gradient(135deg,#0037b0,#8a4cfc);color:#fff;width:40px;height:40px;border-radius:12px"><svg class="i"><use href="#bk"/></svg></span><div><b class="j" style="font-size:20px">Learn Loop</b><div class="mu" style="font-size:12px;font-weight:700;letter-spacing:.48px">Educator portal</div></div></div>
+ <div class="snav" role="tablist" aria-label="Teacher sections"><button data-act="t-tab" data-ttab="overview" class="on">Overview</button><button data-act="t-tab" data-ttab="quizzes">Quizzes</button><button data-act="t-tab" data-ttab="results">Results</button><button data-act="t-tab" data-ttab="review">Review signals<span class="badge" id="t-badge" style="display:none"></span></button><button data-act="t-tab" data-ttab="sheets">Google Sheets</button></div>
+ <div class="row" style="gap:10px"><div class="tb" role="toolbar" aria-label="Accessibility quick controls"><button data-z="-1" aria-label="Decrease text size">A-</button><button data-z="1" aria-label="Increase text size">A+</button><button data-t="hc" aria-label="High contrast"><svg class="i"><use href="#co"/></svg></button><button data-read aria-label="Read aloud"><svg class="i"><use href="#vo"/></svg></button></div><span class="chip" id="t-name"></span><button class="pill s" data-act="logout"><svg class="i"><use href="#lo"/></svg>Log out</button></div>
+</div></header>
+<main class="main" id="t-app-body"></main>
+</div>
+
+<!-- ============ overlays ============ -->
+<div class="ov" id="ov-warn" role="alertdialog" aria-modal="true" aria-labelledby="warn-t"><div class="modal"><h2 id="warn-t" class="j">A quick note</h2><p id="warn-p" class="mu" style="margin-bottom:20px"></p><button class="btn f" data-act="close-warn">Back to the quiz</button></div></div>
+<div class="ov" id="ov-confirm" role="dialog" aria-modal="true" aria-labelledby="conf-t"><div class="modal"><h2 id="conf-t" class="j">Submit your quiz?</h2><p id="conf-p" class="mu"></p><div class="row" style="margin-top:20px"><button class="btn o" data-act="close-confirm">Keep working</button><button class="btn" data-act="s-submit">Submit quiz</button></div></div></div>
+<div id="toast" role="status" aria-live="polite"></div>
+
+<script>
+// ---- Google Apps Script endpoint (your existing deployment; see Code.gs for the version that supports sync) ----
+var SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzCH9oQJe_ya_PvASGOiSYhpK7-ItUdKYJ-NybC9CJJRetom6Zr-4yx8qC9I-39zjcI/exec";
+var GS_CODE = "/**\n * Learn Loop <-> Google Sheets bridge\n * 1) Open your Google Sheet -> Extensions -> Apps Script, paste this file.\n * 2) Deploy -> New deployment -> Web app -> Execute as: Me, Who has access: Anyone.\n * 3) Copy the /exec URL into Learn Loop (Teacher -> Google Sheets).\n * Optional: set TOKEN below and enter the same value in Learn Loop.\n */\nvar TOKEN = '';\n\nfunction doGet(e) {\n  var p = e.parameter || {};\n  if (p.action === 'getSheet') {\n    if (!ok_(p.token)) return json_({ ok: false, error: 'bad token' });\n    var rows = sheet_(p.name || 'Quizzes').getDataRange().getValues();\n    return json_({ ok: true, rows: rows });\n  }\n  // Registration form (name, email, phone) - same as the original page\n  if (p.name || p.email) {\n    sheet_('Registrations').appendRow([new Date(), p.role || '', p.name || '', p.email || '', p.phone || '']);\n    return json_({ ok: true });\n  }\n  return json_({ ok: true, service: 'learn-loop' });\n}\n\nfunction doPost(e) {\n  var d = JSON.parse(e.postData.contents);\n  if (!ok_(d.token)) return json_({ ok: false, error: 'bad token' });\n  if (d.action === 'exportSheet') {\n    var sh = sheet_(d.name);\n    sh.clearContents();                       // full snapshot: safe to re-send\n    var rows = d.rows || [];\n    if (rows.length) sh.getRange(1, 1, rows.length, rows[0].length).setValues(rows);\n    return json_({ ok: true, count: rows.length });\n  }\n  return json_({ ok: false, error: 'unknown action' });\n}\n\nfunction ok_(t) { return !TOKEN || t === TOKEN; }\nfunction sheet_(name) {\n  var ss = SpreadsheetApp.getActiveSpreadsheet();\n  return ss.getSheetByName(name) || ss.insertSheet(name);\n}\nfunction json_(o) {\n  return ContentService.createTextOutput(JSON.stringify(o)).setMimeType(ContentService.MimeType.JSON);\n}\n";
+
+(function(){
+"use strict";
+var DB_KEY="ll_db_v1", CFG_KEY="ll_cfg_v1";
+// DEMO ONLY: a real deployment signs tokens on a server. This keeps the demo self-contained.
+var JWT_SECRET="learn-loop-demo-secret-not-for-production";
+var mem={}, DB=null, CFG=null, SESSION=null, MON=null, saveT=null, READY=false;
+var ui={sTab:"quizzes",tTab:"overview",editor:null,rQuiz:"all",rOpen:null,rvOpen:null,intro:null,result:null,timer:null,slog:[]};
+var views=["home","roles","student","teacher","s-app","s-quiz","t-app"];
+var DEF_EV={tab_switch:true,focus_loss:true,fullscreen_exit:true,clipboard:true,drop:true,context_menu:true,shortcut:true};
+var EV={
+ tab_switch:{l:"Tab switch or minimised window",d:"The quiz page became hidden.",s:"the quiz page was left or minimised"},
+ focus_loss:{l:"Window focus lost",d:"The window lost focus without the tab being hidden.",s:"the quiz window lost focus"},
+ fullscreen_exit:{l:"Full screen closed",d:"Only applies if the student chose full screen.",s:"full screen was closed"},
+ clipboard:{l:"Copy, cut or paste attempt",d:"Blocked in the quiz where the browser allows it.",s:"a copy, cut or paste was attempted"},
+ drop:{l:"Drag-and-drop text attempt",d:"Dropping text into answers is blocked.",s:"dragging text into an answer was attempted"},
+ context_menu:{l:"Right-click menu attempt",d:"The context menu is blocked during the quiz.",s:"the right-click menu was opened"},
+ shortcut:{l:"Restricted shortcut",d:"Print, save, view-source or developer-tools shortcuts.",s:"a restricted shortcut was used"}
+};
+var $=function(s,r){return (r||document).querySelector(s)}, $$=function(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s))};
+
+/* ---------- helpers ---------- */
+function esc(s){return String(s==null?"":s).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]})}
+function uid(p){return p+Math.random().toString(36).slice(2,9)}
+function pad(n){return (n<10?"0":"")+n}
+function mmss(ms){var s=Math.max(0,Math.round(ms/1000));return pad(Math.floor(s/60))+":"+pad(s%60)}
+function fdate(ts){return new Date(ts).toLocaleString("en-IN",{day:"numeric",month:"short",hour:"2-digit",minute:"2-digit"})}
+function ftime(ts){return new Date(ts).toLocaleTimeString("en-IN",{hour:"2-digit",minute:"2-digit",second:"2-digit"})}
+function pct(a,b){return b?Math.round(a/b*100):0}
+function toast(m){var t=$("#toast");t.textContent=m;t.style.display="block";clearTimeout(toast.t);toast.t=setTimeout(function(){t.style.display="none"},3800)}
+function lget(k){try{var v=localStorage.getItem(k);return v?JSON.parse(v):null}catch(e){return mem[k]||null}}
+function lset(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){mem[k]=v}}
+function save(){lset(DB_KEY,DB)}
+function saveSoon(){clearTimeout(saveT);saveT=setTimeout(save,300)}
+function norm(s){return String(s==null?"":s).toLowerCase().replace(/\s+/g,"")}
+
+/* ---------- crypto: password hash + demo JWT ---------- */
+function hasSubtle(){return !!(window.crypto&&crypto.subtle&&window.TextEncoder)}
+function hex(buf){return Array.prototype.map.call(new Uint8Array(buf),function(b){return ("0"+b.toString(16)).slice(-2)}).join("")}
+async function sha(s){
+  if(hasSubtle())return hex(await crypto.subtle.digest("SHA-256",new TextEncoder().encode("ll|"+s)));
+  var h=5381;for(var i=0;i<s.length;i++)h=((h<<5)+h+s.charCodeAt(i))|0;return "x"+(h>>>0).toString(16);
+}
+function b64u(str){return btoa(str).replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/,"")}
+function b64uBytes(buf){var s="";new Uint8Array(buf).forEach(function(b){s+=String.fromCharCode(b)});return b64u(s)}
+function unb64u(s){s=s.replace(/-/g,"+").replace(/_/g,"/");while(s.length%4)s+="=";return atob(s)}
+async function hmac(data){
+  if(!hasSubtle())return "demo";
+  var k=await crypto.subtle.importKey("raw",new TextEncoder().encode(JWT_SECRET),{name:"HMAC",hash:"SHA-256"},false,["sign"]);
+  return b64uBytes(await crypto.subtle.sign("HMAC",k,new TextEncoder().encode(data)));
+}
+async function signJWT(p){var h=b64u(JSON.stringify({alg:"HS256",typ:"JWT"})),b=b64u(JSON.stringify(p));return h+"."+b+"."+await hmac(h+"."+b)}
+async function verifyJWT(t){
+  try{var a=String(t).split(".");if(a.length!==3)return null;if(await hmac(a[0]+"."+a[1])!==a[2])return null;
+    var p=JSON.parse(unb64u(a[1]));if(p.exp&&p.exp<Date.now()/1000)return null;return p}catch(e){return null}
+}
+function saveToken(t,remember){try{sessionStorage.setItem("ll_jwt",t)}catch(e){mem.jwt=t}if(remember){try{localStorage.setItem("ll_jwt",t)}catch(e){}}}
+function loadToken(){try{return sessionStorage.getItem("ll_jwt")||localStorage.getItem("ll_jwt")}catch(e){return mem.jwt||null}}
+function clearToken(){try{sessionStorage.removeItem("ll_jwt");localStorage.removeItem("ll_jwt")}catch(e){}delete mem.jwt}
+
+/* ---------- data access ---------- */
+function me(){return SESSION?(DB.users.filter(function(u){return u.id===SESSION.sub})[0]||null):null}
+function userById(id){return DB.users.filter(function(u){return u.id===id})[0]||null}
+function quizById(id){return DB.quizzes.filter(function(q){return q.id===id})[0]||null}
+function attById(id){return DB.attempts.filter(function(a){return a.id===id})[0]||null}
+function attLogs(id){return DB.logs.filter(function(l){return l.attemptId===id})}
+function latest(qid,sid){return DB.attempts.filter(function(a){return a.quizId===qid&&a.studentId===sid}).sort(function(x,y){return y.startedAt-x.startedAt})[0]||null}
+function attNo(a){return DB.attempts.filter(function(x){return x.quizId===a.quizId&&x.studentId===a.studentId&&x.startedAt<=a.startedAt}).length}
+function thr(q){return (q&&q.integrity&&q.integrity.threshold)||3}
+function isSub(a){return a.status==="submitted"}
+function flagged(a){var q=quizById(a.quizId);return !!(q&&q.controlled&&attLogs(a.id).length>=thr(q))}
+function needsReview(a){return flagged(a)&&!a.review}
+function activeAttempt(){
+  if(!SESSION)return null;
+  var a=DB.attempts.filter(function(x){return x.studentId===SESSION.sub&&x.status==="in_progress"})[0];
+  if(a&&!quizById(a.quizId)){DB.attempts=DB.attempts.filter(function(x){return x!==a});save();return null}
+  return a||null;
+}
+function gradeAnswer(q,a){
+  if(q.type==="short"){var n=norm(a);return n!==""&&String(q.accept||"").split("|").map(norm).indexOf(n)>-1}
+  return a===q.answer;
+}
+function gradeAttempt(quiz,answers){var s=0;quiz.questions.forEach(function(q,i){if(gradeAnswer(q,answers[i]))s++});return s}
+function answered(a){return (a.answers||[]).filter(function(v){return v!==null&&v!==undefined&&v!==""}).length}
+function mq(text,opts,ans){return {type:"mcq",text:text,options:opts,answer:ans,accept:""}}
+function sq(text,acc){return {type:"short",text:text,options:["","","",""],answer:null,accept:acc}}
+
+/* ---------- seed (synthetic classroom data) ---------- */
+async function seed(){
+  var db=lget(DB_KEY);if(db&&db.users&&db.quizzes){DB=db;return}
+  var ph=await sha("teach123"),sh=await sha("learn123"),now=Date.now(),D=86400000;
+  DB={users:[
+    {id:"t1",role:"teacher",name:"Sunita Rao",email:"sunita.rao@delhischool.edu.in",ph:ph},
+    {id:"s1",role:"student",name:"Aarav Mehta",email:"aarav@learner.edu",ph:sh},
+    {id:"s2",role:"student",name:"Diya Nair",email:"diya@learner.edu",ph:sh},
+    {id:"s3",role:"student",name:"Kabir Singh",email:"kabir@learner.edu",ph:sh},
+    {id:"s4",role:"student",name:"Meera Iyer",email:"meera@learner.edu",ph:sh}],
+   quizzes:[
+    {id:"q_fractions",title:"Fractions and Ratios Check",subject:"Maths",controlled:true,minutes:10,published:true,integrity:{events:JSON.parse(JSON.stringify(DEF_EV)),threshold:3},questions:[
+      mq("What is 3/4 + 1/8?",["4/12","7/8","1","5/8"],1),mq("Simplify the ratio 18 : 24.",["3 : 4","2 : 3","6 : 8","9 : 12"],0),
+      mq("Which fraction is the largest?",["2/5","3/8","1/2","3/10"],2),mq("A recipe uses 2 cups of flour for 3 cups of milk. How much flour is needed for 9 cups of milk?",["4 cups","6 cups","5 cups","3 cups"],1),
+      sq("Write 0.75 as a fraction in simplest form.","3/4")]},
+    {id:"q_photo",title:"Photosynthesis Warm-up",subject:"Science",controlled:false,minutes:0,published:true,integrity:{events:JSON.parse(JSON.stringify(DEF_EV)),threshold:3},questions:[
+      mq("Which gas do plants take in for photosynthesis?",["Oxygen","Carbon dioxide","Nitrogen","Hydrogen"],1),mq("Where does photosynthesis mainly happen?",["Roots","Stem","Leaves","Flowers"],2),
+      mq("Which pigment captures light energy?",["Chlorophyll","Melanin","Keratin","Haemoglobin"],0),sq("Name the sugar plants make during photosynthesis.","glucose")]}
+   ],attempts:[],logs:[]};
+  function sa(qid,sid,ans,startAgo,dur,evs){
+    var q=DB.quizzes.filter(function(x){return x.id===qid})[0],st=now-startAgo,n=q.questions.length;
+    var a={id:uid("a_"),quizId:qid,studentId:sid,answers:ans,idx:0,startedAt:st,submittedAt:st+dur*60000,status:"submitted",score:gradeAttempt(q,ans),total:n,review:null,
+      history:ans.map(function(_,i){return {qi:i,ts:st+Math.round((i+1)*dur*60000/(n+1))}})};
+    DB.attempts.push(a);var c={};
+    (evs||[]).forEach(function(e){c[e[0]]=(c[e[0]]||0)+1;DB.logs.push({id:uid("l_"),attemptId:a.id,quizId:qid,studentId:sid,type:e[0],ts:st+e[1]*60000,count:c[e[0]]})});
+  }
+  sa("q_fractions","s2",[1,0,2,0,"3/4"],2*D,7,[["tab_switch",2],["tab_switch",3.5],["tab_switch",4.2],["clipboard",5]]);
+  sa("q_fractions","s3",[1,1,2,1,"0.75"],2*D+3600000,9,[["focus_loss",3]]);
+  sa("q_fractions","s4",[1,0,2,1,"3/4"],2*D+7200000,6,[]);
+  sa("q_photo","s1",[1,2,0,"glucose"],D,5,[]);
+  sa("q_photo","s2",[1,2,1,"sugar"],D+1800000,6,[]);
+  save();
+}
+function loadCfg(){CFG=lget(CFG_KEY)||{url:SCRIPT_URL,token:"",auto:false}}
+async function restore(){
+  var t=loadToken();if(!t)return;var p=await verifyJWT(t);
+  if(p&&DB.users.some(function(u){return u.id===p.sub&&u.role===p.role}))SESSION={sub:p.sub,role:p.role};else clearToken();
+}
+
+/* ---------- router ---------- */
+function route(){
+  if(!READY)return;
+  var h=(location.hash||"#home").slice(1);
+  var need={"s-app":"student","s-quiz":"student","t-app":"teacher"};
+  if(need[h]&&(!SESSION||SESSION.role!==need[h])){location.hash="#"+need[h];return}
+  if((h==="student"||h==="teacher")&&SESSION&&SESSION.role===h){location.hash=h==="student"?"#s-app":"#t-app";return}
+  var id=views.indexOf(h)>-1?h:"home";
+  views.forEach(function(v){document.getElementById(v).classList.toggle("on",v===id)});
+  if(id!=="s-quiz"){stopMonitor();clearInterval(ui.timer)}
+  if(views.indexOf(h)>-1)window.scrollTo(0,0);else{var el=document.getElementById(h);if(el)el.scrollIntoView()}
+  if(id==="s-app")renderStudent();
+  if(id==="t-app")renderTeacher();
+  if(id==="s-quiz")renderQuiz();
+}
+window.addEventListener("hashchange",route);
+
+/* ---------- auth ---------- */
+function setMode(f,reg){f.classList.toggle("regmode",reg);var m=$(".msg",f);m.className="msg";m.textContent="";f.elements.password.autocomplete=reg?"new-password":"current-password"}
+function formMsg(f,t,ok){var m=$(".msg",f);m.className="msg "+(ok?"ok":"er");m.textContent=t}
+$$("form.af").forEach(function(f){
+  f.addEventListener("submit",async function(e){
+    e.preventDefault();await READY_P;
+    var role=f.dataset.role,reg=f.classList.contains("regmode"),el=f.elements;
+    var email=el.email.value.trim().toLowerCase(),pw=el.password.value;
+    if(!email||!pw)return formMsg(f,"Enter your email and password.");
+    var user=DB.users.filter(function(u){return u.email===email})[0];
+    if(reg){
+      var name=el.name.value.trim(),phone=el.phone.value.trim();
+      if(!name||!phone)return formMsg(f,"Fill in your name, email, phone number and password.");
+      if(pw.length<6)return formMsg(f,"Use a password with at least 6 characters.");
+      if(user)return formMsg(f,"An account with this email already exists. Switch to the login tab.");
+      user={id:(role==="teacher"?"t":"s")+Date.now().toString(36),role:role,name:name,email:email,ph:await sha(pw)};
+      DB.users.push(user);save();
+      try{fetch(CFG.url+"?"+new URLSearchParams({role:role,name:name,email:email,phone:phone}),{method:"GET",mode:"no-cors"})}catch(x){}
+    }else{
+      if(!user||user.ph!==await sha(pw))return formMsg(f,"Email or password did not match. Check them and try again.");
+      if(user.role!==role)return formMsg(f,"This account belongs to the "+user.role+" portal. Use the "+user.role+" login.");
+    }
+    var now=Math.floor(Date.now()/1000);
+    saveToken(await signJWT({sub:user.id,role:role,iat:now,exp:now+8*3600}),!!el.remember.checked);
+    SESSION={sub:user.id,role:role};f.reset();setMode(f,false);
+    location.hash=role==="student"?"#s-app":"#t-app";
+  });
+});
+function logout(){clearToken();SESSION=null;stopMonitor();clearInterval(ui.timer);ui.intro=null;ui.result=null;location.hash="#roles"}
+
+/* ---------- accessibility + generic clicks ---------- */
+var size=100;
+document.addEventListener("click",function(e){
+  var b=e.target.closest("[data-t],[data-z],[data-read],[data-tab],[data-demo],.or button");
+  if(b){
+    if(b.dataset.t){var on=document.body.classList.toggle(b.dataset.t);
+      $$('[data-s="'+b.dataset.t+'"]').forEach(function(s){s.textContent=on?"ON":(b.dataset.t==="hc"?"DEFAULT":"OFF")})}
+    if(b.dataset.z){size=Math.max(87,Math.min(150,size+12.5*Number(b.dataset.z)));document.documentElement.style.fontSize=size+"%"}
+    if(b.dataset.read&&b.tagName!=="INPUT"&&window.speechSynthesis){speechSynthesis.cancel();speechSynthesis.speak(new SpeechSynthesisUtterance($(".v.on").innerText.slice(0,600)))}
+    if(b.dataset.tab){var c=b.closest(".card"),f=$("form.af",c);c.querySelectorAll(".tabs button").forEach(function(t){t.classList.toggle("on",t===b)});
+      $(".bl",c).textContent=b.dataset.tab;setMode(f,/Register|Create/.test(b.dataset.tab))}
+    if(b.dataset.demo){var c2=b.closest(".card"),f2=$("form.af",c2),p=b.dataset.demo.split("|");
+      c2.querySelectorAll(".tabs button").forEach(function(t,i){t.classList.toggle("on",i===0)});$(".bl",c2).textContent=c2.querySelector(".tabs button").dataset.tab;
+      setMode(f2,false);f2.elements.email.value=p[0];f2.elements.password.value=p[1];formMsg(f2,"Demo account filled in. Press the login button.",true)}
+    if(b.matches(".or button")){var m=$(".msg",b.closest(".card"));if(m){m.className="msg er";m.textContent="This sign-in option is not available in the prototype. Use email and password."}}
+  }
+  var ab=e.target.closest("[data-act]");if(ab&&A[ab.dataset.act])A[ab.dataset.act](ab,e);
+});
+
+/* ================= STUDENT ================= */
+var A={};
+function renderStudent(){
+  var u=me();if(!u)return;
+  $("#s-name").textContent=u.name;
+  $$("#s-app [data-stab]").forEach(function(b){b.classList.toggle("on",b.dataset.stab===ui.sTab)});
+  $("#s-app-body").innerHTML=ui.sTab==="results"?sResults(u):sQuizzes(u);
+}
+function sQuizzes(u){
+  var qs=DB.quizzes.filter(function(q){return q.published});
+  var h='<h1 class="j ah">Hi, '+esc(u.name.split(" ")[0])+'</h1><p class="mu">Pick a quiz to begin. Your answers save automatically as you go.</p>';
+  if(!qs.length)return h+'<div class="empty">No quizzes are published yet. Your teacher will add some soon.</div>';
+  h+='<div class="grid">';
+  qs.forEach(function(q){
+    var a=latest(q.id,u.id),st,btn;
+    if(!a){st='<span class="chip">Not started</span>';btn='<button class="btn sm" data-act="s-start" data-id="'+q.id+'">Start quiz</button>'}
+    else if(a.status==="in_progress"){st='<span class="chip pu">In progress</span>';btn='<button class="btn sm" data-act="s-start" data-id="'+q.id+'">Resume quiz</button>'}
+    else if(a.review&&a.review.status==="retake"){st='<span class="chip ok">Submitted '+a.score+'/'+a.total+'</span><span class="chip pu">Retake offered</span>';btn='<button class="btn sm" data-act="s-start" data-id="'+q.id+'">Start retake</button>'}
+    else{st='<span class="chip ok">Submitted '+a.score+'/'+a.total+'</span>';btn='<button class="btn o sm" data-act="s-results" data-id="'+a.id+'">View result</button>'}
+    h+='<div class="c2"><div class="row" style="margin-bottom:10px"><span class="chip">'+esc(q.subject)+'</span><span class="chip '+(q.controlled?'wa':'ok')+'">'+(q.controlled?'Controlled quiz':'Practice, not monitored')+'</span></div>'+
+      '<h3 class="j">'+esc(q.title)+'</h3><p class="mu" style="font-size:14px;margin:6px 0 16px">'+q.questions.length+' questions'+(q.minutes?' · '+q.minutes+' minutes':' · no time limit')+'</p>'+
+      '<div class="row sb">'+'<div class="row" style="gap:6px">'+st+'</div>'+btn+'</div></div>';
+  });
+  return h+'</div>';
+}
+function outcomeText(a){
+  var s=a.review&&a.review.status;
+  if(s==="dismissed")return "Your teacher reviewed these signals and closed the review with no action.";
+  if(s==="retake")return "Your teacher has offered you a retake.";
+  if(s==="policy")return "Your teacher is following the school's review process. You can add a note below.";
+  return "Waiting for your teacher to review. Your score has not been changed.";
+}
+function sResults(u){
+  var list=DB.attempts.filter(function(a){return a.studentId===u.id&&isSub(a)}).sort(function(x,y){return y.submittedAt-x.submittedAt});
+  var h='<h1 class="j ah">My results</h1><p class="mu">Scores show what you know. Browser events are kept separately and are only review signals, never proof of anything.</p>';
+  if(!list.length)return h+'<div class="empty">You have not submitted a quiz yet.</div>';
+  h+='<div style="display:grid;gap:24px;margin-top:24px">';
+  list.forEach(function(a){
+    var q=quizById(a.quizId);if(!q)return;var logs=attLogs(a.id);
+    h+='<div class="c2" id="res-'+a.id+'"'+(ui.rOpen===a.id?' style="box-shadow:0 0 0 3px var(--pc)"':'')+'><div class="row sb"><div><h3 class="j">'+esc(q.title)+'</h3><span class="mu" style="font-size:14px">Attempt '+attNo(a)+' · '+fdate(a.submittedAt)+'</span></div><div class="stat"><b>'+a.score+'/'+a.total+'</b></div></div>'+
+      '<div class="bar2" style="margin:12px 0"><i style="width:'+pct(a.score,a.total)+'%"></i></div>'+qReview(q,a);
+    if(logs.length){
+      h+='<div class="note wa" style="margin-top:16px"><b>'+logs.length+' review signal'+(logs.length>1?'s were':' was')+' logged during this attempt.</b> These are not an accusation. '+outcomeText(a)+
+        '<div class="tl">'+logs.map(function(l){return '<div class="ev">'+esc(EV[l.type].l)+' · '+ftime(l.ts)+' · count '+l.count+'</div>'}).join("")+'</div>';
+      if(a.appeal)h+='<p style="margin-top:10px"><b>Your note</b> (sent '+fdate(a.appeal.ts)+'): '+esc(a.appeal.text)+'</p>';
+      else h+='<label class="lbl" for="ap-'+a.id+'">Add a note or ask for a review</label><textarea id="ap-'+a.id+'" rows="2" placeholder="Tell your teacher what happened, for example a power cut or a screen reader issue."></textarea><button class="btn sm" style="margin-top:10px" data-act="s-appeal" data-id="'+a.id+'">Send note to teacher</button>';
+      h+='</div>';
+    }
+    h+='</div>';
+  });
+  return h+'</div>';
+}
+function qReview(q,a){
+  return '<details style="margin-top:8px"><summary style="cursor:pointer;font-weight:700;color:var(--p)">See my answers</summary><div style="margin-top:10px">'+q.questions.map(function(x,i){
+    var ok=gradeAnswer(x,a.answers[i]),mine=x.type==="short"?(a.answers[i]||"(no answer)"):(a.answers[i]==null?"(no answer)":x.options[a.answers[i]]),right=x.type==="short"?x.accept.split("|")[0]:x.options[x.answer];
+    return '<p style="margin:8px 0"><span class="chip '+(ok?'ok':'bad')+'">'+(ok?'Correct':'Not yet')+'</span> <b>Q'+(i+1)+'.</b> '+esc(x.text)+'<br><span class="mu" style="font-size:14px">You answered: '+esc(mine)+(ok?'':' · Correct answer: '+esc(right))+'</span></p>';
+  }).join("")+'</div></details>';
+}
+A["s-tab"]=function(b){ui.sTab=b.dataset.stab;renderStudent()};
+A["s-results"]=function(b){ui.sTab="results";ui.rOpen=b.dataset.id;renderStudent();var el=$("#res-"+b.dataset.id);if(el)el.scrollIntoView()};
+A["s-appeal"]=function(b){var a=attById(b.dataset.id),t=$("#ap-"+b.dataset.id);if(!a||!t||!t.value.trim())return toast("Write a short note first.");
+  a.appeal={text:t.value.trim(),ts:Date.now()};save();renderStudent();toast("Your note was sent to your teacher.")};
+A.logout=logout;
+A["s-start"]=function(b){
+  var q=quizById(b.dataset.id);if(!q)return;
+  if(activeAttempt()){ui.intro=null;ui.result=null;return go("#s-quiz")}
+  if(q.controlled){ui.intro=q.id;ui.result=null;return go("#s-quiz")}
+  beginAttempt(q.id);
+};
+function go(h){if(location.hash===h)route();else location.hash=h}
+function beginAttempt(qid){
+  var q=quizById(qid);
+  DB.attempts.push({id:uid("a_"),quizId:qid,studentId:SESSION.sub,answers:new Array(q.questions.length).fill(null),idx:0,startedAt:Date.now(),status:"in_progress",history:[],review:null});
+  save();ui.intro=null;ui.result=null;go("#s-quiz");
+}
+
+/* ----- quiz screen ----- */
+function renderQuiz(){
+  var att=activeAttempt();
+  if(att){ui.intro=null;ui.result=null;return drawQuiz(att)}
+  if(ui.intro&&quizById(ui.intro))return drawIntro(ui.intro);
+  if(ui.result&&attById(ui.result))return drawResult(ui.result);
+  go("#s-app");
+}
+function drawIntro(qid){
+  var q=quizById(qid),on=Object.keys(q.integrity.events).filter(function(k){return q.integrity.events[k]});
+  $("#s-quiz").innerHTML='<div class="qwrap"><a href="#s-app" class="pill s" style="margin-bottom:16px">← Back to my quizzes</a><div class="card" style="padding:40px"><div class="bt"></div>'+
+   '<span class="chip wa">Controlled quiz</span><h1 class="j" style="font-size:34px;line-height:42px;margin:12px 0 4px">'+esc(q.title)+'</h1><p class="mu">'+q.questions.length+' questions'+(q.minutes?' · '+q.minutes+' minutes':'')+'</p>'+
+   '<h2 class="j" style="font-size:20px;margin-top:24px">What your teacher can see</h2><p class="mu" style="margin:6px 0">While this quiz is open, these browser events are saved as <b>review signals</b>:</p><ul style="margin:8px 0 0 20px">'+on.map(function(k){return '<li>'+esc(EV[k].l)+'</li>'}).join("")+'</ul>'+
+   '<h2 class="j" style="font-size:20px;margin-top:24px">What we do not do</h2><ul style="margin:8px 0 0 20px"><li>No camera, microphone, face recognition, emotion or gaze analysis, and no recordings.</li><li>Nothing marks an answer wrong or lowers your score automatically.</li><li>Signals are not proof of anything. A teacher looks at them with your answers and decides.</li></ul>'+
+   '<h2 class="j" style="font-size:20px;margin-top:24px">If something goes wrong</h2><p class="mu" style="margin-top:6px">You will get a gentle note the first time. You can see every logged event afterwards in My results and send your teacher a note. Your answers save automatically, so a refresh will not lose your work. If you need another way to take this quiz, tell your teacher.</p>'+
+   '<div class="c2" style="background:var(--s1);box-shadow:none;margin-top:24px"><span class="chip pu">Simulation only</span><h3 class="j" style="margin-top:8px">Optional camera check</h3><p class="mu" style="font-size:14px">A demo screen. Your camera is not turned on, nothing is recorded, and skipping changes nothing about your quiz.</p><div class="row" style="margin-top:12px"><button class="btn o sm" data-act="cam-run">Run simulated check</button><button class="btn o sm" data-act="cam-skip">Skip</button></div><div id="cam-out" class="mu" style="margin-top:10px;font-size:14px" aria-live="polite"></div></div>'+
+   '<button class="btn f" style="margin-top:28px" data-act="q-begin" data-id="'+q.id+'">I understand, begin quiz</button></div></div>';
+}
+A["cam-run"]=function(){var o=$("#cam-out");o.textContent="Pretending to check lighting…";setTimeout(function(){o.textContent="Simulated check complete. No camera was used and nothing was saved."},1100)};
+A["cam-skip"]=function(){var o=$("#cam-out");o.textContent="Skipped. You can begin the quiz."};
+A["q-begin"]=function(b){beginAttempt(b.dataset.id)};
+function drawQuiz(att){
+  var quiz=quizById(att.quizId),n=quiz.questions.length,i=Math.min(att.idx||0,n-1),q=quiz.questions[i],ctl=quiz.controlled,L="ABCD";
+  var h='<div class="apphead"><div class="w"><div><b class="j" style="font-size:20px">'+esc(quiz.title)+'</b><div class="row" style="margin-top:4px"><span class="chip">'+esc(quiz.subject)+'</span><span class="chip '+(ctl?'wa':'ok')+'">'+(ctl?'Controlled quiz':'Practice, not monitored')+'</span></div></div><div class="row">'+
+    (quiz.minutes?'<span class="pill" role="timer" aria-label="Time left">Time left <b id="qtimer">--:--</b></span>':'')+'<span class="pill s" id="qsaved">Saved</span>'+(ctl?'<button class="pill" data-act="q-fs">Full screen (optional)</button>':'')+'<button class="pill s" data-act="q-exit">Save &amp; exit</button></div></div></div><div class="qwrap">';
+  if(ctl)h+='<div class="note wa" role="note"><b>Controlled quiz mode.</b> Tab switches, copy and paste and similar browser events are saved as review signals for your teacher. No camera is used, and nothing changes your score automatically. Signals logged so far: <b id="q-sig">'+attLogs(att.id).length+'</b>.</div>';
+  h+='<div class="progress" aria-hidden="true"><i style="width:'+Math.round((i+1)/n*100)+'%"></i></div><div class="card" style="padding:32px"><div class="lab">Question '+(i+1)+' of '+n+'</div><h2 class="j qt" id="qtext" tabindex="-1">'+esc(q.text)+'</h2>';
+  if(q.type==="short"){
+    h+='<label class="lbl" for="sa">Your answer</label><input id="sa" class="fi" data-short autocomplete="off" autocapitalize="off" spellcheck="false" value="'+esc(att.answers[i]||"")+'" style="height:52px;font-size:18px">'+(ctl?'<p class="mu" style="font-size:13px;margin-top:8px">Type your answer. Pasting and drag-and-drop are turned off for this quiz.</p>':'');
+  }else{
+    h+='<fieldset style="border:0;padding:0"><legend class="sr">Choose one answer</legend>'+q.options.map(function(o,j){return o?'<label class="opt'+(att.answers[i]===j?' sel':'')+'"><input type="radio" name="opt" data-opt value="'+j+'"'+(att.answers[i]===j?' checked':'')+'><span><b>'+L[j]+'.</b> '+esc(o)+'</span></label>':''}).join("")+'</fieldset>';
+  }
+  h+='<div class="pal" role="group" aria-label="Question navigator">'+quiz.questions.map(function(_,k){var an=att.answers[k]!==null&&att.answers[k]!==undefined&&att.answers[k]!=="";return '<button data-act="q-go" data-i="'+k+'" class="'+(an?'ans ':'')+(k===i?'cur':'')+'" aria-label="Question '+(k+1)+(an?', answered':', not answered')+'"'+(k===i?' aria-current="step"':'')+'>'+(k+1)+'</button>'}).join("")+'</div>'+
+    '<div class="qnav"><button class="btn o" data-act="q-prev"'+(i===0?' disabled':'')+'>Previous</button>'+(i<n-1?'<button class="btn" data-act="q-next">Next question</button>':'<button class="btn pu" data-act="q-review">Review and submit</button>')+'</div></div></div>';
+  $("#s-quiz").innerHTML=h;
+  tickTimer(att,quiz);
+  if(ctl&&!(MON&&MON.aid===att.id))startMonitor(att,quiz);
+}
+function tickTimer(att,quiz){
+  clearInterval(ui.timer);if(!quiz.minutes)return;
+  function t(){var left=quiz.minutes*60000-(Date.now()-att.startedAt),el=$("#qtimer");if(!el){clearInterval(ui.timer);return}
+    if(left<=0){clearInterval(ui.timer);toast("Time is up. Your quiz was submitted.");submitAttempt(att.id,true);return}el.textContent=mmss(left)}
+  t();ui.timer=setInterval(t,1000);
+}
+function setAns(a,i,v){
+  a.answers[i]=v;var last=a.history[a.history.length-1],now=Date.now();
+  if(!last||last.qi!==i||now-last.ts>10000)a.history.push({qi:i,ts:now});
+  saveSoon();var s=$("#qsaved");if(s)s.textContent="Saved "+ftime(now);
+  var p=$$(".pal button")[i];if(p&&v!==""&&v!==null)p.classList.add("ans");else if(p)p.classList.remove("ans");
+}
+document.addEventListener("change",function(e){
+  var t=e.target;
+  if(t.matches("[data-opt]")){var a=activeAttempt();if(!a)return;setAns(a,a.idx||0,+t.value);$$(".opt").forEach(function(o){o.classList.toggle("sel",o.querySelector("input").checked)})}
+  if(t.matches('[data-f="controlled"]')){var bx=$("#ed-integ");if(bx)bx.style.display=t.checked?"":"none"}
+  if(t.matches('[data-k="type"]')){collectEd();$("#t-app-body").innerHTML=tQuizzes()}
+});
+document.addEventListener("input",function(e){if(e.target.matches("[data-short]")){var a=activeAttempt();if(a)setAns(a,a.idx||0,e.target.value)}});
+function moveQ(d,to){var a=activeAttempt();if(!a)return;save();var n=quizById(a.quizId).questions.length;a.idx=Math.max(0,Math.min(n-1,to==null?(a.idx||0)+d:to));save();drawQuiz(a);var t=$("#qtext");if(t)t.focus()}
+A["q-prev"]=function(){moveQ(-1)};A["q-next"]=function(){moveQ(1)};A["q-go"]=function(b){moveQ(0,+b.dataset.i)};
+A["q-exit"]=function(){save();stopMonitor();clearInterval(ui.timer);exitFS();go("#s-app")};
+A["q-review"]=function(){var a=activeAttempt(),n=quizById(a.quizId).questions.length,left=n-answered(a);
+  $("#conf-p").textContent=left?"You have "+left+" unanswered question"+(left>1?"s":"")+". You can go back and answer them, or submit now.":"You answered every question. Ready to submit?";$("#ov-confirm").classList.add("on");$("#ov-confirm .btn.o").focus()};
+A["close-confirm"]=function(){$("#ov-confirm").classList.remove("on")};
+A["close-warn"]=function(){$("#ov-warn").classList.remove("on")};
+A["s-submit"]=function(){$("#ov-confirm").classList.remove("on");var a=activeAttempt();if(a)submitAttempt(a.id,false)};
+A["q-fs"]=function(){try{var r=document.documentElement.requestFullscreen;if(r)r.call(document.documentElement).catch(function(){toast("Full screen is not available in this browser.")})}catch(x){}};
+function exitFS(){try{if(document.fullscreenElement)document.exitFullscreen()}catch(x){}}
+function submitAttempt(aid,auto){
+  var a=attById(aid);if(!a||a.status!=="in_progress")return;var q=quizById(a.quizId);
+  a.score=gradeAttempt(q,a.answers);a.total=q.questions.length;a.status="submitted";a.submittedAt=Date.now();a.auto=!!auto;save();
+  stopMonitor();clearInterval(ui.timer);exitFS();$("#ov-warn").classList.remove("on");
+  ui.result=aid;ui.intro=null;
+  if(CFG.auto)exportResults(true);
+  go("#s-quiz");
+}
+function drawResult(aid){
+  var a=attById(aid),q=quizById(a.quizId),logs=attLogs(aid);
+  $("#s-quiz").innerHTML='<div class="qwrap"><div class="card" style="padding:40px;text-align:center"><div class="bt"></div><span class="chip ok">Submitted</span><h1 class="j" style="font-size:34px;margin:12px 0 4px">'+esc(q.title)+'</h1>'+
+    '<div class="stat"><b style="font-size:56px">'+a.score+' / '+a.total+'</b></div><div class="bar2" style="margin:12px auto;max-width:360px"><i style="width:'+pct(a.score,a.total)+'%"></i></div><p class="mu">'+pct(a.score,a.total)+'% correct'+(a.auto?' · submitted automatically when time ran out':'')+'</p></div>'+
+    '<div class="c2" style="margin-top:24px">'+qReview(q,a).replace("<details","<details open")+'</div>'+
+    (logs.length?'<div class="note wa" style="margin-top:24px"><b>'+logs.length+' review signal'+(logs.length>1?'s were':' was')+' logged.</b> Your score was not changed. Your teacher will look at them alongside your answers. You can read them and send a note in <b>My results</b>.</div>':'')+
+    '<div class="row" style="margin-top:24px"><button class="btn" data-act="q-done">Back to my quizzes</button>'+(logs.length?'<button class="btn o" data-act="s-results" data-id="'+a.id+'">Open My results</button>':'')+'</div></div>';
+}
+A["q-done"]=function(){ui.result=null;ui.sTab="quizzes";go("#s-app")};
+var _sr=A["s-results"];A["s-results"]=function(b){ui.result=null;_sr(b);location.hash="#s-app"};
+
+/* ----- controlled-mode monitor (review signals only: never grades, never blocks) ----- */
+function logEvent(att,quiz,type){
+  var n=DB.logs.filter(function(l){return l.attemptId===att.id&&l.type===type}).length+1,total=attLogs(att.id).length+1;
+  DB.logs.push({id:uid("l_"),attemptId:att.id,quizId:quiz.id,studentId:att.studentId,type:type,ts:Date.now(),count:n});save();
+  var s=$("#q-sig");if(s)s.textContent=total;
+  if(total===1){$("#warn-p").textContent="Just so you know: "+EV[type].s+". We saved it as a review signal for your teacher. It does not change your score, and your answers are safe. Please stay on this quiz page.";$("#ov-warn").classList.add("on");$("#ov-warn .btn").focus()}
+  else toast("Review signal saved ("+EV[type].l.toLowerCase()+"). Your answers are safe.");
+}
+function startMonitor(att,quiz){
+  stopMonitor();if(!quiz.controlled)return;
+  var on=quiz.integrity.events,pend=null,H={};MON={aid:att.id,H:H,fs:false};
+  function ev(t){if(on[t])logEvent(att,quiz,t)}
+  H.vis=function(){if(document.hidden){clearTimeout(pend);ev("tab_switch")}};
+  H.blur=function(){clearTimeout(pend);pend=setTimeout(function(){if(!document.hidden)ev("focus_loss")},350)};
+  H.fs=function(){if(document.fullscreenElement)MON.fs=true;else if(MON&&MON.fs){MON.fs=false;ev("fullscreen_exit")}};
+  H.ctx=function(e){e.preventDefault();ev("context_menu")};
+  H.clip=function(e){e.preventDefault();ev("clipboard")};
+  H.drop=function(e){e.preventDefault();ev("drop")};
+  H.key=function(e){
+    var k=(e.key||"").toLowerCase(),m=e.ctrlKey||e.metaKey;
+    if(m&&(k==="c"||k==="v"||k==="x")){e.preventDefault();ev("clipboard")}
+    else if((m&&(k==="p"||k==="s"||k==="u"))||(m&&e.shiftKey&&(k==="i"||k==="j"||k==="c"))||k==="f12"||k==="printscreen"){e.preventDefault();ev("shortcut")}
+  };
+  document.addEventListener("visibilitychange",H.vis);window.addEventListener("blur",H.blur);document.addEventListener("fullscreenchange",H.fs);
+  document.addEventListener("contextmenu",H.ctx,true);["copy","cut","paste"].forEach(function(t){document.addEventListener(t,H.clip,true)});
+  document.addEventListener("drop",H.drop,true);document.addEventListener("keydown",H.key,true);
+}
+function stopMonitor(){
+  if(!MON)return;var H=MON.H;
+  document.removeEventListener("visibilitychange",H.vis);window.removeEventListener("blur",H.blur);document.removeEventListener("fullscreenchange",H.fs);
+  document.removeEventListener("contextmenu",H.ctx,true);["copy","cut","paste"].forEach(function(t){document.removeEventListener(t,H.clip,true)});
+  document.removeEventListener("drop",H.drop,true);document.removeEventListener("keydown",H.key,true);MON=null;
+}
+
+/* ================= TEACHER ================= */
+function renderTeacher(){
+  var u=me();if(!u)return;
+  $("#t-name").textContent=u.name;
+  var open=DB.attempts.filter(needsReview).length,bd=$("#t-badge");bd.textContent=open;bd.style.display=open?"":"none";
+  $$("#t-app [data-ttab]").forEach(function(b){b.classList.toggle("on",b.dataset.ttab===ui.tTab)});
+  var h={overview:tOverview,quizzes:tQuizzes,results:tResults,review:tReview,sheets:tSheets}[ui.tTab]();
+  $("#t-app-body").innerHTML=h;
+  if(ui.tTab==="sheets"){$("#gs-code").value=GS_CODE;drawLog()}
+}
+function tOverview(){
+  var subs=DB.attempts.filter(isSub),avg=subs.length?Math.round(subs.reduce(function(s,a){return s+a.score/a.total},0)/subs.length*100):0;
+  var open=DB.attempts.filter(needsReview).length,pub=DB.quizzes.filter(function(q){return q.published}).length;
+  var h='<h1 class="j ah">Welcome back, '+esc(me().name.split(" ")[0])+'</h1><p class="mu">Quizzes you publish appear in each student\'s portal straight away. Results and review signals come back here.</p>'+
+   '<div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(200px,1fr))"><div class="c2 stat"><b>'+pub+'</b>Published quizzes</div><div class="c2 stat"><b>'+subs.length+'</b>Submissions</div><div class="c2 stat"><b>'+avg+'%</b>Class average</div><div class="c2 stat"><b style="color:'+(open?'#ba1a1a':'var(--p)')+'">'+open+'</b>Signals awaiting review</div></div>'+
+   '<div class="grid2"><div class="c2"><h3 class="j">Mastery by quiz</h3>';
+  DB.quizzes.forEach(function(q){var s=subs.filter(function(a){return a.quizId===q.id}),p=s.length?Math.round(s.reduce(function(t,a){return t+a.score/a.total},0)/s.length*100):0;
+    h+='<div style="margin:14px 0"><div class="row sb" style="font-size:14px"><b>'+esc(q.title)+'</b><span class="mu">'+(s.length?p+'% · '+s.length+' submitted':'No submissions')+'</span></div><div class="bar2" style="margin-top:6px"><i style="width:'+p+'%"></i></div></div>'});
+  h+='</div><div class="c2"><h3 class="j">Recent submissions</h3>';
+  var rc=subs.slice().sort(function(a,b){return b.submittedAt-a.submittedAt}).slice(0,6);
+  h+=rc.length?rc.map(function(a){var u=userById(a.studentId),q=quizById(a.quizId);return '<div class="row sb" style="padding:8px 0;border-top:1px solid var(--s2);font-size:14px"><span><b>'+esc(u?u.name:"Student")+'</b><br><span class="mu">'+esc(q?q.title:"")+'</span></span><span class="chip ok">'+a.score+'/'+a.total+'</span></div>'}).join(""):'<div class="empty">Nothing yet.</div>';
+  return h+'<div class="note" style="margin-top:14px">Scores and review signals are stored separately. A signal never changes a score.</div></div></div>';
+}
+
+/* ----- quizzes + editor ----- */
+function blankQuiz(){var ev={};Object.keys(DEF_EV).forEach(function(k){ev[k]=true});return {id:"",title:"",subject:"",minutes:0,controlled:false,threshold:3,published:false,events:ev,questions:[mq("",["","","",""],0)]}}
+function quizToEd(q){return {id:q.id,title:q.title,subject:q.subject,minutes:q.minutes,controlled:q.controlled,threshold:thr(q),published:q.published,events:JSON.parse(JSON.stringify(q.integrity.events)),questions:JSON.parse(JSON.stringify(q.questions))}}
+function tQuizzes(){
+  if(ui.editor)return edHTML();
+  var h='<div class="row sb"><div><h1 class="j ah">Quizzes</h1><p class="mu">Create quizzes, choose which ones use controlled mode, and publish them to students.</p></div><button class="btn" data-act="ed-new">New quiz</button></div>';
+  if(!DB.quizzes.length)return h+'<div class="empty">No quizzes yet. Create your first one.</div>';
+  h+='<div class="grid">';
+  DB.quizzes.forEach(function(q){
+    var n=DB.attempts.filter(function(a){return a.quizId===q.id&&isSub(a)}).length;
+    h+='<div class="c2"><div class="row" style="margin-bottom:10px"><span class="chip">'+esc(q.subject||"General")+'</span><span class="chip '+(q.controlled?'wa':'ok')+'">'+(q.controlled?'Controlled mode':'Practice')+'</span><span class="chip '+(q.published?'ok':'')+'">'+(q.published?'Published':'Draft')+'</span></div>'+
+     '<h3 class="j">'+esc(q.title)+'</h3><p class="mu" style="font-size:14px;margin:6px 0 16px">'+q.questions.length+' questions · '+(q.minutes?q.minutes+' min':'no time limit')+' · '+n+' submitted</p>'+
+     '<div class="row"><button class="btn o sm" data-act="ed-edit" data-id="'+q.id+'">Edit</button><button class="btn o sm" data-act="t-pub" data-id="'+q.id+'">'+(q.published?'Unpublish':'Publish')+'</button><button class="btn dg sm" data-act="t-del" data-id="'+q.id+'">Delete</button></div></div>';
+  });
+  return h+'</div>';
+}
+function edHTML(){
+  var e=ui.editor,L="ABCD";
+  var h='<div class="row sb"><h1 class="j ah">'+(e.id?'Edit quiz':'New quiz')+'</h1><button class="btn o sm" data-act="ed-cancel">Back to quizzes</button></div><div id="t-editor"><div class="c2" style="margin-top:20px">'+
+   '<label class="lbl" for="ed-title" style="margin-top:0">Quiz title</label><input id="ed-title" class="fi" data-f="title" value="'+esc(e.title)+'" placeholder="e.g. Fractions and Ratios Check">'+
+   '<div class="row" style="align-items:flex-start;margin-top:4px"><div style="flex:1;min-width:200px"><label class="lbl" for="ed-sub">Subject</label><input id="ed-sub" class="fi" data-f="subject" value="'+esc(e.subject)+'" placeholder="Maths"></div><div style="width:160px"><label class="lbl" for="ed-min">Minutes (0 = no limit)</label><input id="ed-min" class="fi" type="number" min="0" data-f="minutes" value="'+e.minutes+'"></div></div>'+
+   '<label class="row" style="margin-top:18px;font-weight:700"><input type="checkbox" data-f="published"'+(e.published?' checked':'')+' style="width:20px;height:20px;accent-color:var(--p)"> Publish to students</label></div>'+
+   '<div class="c2" style="margin-top:20px"><label class="row" style="font-weight:700"><input type="checkbox" data-f="controlled"'+(e.controlled?' checked':'')+' style="width:20px;height:20px;accent-color:var(--p)"> Use controlled quiz mode for this assessment</label>'+
+   '<p class="mu" style="font-size:14px;margin-top:6px">Use it for graded checks only, not for practice or peer-learning sessions. Students are told what is logged before they begin.</p>'+
+   '<div id="ed-integ" style="display:'+(e.controlled?'':'none')+'"><div class="note wa" style="margin:14px 0"><b>These are review signals, not proof.</b> A browser cannot stop another device, a photographed screen, extensions, assistive tools or system shortcuts. No camera is used, and no event changes a score.</div>'+
+   '<b>Events to log</b><div class="ev-grid">'+Object.keys(EV).map(function(k){return '<label><input type="checkbox" data-ev="'+k+'"'+(e.events[k]?' checked':'')+'><span><b>'+esc(EV[k].l)+'</b><br><span class="mu">'+esc(EV[k].d)+'</span></span></label>'}).join("")+'</div>'+
+   '<label class="lbl" for="ed-thr">Flag for your review after this many logged events</label><input id="ed-thr" class="fi" type="number" min="1" data-f="threshold" value="'+e.threshold+'" style="max-width:160px"></div></div>';
+  e.questions.forEach(function(q,i){
+    h+='<div class="c2" style="margin-top:20px"><div class="row sb"><b>Question '+(i+1)+'</b><span class="row"><select data-q="'+i+'" data-k="type" aria-label="Question type" style="width:auto"><option value="mcq"'+(q.type==="mcq"?' selected':'')+'>Multiple choice</option><option value="short"'+(q.type==="short"?' selected':'')+'>Short answer</option></select><button type="button" class="btn dg sm" data-act="ed-delq" data-i="'+i+'">Remove</button></span></div>'+
+     '<label class="lbl">Question</label><textarea data-q="'+i+'" data-k="text" rows="2">'+esc(q.text)+'</textarea>';
+    if(q.type==="mcq"){h+='<label class="lbl">Options (select the correct one)</label>'+[0,1,2,3].map(function(j){return '<div class="optrow"><input type="radio" name="c'+i+'" data-q="'+i+'" data-k="answer" value="'+j+'"'+(q.answer===j?' checked':'')+' aria-label="Option '+L[j]+' is correct"><input class="fi" type="text" data-q="'+i+'" data-o="'+j+'" value="'+esc(q.options[j]||"")+'" placeholder="Option '+L[j]+'"></div>'}).join("")}
+    else h+='<label class="lbl">Accepted answers (separate alternatives with |)</label><input class="fi" type="text" data-q="'+i+'" data-k="accept" value="'+esc(q.accept||"")+'" placeholder="3/4|0.75">';
+    h+='</div>';
+  });
+  return h+'<div class="row" style="margin-top:20px"><button class="btn o" data-act="ed-addq">Add question</button><button class="btn" data-act="ed-save">Save quiz</button></div><div class="msg" id="ed-msg" role="status" aria-live="polite"></div></div>';
+}
+function collectEd(){
+  var e=ui.editor,r=$("#t-editor");if(!e||!r)return;
+  $$("[data-f]",r).forEach(function(el){var k=el.dataset.f;e[k]=el.type==="checkbox"?el.checked:(k==="minutes"?Math.max(0,parseInt(el.value,10)||0):k==="threshold"?Math.max(1,parseInt(el.value,10)||3):el.value)});
+  $$("[data-ev]",r).forEach(function(el){e.events[el.dataset.ev]=el.checked});
+  $$("[data-q]",r).forEach(function(el){var q=e.questions[+el.dataset.q];if(!q)return;
+    if(el.dataset.k==="type")q.type=el.value;else if(el.dataset.k==="text")q.text=el.value;else if(el.dataset.k==="accept")q.accept=el.value;
+    else if(el.dataset.k==="answer"){if(el.checked)q.answer=+el.value}else if(el.dataset.o!==undefined)q.options[+el.dataset.o]=el.value});
+  e.questions.forEach(function(q){if(q.type==="mcq"&&!q.options)q.options=["","","",""]});
+}
+A["ed-new"]=function(){ui.editor=blankQuiz();renderTeacher()};
+A["ed-edit"]=function(b){var q=quizById(b.dataset.id);if(q){ui.editor=quizToEd(q);renderTeacher()}};
+A["ed-cancel"]=function(){ui.editor=null;renderTeacher()};
+A["ed-addq"]=function(){collectEd();ui.editor.questions.push(mq("",["","","",""],0));renderTeacher()};
+A["ed-delq"]=function(b){collectEd();if(ui.editor.questions.length<2)return toast("A quiz needs at least one question.");ui.editor.questions.splice(+b.dataset.i,1);renderTeacher()};
+A["ed-save"]=function(){
+  collectEd();var e=ui.editor,m=$("#ed-msg");function bad(t){m.className="msg er";m.textContent=t}
+  if(!e.title.trim())return bad("Give the quiz a title.");
+  for(var i=0;i<e.questions.length;i++){var q=e.questions[i];
+    if(!q.text.trim())return bad("Question "+(i+1)+" needs some text.");
+    if(q.type==="mcq"){var filled=q.options.filter(function(o){return o.trim()}).length;
+      if(filled<2)return bad("Question "+(i+1)+" needs at least two options.");
+      if(q.answer==null||!String(q.options[q.answer]||"").trim())return bad("Choose the correct option for question "+(i+1)+".")}
+    else if(!String(q.accept||"").trim())return bad("Add at least one accepted answer for question "+(i+1)+".")}
+  var quiz={id:e.id||uid("q_"),title:e.title.trim(),subject:e.subject.trim()||"General",controlled:e.controlled,minutes:e.minutes,published:e.published,integrity:{events:e.events,threshold:e.threshold},questions:e.questions};
+  var ix=DB.quizzes.findIndex(function(x){return x.id===quiz.id});if(ix>-1)DB.quizzes[ix]=quiz;else DB.quizzes.push(quiz);
+  save();ui.editor=null;renderTeacher();toast("Quiz saved"+(quiz.published?" and visible to students.":". It is a draft until you publish it."));
+};
+A["t-pub"]=function(b){var q=quizById(b.dataset.id);q.published=!q.published;save();renderTeacher();toast(q.published?"Published to students.":"Unpublished.")};
+A["t-del"]=function(b){var q=quizById(b.dataset.id);if(!q||!confirm('Delete "'+q.title+'" and all its attempts and review signals?'))return;
+  DB.quizzes=DB.quizzes.filter(function(x){return x.id!==q.id});DB.attempts=DB.attempts.filter(function(a){return a.quizId!==q.id});DB.logs=DB.logs.filter(function(l){return l.quizId!==q.id});save();renderTeacher()};
+A["t-tab"]=function(b){ui.tTab=b.dataset.ttab;ui.editor=null;renderTeacher()};
+
+/* ----- results (mastery only) ----- */
+function tResults(){
+  var h='<div class="row sb"><div><h1 class="j ah">Results</h1><p class="mu">Academic mastery only. Review signals live in their own tab and never change these scores.</p></div><div class="row"><select id="r-q" data-act="r-filter" style="width:auto" class="fi" aria-label="Filter by quiz"><option value="all">All quizzes</option>'+DB.quizzes.map(function(q){return '<option value="'+q.id+'"'+(ui.rQuiz===q.id?' selected':'')+'>'+esc(q.title)+'</option>'}).join("")+'</select><button class="btn o sm" data-act="dl-results">Download CSV</button></div></div>';
+  var list=DB.attempts.filter(function(a){return isSub(a)&&(ui.rQuiz==="all"||a.quizId===ui.rQuiz)}).sort(function(x,y){return y.submittedAt-x.submittedAt});
+  if(!list.length)return h+'<div class="empty">No submissions yet.</div>';
+  h+='<div class="c2 tw" style="margin-top:20px"><table class="t"><thead><tr><th>Student</th><th>Quiz</th><th>Attempt</th><th>Score</th><th>Submitted</th></tr></thead><tbody>';
+  list.forEach(function(a){var u=userById(a.studentId),q=quizById(a.quizId);if(!q)return;
+    h+='<tr class="clk" data-act="r-open" data-id="'+a.id+'" tabindex="0"><td><b>'+esc(u?u.name:"Student")+'</b></td><td>'+esc(q.title)+'</td><td>'+attNo(a)+'</td><td><span class="chip '+(pct(a.score,a.total)>=60?'ok':'wa')+'">'+a.score+'/'+a.total+' · '+pct(a.score,a.total)+'%</span></td><td>'+fdate(a.submittedAt)+'</td></tr>';
+    if(ui.rvOpen===a.id)h+='<tr><td colspan="5" style="background:var(--s1)">'+qReview(q,a).replace("<details","<details open").replace("See my answers","Answer detail")+'</td></tr>';
+  });
+  return h+'</tbody></table></div>';
+}
+A["r-open"]=function(b){ui.rvOpen=ui.rvOpen===b.dataset.id?null:b.dataset.id;renderTeacher()};
+document.addEventListener("change",function(e){if(e.target.id==="r-q"){ui.rQuiz=e.target.value;renderTeacher()}});
+
+/* ----- review signals ----- */
+function tReview(){
+  var list=DB.attempts.filter(function(a){return attLogs(a.id).length}).sort(function(x,y){
+    var rx=x.review?1:0,ry=y.review?1:0;if(rx!==ry)return rx-ry;var fx=flagged(x)?0:1,fy=flagged(y)?0:1;if(fx!==fy)return fx-fy;return y.startedAt-x.startedAt});
+  var h='<h1 class="j ah">Review signals</h1><p class="mu">Browser events from controlled quizzes. They are prompts to look closer, not evidence of malpractice. Nothing here changes a score or blocks a student.</p>';
+  if(!list.length)return h+'<div class="empty">No review signals. Controlled quizzes will log them here.</div>';
+  h+='<div style="display:grid;gap:24px;margin-top:24px">';
+  list.forEach(function(a){
+    var u=userById(a.studentId),q=quizById(a.quizId);if(!q)return;var logs=attLogs(a.id),fl=flagged(a),st=a.review&&a.review.status;
+    var items=[{ts:a.startedAt,k:"",t:"Quiz started"}];
+    logs.forEach(function(l){items.push({ts:l.ts,k:"ev",t:EV[l.type].l+" (count "+l.count+")"})});
+    (a.history||[]).forEach(function(x){items.push({ts:x.ts,k:"",t:"Saved answer to Q"+(x.qi+1)})});
+    if(a.submittedAt)items.push({ts:a.submittedAt,k:"",t:"Submitted ("+a.score+"/"+a.total+")"});
+    items.sort(function(x,y){return x.ts-y.ts});
+    h+='<div class="c2"><div class="row sb"><div><h3 class="j">'+esc(u?u.name:"Student")+' · '+esc(q.title)+'</h3><span class="mu" style="font-size:14px">Attempt '+attNo(a)+' · '+fdate(a.startedAt)+'</span></div><div class="row">'+
+      '<span class="chip '+(fl&&!a.review?'bad':'')+'">'+logs.length+' review signal'+(logs.length>1?'s':'')+' · flag at '+thr(q)+'</span>'+
+      (st?'<span class="chip ok">'+({dismissed:"Dismissed",retake:"Retake offered",policy:"Following school policy"}[st])+'</span>':(fl?'<span class="chip wa">Needs your review</span>':'<span class="chip">Below threshold</span>'))+'</div></div>'+
+      '<div class="tl">'+items.map(function(i){return '<div class="'+i.k+'">'+(i.ts>=a.startedAt?mmss(i.ts-a.startedAt):"")+' · '+esc(i.t)+'</div>'}).join("")+'</div>';
+    if(a.appeal)h+='<div class="note" style="margin-top:12px"><b>Student note</b> ('+fdate(a.appeal.ts)+'): '+esc(a.appeal.text)+'</div>';
+    h+='<label class="lbl" for="note-'+a.id+'">Your private note</label><textarea id="note-'+a.id+'" rows="2" placeholder="Context you considered, for your own records.">'+esc(a.review?a.review.note:"")+'</textarea>'+
+      '<div class="row" style="margin-top:12px"><button class="btn o sm" data-act="t-review" data-id="'+a.id+'" data-s="dismissed">Dismiss</button><button class="btn o sm" data-act="t-review" data-id="'+a.id+'" data-s="retake">Offer a retake</button><button class="btn o sm" data-act="t-review" data-id="'+a.id+'" data-s="policy">Follow school policy</button>'+(a.review?'<button class="btn sm" data-act="t-reopen" data-id="'+a.id+'">Reopen</button>':'')+'</div></div>';
+  });
+  return h+'</div>';
+}
+A["t-review"]=function(b){var a=attById(b.dataset.id),n=$("#note-"+b.dataset.id);a.review={status:b.dataset.s,note:n?n.value.trim():"",ts:Date.now()};save();renderTeacher();toast("Review recorded. The score was not changed.")};
+A["t-reopen"]=function(b){attById(b.dataset.id).review=null;save();renderTeacher()};
+
+/* ================= GOOGLE SHEETS + CSV ================= */
+function csvCell(v){v=v==null?"":String(v);return /[",\n\r]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v}
+function toCSV(rows){return rows.map(function(r){return r.map(csvCell).join(",")}).join("\r\n")}
+function parseCSV(t){
+  var rows=[],r=[],c="",q=false,i=0;t=String(t).replace(/^\uFEFF/,"");
+  for(;i<t.length;i++){var ch=t[i];
+    if(q){if(ch==='"'){if(t[i+1]==='"'){c+='"';i++}else q=false}else c+=ch}
+    else if(ch==='"')q=true;else if(ch===","){r.push(c);c=""}
+    else if(ch==="\n"||ch==="\r"){if(ch==="\r"&&t[i+1]==="\n")i++;r.push(c);rows.push(r);r=[];c=""}
+    else c+=ch}
+  if(c!==""||r.length){r.push(c);rows.push(r)}
+  return rows.filter(function(x){return x.some(function(v){return String(v).trim()!==""})});
+}
+function download(name,text){var b=new Blob([text],{type:"text/csv"}),a=document.createElement("a");a.href=URL.createObjectURL(b);a.download=name;document.body.appendChild(a);a.click();setTimeout(function(){URL.revokeObjectURL(a.href);a.remove()},500)}
+function padRows(rows){var w=0;rows.forEach(function(r){w=Math.max(w,r.length)});return rows.map(function(r){r=r.slice();while(r.length<w)r.push("");return r})}
+function resultsRows(){
+  var rows=[["Quiz ID","Quiz","Subject","Student ID","Student","Email","Attempt","Score","Total","Percent","Submitted"]];
+  DB.attempts.filter(isSub).forEach(function(a){var q=quizById(a.quizId),u=userById(a.studentId)||{};
+    rows.push([a.quizId,q?q.title:"",q?q.subject:"",a.studentId,u.name||"",u.email||"",attNo(a),a.score,a.total,pct(a.score,a.total),new Date(a.submittedAt).toISOString()])});
+  return rows;
+}
+function signalRows(){
+  var rows=[["Assessment ID","Attempt ID","Student ID","Event type","Timestamp","Count in attempt","Review status"]];
+  DB.logs.forEach(function(l){var a=attById(l.attemptId);rows.push([l.quizId,l.attemptId,l.studentId,l.type,new Date(l.ts).toISOString(),l.count,a&&a.review?a.review.status:"open"])});
+  return rows;
+}
+function quizRows(){
+  var rows=[["quiz_id","title","subject","controlled","minutes","threshold","events","published","q_no","type","question","option_a","option_b","option_c","option_d","answer"]];
+  DB.quizzes.forEach(function(q){var ev=Object.keys(q.integrity.events).filter(function(k){return q.integrity.events[k]}).join(",");
+    q.questions.forEach(function(x,i){rows.push([q.id,q.title,q.subject,q.controlled?"TRUE":"FALSE",q.minutes,thr(q),ev,q.published?"TRUE":"FALSE",i+1,x.type,x.text,x.options[0]||"",x.options[1]||"",x.options[2]||"",x.options[3]||"",x.type==="short"?x.accept:("ABCD"[x.answer]||"")])})});
+  return rows;
+}
+function rowsToQuizzes(rows){
+  if(!rows||rows.length<2)return [];
+  var hd=rows[0].map(function(h){return String(h).trim().toLowerCase().replace(/[^a-z0-9]+/g,"_")}),map={},order=[];
+  rows.slice(1).forEach(function(r){
+    function g(n){var k=hd.indexOf(n);return k>-1&&r[k]!=null?String(r[k]).trim():""}
+    if(!g("question"))return;var key=g("quiz_id")||g("title");if(!key)return;
+    if(!map[key]){
+      var ev={};Object.keys(DEF_EV).forEach(function(k){ev[k]=false});var es=g("events");
+      if(es)es.split(",").forEach(function(s){s=s.trim();if(s in ev)ev[s]=true});else Object.keys(ev).forEach(function(k){ev[k]=true});
+      map[key]={id:g("quiz_id")||"q_"+key.toLowerCase().replace(/[^a-z0-9]+/g,"_"),title:g("title")||key,subject:g("subject")||"General",controlled:/^(true|yes|1)$/i.test(g("controlled")),minutes:parseInt(g("minutes"),10)||0,
+        integrity:{events:ev,threshold:Math.max(1,parseInt(g("threshold"),10)||3)},published:/^(true|yes|1)$/i.test(g("published")),questions:[]};order.push(key)}
+    var type=g("type").toLowerCase()==="short"?"short":"mcq",q={type:type,text:g("question"),options:[g("option_a"),g("option_b"),g("option_c"),g("option_d")],answer:null,accept:""};
+    if(type==="short")q.accept=g("answer");else{var an=g("answer").toUpperCase();q.answer=an.length===1&&"ABCD".indexOf(an)>-1?"ABCD".indexOf(an):null}
+    map[key].questions.push(q);
+  });
+  return order.map(function(k){return map[k]}).filter(function(q){return q.questions.length});
+}
+function mergeQuizzes(list){
+  var added=0,upd=0;list.forEach(function(q){var ix=DB.quizzes.findIndex(function(x){return x.id===q.id});if(ix>-1){DB.quizzes[ix]=q;upd++}else{DB.quizzes.push(q);added++}});
+  save();return {added:added,updated:upd};
+}
+async function callScript(payload,isGet){
+  if(!CFG.url)throw new Error("Add your Apps Script URL first.");
+  if(isGet){var r=await fetch(CFG.url+"?"+new URLSearchParams(Object.assign({token:CFG.token},payload)));return r.json()}
+  payload.token=CFG.token;
+  try{var r2=await fetch(CFG.url,{method:"POST",body:JSON.stringify(payload)});return await r2.json()}
+  catch(e){await fetch(CFG.url,{method:"POST",mode:"no-cors",body:JSON.stringify(payload)});return {ok:true,unconfirmed:true}}
+}
+function slog(t,k){ui.slog.push({t:ftime(Date.now())+"  "+t,k:k||""});if(ui.slog.length>60)ui.slog.shift();drawLog()}
+function drawLog(){var el=$("#slog");if(el){el.innerHTML=ui.slog.length?ui.slog.map(function(x){return '<div class="'+x.k+'">'+esc(x.t)+'</div>'}).join(""):"Nothing synced yet.";el.scrollTop=el.scrollHeight}}
+async function pushSheet(name,rows,label,quiet){
+  try{var r=await callScript({action:"exportSheet",name:name,rows:padRows(rows)});
+    if(r&&r.ok===false)throw new Error(r.error||"The script refused the request.");
+    slog(label+": "+(r.unconfirmed?"sent, but the browser could not confirm it. Check the sheet.":(rows.length-1)+" rows written to the \""+name+"\" tab."),r.unconfirmed?"":"g");if(!quiet)toast(label+" exported.")}
+  catch(e){slog(label+" failed: "+e.message+". Check the URL, deployment access and token.","e");if(!quiet)toast("Export failed. See the sync log.")}
+}
+function exportResults(quiet){return pushSheet("Results",resultsRows(),"Results",quiet)}
+function tSheets(){
+  return '<h1 class="j ah">Google Sheets</h1><p class="mu">Export results and review signals to a sheet, and import quizzes from one. Review signals go to their own tab and contain no names.</p>'+
+  '<div class="grid2"><div class="c2"><h3 class="j">Connection</h3><label class="lbl" for="cf-url" style="margin-top:0">Apps Script web app URL</label><input id="cf-url" class="fi" value="'+esc(CFG.url)+'"><label class="lbl" for="cf-token">Shared token (optional, must match <code>TOKEN</code> in the script)</label><input id="cf-token" class="fi" type="password" value="'+esc(CFG.token)+'" autocomplete="off">'+
+   '<label class="row" style="margin-top:14px;font-weight:600"><input type="checkbox" id="cf-auto" style="width:20px;height:20px;accent-color:var(--p)"'+(CFG.auto?' checked':'')+'> Export the results tab each time a student submits</label><button class="btn sm" style="margin-top:14px" data-act="cf-save">Save connection</button></div>'+
+   '<div class="c2"><h3 class="j">Export to Google Sheets</h3><p class="mu" style="font-size:14px;margin-bottom:12px">Each export replaces the tab with a fresh snapshot, so repeating it never creates duplicates.</p><div class="row"><button class="btn sm" data-act="ex-results">Results</button><button class="btn sm" data-act="ex-signals">Review signals</button><button class="btn sm" data-act="ex-quizzes">Quizzes</button></div><p class="mu" style="font-size:14px;margin:16px 0 8px">Or download as CSV</p><div class="row"><button class="btn o sm" data-act="dl-results">Results CSV</button><button class="btn o sm" data-act="dl-signals">Signals CSV</button><button class="btn o sm" data-act="dl-quizzes">Quizzes CSV</button></div></div>'+
+   '<div class="c2"><h3 class="j">Import quizzes</h3><p class="mu" style="font-size:14px;margin-bottom:12px">Reads the <b>Quizzes</b> tab (same columns as the export). Quizzes with a matching quiz_id are updated, the rest are added. Imported quizzes stay drafts unless the published column says TRUE.</p><button class="btn sm" data-act="im-sheet">Import from Google Sheet</button><label class="lbl">Or import a CSV file</label><input type="file" id="im-file" accept=".csv,text/csv" class="fi"></div>'+
+   '<div class="c2"><h3 class="j">Sync log</h3><div id="slog" class="slog" aria-live="polite"></div></div></div>'+
+   '<div class="c2" style="margin-top:24px"><h3 class="j">Set up the bridge (about 3 minutes)</h3><ol style="margin:0 0 12px 20px;font-size:14px"><li>Open your Google Sheet, then Extensions, then Apps Script.</li><li>Paste the code below and save.</li><li>Deploy, New deployment, Web app. Execute as <b>Me</b>, access <b>Anyone</b>.</li><li>Copy the <code>/exec</code> URL into the box above and save.</li></ol>'+
+   '<textarea id="gs-code" readonly rows="14" style="font-family:ui-monospace,Consolas,monospace;font-size:12px" aria-label="Apps Script code"></textarea><button class="btn o sm" style="margin-top:10px" data-act="gs-copy">Copy code</button>'+
+   '<div class="note" style="margin-top:14px">Why not a service-account key? A private key must never sit in a web page that students can open. This script runs under your Google account on Google\'s servers, so no key ever reaches a browser. If you later add a real backend, a service account belongs there.</div></div>';
+}
+A["cf-save"]=function(){CFG.url=$("#cf-url").value.trim();CFG.token=$("#cf-token").value;CFG.auto=$("#cf-auto").checked;lset(CFG_KEY,CFG);slog("Connection saved.","g");toast("Connection saved.")};
+A["ex-results"]=function(){exportResults(false)};
+A["ex-signals"]=function(){pushSheet("ReviewSignals",signalRows(),"Review signals")};
+A["ex-quizzes"]=function(){pushSheet("Quizzes",quizRows(),"Quizzes")};
+A["dl-results"]=function(){download("learn-loop-results.csv",toCSV(resultsRows()))};
+A["dl-signals"]=function(){download("learn-loop-review-signals.csv",toCSV(signalRows()))};
+A["dl-quizzes"]=function(){download("learn-loop-quizzes.csv",toCSV(quizRows()))};
+A["im-sheet"]=async function(){
+  try{var r=await callScript({action:"getSheet",name:"Quizzes"},true);if(!r.ok)throw new Error(r.error||"The script refused the request.");
+    var list=rowsToQuizzes(r.rows);if(!list.length)throw new Error("No valid quiz rows found in the \"Quizzes\" tab.");var m=mergeQuizzes(list);
+    slog("Imported "+m.added+" new and updated "+m.updated+" quiz"+(m.updated===1?"":"zes")+" from the sheet.","g");toast("Quizzes imported.")}
+  catch(e){slog("Import failed: "+e.message,"e");toast("Import failed. See the sync log.")}
+};
+document.addEventListener("change",async function(e){
+  if(e.target.id!=="im-file"||!e.target.files[0])return;
+  try{var list=rowsToQuizzes(parseCSV(await e.target.files[0].text()));if(!list.length)throw new Error("No valid quiz rows found. Check the column names.");var m=mergeQuizzes(list);slog("CSV import: "+m.added+" new, "+m.updated+" updated.","g");toast("Quizzes imported.")}
+  catch(x){slog("CSV import failed: "+x.message,"e");toast("Import failed. See the sync log.")}
+  e.target.value="";
+});
+A["gs-copy"]=function(){var t=$("#gs-code");t.select();try{navigator.clipboard.writeText(GS_CODE).then(function(){toast("Code copied.")},function(){document.execCommand("copy");toast("Code copied.")})}catch(x){document.execCommand("copy");toast("Code copied.")}};
+
+/* ---------- misc wiring ---------- */
+document.addEventListener("keydown",function(e){if((e.key==="Enter"||e.key===" ")&&e.target.matches("tr[data-act]")){e.preventDefault();A[e.target.dataset.act](e.target)}});
+window.addEventListener("storage",function(e){
+  if(e.key!==DB_KEY||!e.newValue||!READY)return;
+  try{DB=JSON.parse(e.newValue)}catch(x){return}
+  var f=document.activeElement;if(f&&/TEXTAREA|INPUT|SELECT/.test(f.tagName))return;
+  if(location.hash==="#s-app")renderStudent();
+  if(location.hash==="#t-app"&&["overview","results","review"].indexOf(ui.tTab)>-1)renderTeacher();
+});
+var READY_P=(async function(){await seed();loadCfg();await restore();READY=true;route()})();
+})();
+
+</script>
+</body>
+</html>
