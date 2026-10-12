@@ -139,30 +139,69 @@ footer { text-align:center; padding:25px; color:var(--muted); }
 let cameraStream = null;
 let screenStream = null;
 
+
 document.getElementById("quizForm").addEventListener("submit", function(event) {
   event.preventDefault();
+
   const answers = new FormData(this);
+  const topics = {
+    q1: {
+      name: "HTML",
+      advice: "Revise HTML tags, headings, links and page structure."
+    },
+    q2: {
+      name: "CSS",
+      advice: "Practise selectors, colours, spacing and page layouts."
+    },
+    q3: {
+      name: "JavaScript",
+      advice: "Revise variables, functions and interactive events."
+    }
+  };
+
   let score = 0;
-  let answered = 0;
-  for (const question of ["q1", "q2", "q3"]) {
-    if (answers.has(question)) {
-      answered++;
-      score += Number(answers.get(question));
+  const weakTopics = [];
+  const missing = [];
+
+  for (const [question, topic] of Object.entries(topics)) {
+    if (!answers.has(question)) {
+      missing.push(topic.name);
+      continue;
+    }
+
+    if (answers.get(question) === "1") {
+      score++;
+    } else {
+      weakTopics.push(topic);
     }
   }
+
   const result = document.getElementById("result");
   const feedback = document.getElementById("feedback");
-  if (answered < 3) {
+
+  if (missing.length > 0) {
     result.textContent = "Please answer all 3 questions first.";
     feedback.textContent = "";
     return;
   }
+
   result.textContent = `Your score: ${score}/3`;
-  feedback.textContent = score === 3
-    ? "Great work! Try a harder quiz next."
-    : "Review the topics you missed, then practise again.";
+
+  if (weakTopics.length === 0) {
+    feedback.textContent =
+      "Excellent! You answered every question correctly. Try a harder quiz next.";
+  } else {
+    feedback.textContent =
+      "Topics to practise: " +
+      weakTopics.map(topic => topic.name).join(", ") +
+      ". Recommended revision: " +
+      weakTopics.map(topic => topic.advice).join(" ");
+  }
+
+  logEvent(`Quiz completed. Score: ${score}/3`);
 });
 
+  
 async function startCamera() {
   try {
     cameraStream = await navigator.mediaDevices.getUserMedia({
