@@ -1,0 +1,190 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LearnLoop | Phone Camera</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 24px;
+      background: #0b1020;
+      color: #f3f6ff;
+      font-family: Arial, sans-serif;
+    }
+    main {
+      max-width: 520px;
+      margin: auto;
+    }
+    section {
+      background: #151d32;
+      border: 1px solid #293550;
+      border-radius: 14px;
+      padding: 18px;
+      margin-top: 18px;
+    }
+    input, button {
+      box-sizing: border-box;
+      width: 100%;
+      padding: 12px;
+      margin-top: 10px;
+      border-radius: 8px;
+      font-size: 16px;
+    }
+    input {
+      background: #0b1020;
+      color: white;
+      border: 1px solid #52617e;
+    }
+    button {
+      background: #8b7cff;
+      color: white;
+      border: 0;
+      font-weight: bold;
+    }
+    button:disabled {
+      opacity: 0.5;
+    }
+    video {
+      width: 100%;
+      max-height: 360px;
+      background: #080b13;
+      border-radius: 10px;
+      margin-top: 12px;
+    }
+    #status {
+      overflow-wrap: anywhere;
+      color: #51dfad;
+    }
+  </style>
+</head>
+<body>
+<main>
+  <h1>📱 LearnLoop Camera 2</h1>
+  <p>
+    Use this page on the phone whose camera you want to share
+    with the laptop exam dashboard.
+  </p>
+
+  <section>
+    <label for="laptopId">Laptop session ID</label>
+    <input id="laptopId"
+      placeholder="Paste the ID shown on your laptop">
+
+    <button id="connectButton" onclick="connectCamera()">
+      Start camera and connect
+    </button>
+
+    <button onclick="stopCamera()">
+      Stop camera
+    </button>
+
+    <video id="localVideo"
+      autoplay muted playsinline></video>
+
+    <p id="status" role="status">
+      Waiting for laptop session ID.
+    </p>
+  </section>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/peerjs@1.5.4/dist/peerjs.min.js"></script>
+<script>
+let peer = null;
+let phoneStream = null;
+let phoneCall = null;
+
+async function connectCamera() {
+  const status = document.getElementById("status");
+  const laptopId =
+    document.getElementById("laptopId").value.trim();
+
+  if (!laptopId) {
+    status.textContent = "Enter the laptop session ID first.";
+    return;
+  }
+
+  if (typeof Peer === "undefined") {
+    status.textContent =
+      "Connection library did not load. Check your internet.";
+    return;
+  }
+
+  document.getElementById("connectButton").disabled = true;
+
+  try {
+    status.textContent = "Requesting camera permission...";
+
+    phoneStream =
+      await navigator.mediaDevices.getUserMedia({
+        video: { facingMode: { ideal: "environment" } },
+        audio: false
+      });
+
+    document.getElementById("localVideo").srcObject =
+      phoneStream;
+
+    peer = new Peer();
+
+    peer.on("open", function() {
+      status.textContent = "Connecting to laptop...";
+
+      phoneCall = peer.call(laptopId, phoneStream);
+
+      if (!phoneCall) {
+        status.textContent =
+          "Could not start connection. Try again.";
+        stopCamera();
+        return;
+      }
+
+      phoneCall.on("error", function(error) {
+        status.textContent =
+          "Connection error: " + error.type;
+      });
+
+      phoneCall.on("close", function() {
+        status.textContent = "Laptop connection closed.";
+      });
+
+      status.textContent =
+        "Camera is on. Check the laptop dashboard for the feed.";
+    });
+
+    peer.on("error", function(error) {
+      status.textContent =
+        "Connection error: " + error.type;
+      document.getElementById("connectButton").disabled = false;
+    });
+
+  } catch (error) {
+    status.textContent =
+      "Could not start camera: " + error.message;
+    stopCamera();
+  }
+}
+
+function stopCamera() {
+  if (phoneCall) {
+    phoneCall.close();
+    phoneCall = null;
+  }
+
+  if (phoneStream) {
+    phoneStream.getTracks().forEach(track => track.stop());
+    phoneStream = null;
+  }
+
+  if (peer) {
+    peer.destroy();
+    peer = null;
+  }
+
+  document.getElementById("localVideo").srcObject = null;
+  document.getElementById("connectButton").disabled = false;
+  document.getElementById("status").textContent = "Camera is off.";
+}
+</script>
+</body>
+</html>
