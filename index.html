@@ -1,0 +1,221 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LearnLoop | Digital Syndicate</title>
+<style>
+:root {
+  --bg:#0b1020; --panel:#151d32; --line:#293550;
+  --text:#f3f6ff; --muted:#aab5ce;
+  --accent:#8b7cff; --green:#51dfad;
+}
+* { box-sizing:border-box; }
+body {
+  margin:0; background:var(--bg); color:var(--text);
+  font-family:Arial,sans-serif; line-height:1.55;
+}
+header {
+  display:flex; justify-content:space-between; align-items:center;
+  padding:18px 6%; border-bottom:1px solid var(--line);
+}
+.logo { font-size:22px; font-weight:bold; }
+.logo span { color:var(--accent); }
+.tag { color:var(--green); font-size:13px; }
+main { max-width:1100px; margin:auto; padding:28px 18px; }
+h1 { font-size:clamp(28px,5vw,42px); margin-bottom:8px; }
+p { color:var(--muted); }
+.grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:18px; }
+.panel {
+  background:var(--panel); border:1px solid var(--line);
+  border-radius:16px; padding:20px; margin:18px 0;
+}
+button {
+  background:var(--accent); color:white; border:0; border-radius:9px;
+  padding:11px 15px; margin:5px 4px 5px 0;
+  cursor:pointer; font-weight:bold;
+}
+button.secondary { background:#28344e; }
+button:focus-visible { outline:3px solid white; outline-offset:3px; }
+video {
+  width:100%; background:#080b13; border-radius:10px;
+  min-height:160px; max-height:300px; object-fit:contain;
+}
+.status { color:var(--green); font-size:14px; }
+.question { border-top:1px solid var(--line); padding:14px 0; }
+label { display:block; padding:5px 0; cursor:pointer; }
+input[type=radio] { margin-right:8px; }
+#result { font-weight:bold; color:var(--green); }
+footer { text-align:center; padding:25px; color:var(--muted); }
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">Learn<span>Loop</span> 📚</div>
+  <div class="tag">DIGITAL SYNDICATE</div>
+</header>
+
+<main>
+  <p class="tag">SMART EDUCATION • HACKATHON PROTOTYPE</p>
+  <h1>Learn smarter. Improve every day.</h1>
+  <p>Discover learning gaps, practise difficult concepts and support fair online assessments.</p>
+
+  <section class="grid">
+    <div class="panel">
+      <h2>📚 Learning assessment</h2>
+      <p>Take a short quiz and discover which topics need more practice.</p>
+      <button onclick="document.querySelector('#quiz').scrollIntoView({behavior:'smooth'})">Start quiz</button>
+    </div>
+    <div class="panel">
+      <h2>🛡️ Exam session</h2>
+      <p>Camera and screen access are optional until you explicitly start them.</p>
+      <div class="status" id="sessionStatus">Session not started</div>
+    </div>
+  </section>
+
+  <section class="panel" id="quiz">
+    <h2>📝 Quick knowledge check</h2>
+    <p>Choose one answer for each question.</p>
+    <form id="quizForm">
+      <div class="question">
+        <strong>1. Which language structures a basic web page?</strong>
+        <label><input type="radio" name="q1" value="0"> Python</label>
+        <label><input type="radio" name="q1" value="1"> HTML</label>
+        <label><input type="radio" name="q1" value="0"> SQL</label>
+      </div>
+      <div class="question">
+        <strong>2. Which technology styles a web page?</strong>
+        <label><input type="radio" name="q2" value="1"> CSS</label>
+        <label><input type="radio" name="q2" value="0"> Git</label>
+        <label><input type="radio" name="q2" value="0"> SQL</label>
+      </div>
+      <div class="question">
+        <strong>3. Which technology adds interactive behaviour?</strong>
+        <label><input type="radio" name="q3" value="0"> HTML alone</label>
+        <label><input type="radio" name="q3" value="0"> CSS alone</label>
+        <label><input type="radio" name="q3" value="1"> JavaScript</label>
+      </div>
+      <button type="submit">Check my answers</button>
+    </form>
+    <p id="result" aria-live="polite"></p>
+    <p id="feedback"></p>
+  </section>
+
+  <section class="panel">
+    <h2>📷 Camera 1 — Laptop webcam</h2>
+    <p>Start the camera only when you are ready and have granted permission.</p>
+    <video id="webcam" autoplay muted playsinline></video><br>
+    <button onclick="startCamera()">Start camera</button>
+    <button class="secondary" onclick="stopCamera()">Stop camera</button>
+    <p class="status" id="cameraStatus" aria-live="polite">Camera is off.</p>
+  </section>
+
+  <section class="panel">
+    <h2>🖥️ Screen sharing</h2>
+    <p>Your browser will ask you to choose which screen, window or tab to share.</p>
+    <video id="screenPreview" autoplay muted playsinline></video><br>
+    <button onclick="startScreen()">Share screen</button>
+    <button class="secondary" onclick="stopScreen()">Stop sharing</button>
+    <p class="status" id="screenStatus" aria-live="polite">Screen sharing is off.</p>
+  </section>
+
+  <section class="panel">
+    <h2>📱 Camera 2 — Phone workspace camera</h2>
+    <p>Planned feature: connect a phone camera to the same exam session over a secure internet connection.</p>
+    <p id="phoneStatus">Phone camera is not connected. Cross-network streaming is not configured in this version.</p>
+  </section>
+
+  <section class="panel">
+    <h2>🔎 Supervisor review</h2>
+    <p>This prototype does not automatically determine whether a student has cheated. Any future alerts must be reviewed fairly by a human.</p>
+    <div id="eventLog">No events recorded.</div>
+  </section>
+</main>
+
+<footer>LearnLoop © Digital Syndicate · Hackathon prototype</footer>
+
+<script>
+let cameraStream = null;
+let screenStream = null;
+
+document.getElementById("quizForm").addEventListener("submit", function(event) {
+  event.preventDefault();
+  const answers = new FormData(this);
+  let score = 0;
+  let answered = 0;
+  for (const question of ["q1", "q2", "q3"]) {
+    if (answers.has(question)) {
+      answered++;
+      score += Number(answers.get(question));
+    }
+  }
+  const result = document.getElementById("result");
+  const feedback = document.getElementById("feedback");
+  if (answered < 3) {
+    result.textContent = "Please answer all 3 questions first.";
+    feedback.textContent = "";
+    return;
+  }
+  result.textContent = `Your score: ${score}/3`;
+  feedback.textContent = score === 3
+    ? "Great work! Try a harder quiz next."
+    : "Review the topics you missed, then practise again.";
+});
+
+async function startCamera() {
+  try {
+    cameraStream = await navigator.mediaDevices.getUserMedia({
+      video: true, audio: false
+    });
+    document.getElementById("webcam").srcObject = cameraStream;
+    document.getElementById("cameraStatus").textContent = "Camera is active.";
+    document.getElementById("sessionStatus").textContent = "Camera session active";
+    logEvent("Camera started with permission.");
+  } catch (error) {
+    document.getElementById("cameraStatus").textContent =
+      "Could not start camera. Check browser permission and HTTPS.";
+  }
+}
+
+function stopCamera() {
+  if (cameraStream) cameraStream.getTracks().forEach(track => track.stop());
+  cameraStream = null;
+  document.getElementById("webcam").srcObject = null;
+  document.getElementById("cameraStatus").textContent = "Camera is off.";
+  logEvent("Camera stopped.");
+}
+
+async function startScreen() {
+  try {
+    screenStream = await navigator.mediaDevices.getDisplayMedia({
+      video: true, audio: false
+    });
+    document.getElementById("screenPreview").srcObject = screenStream;
+    document.getElementById("screenStatus").textContent = "Screen sharing is active.";
+    logEvent("Screen sharing started with permission.");
+    screenStream.getVideoTracks()[0].addEventListener("ended", stopScreen);
+  } catch (error) {
+    document.getElementById("screenStatus").textContent =
+      "Screen sharing cancelled or unavailable.";
+  }
+}
+
+function stopScreen() {
+  if (screenStream) screenStream.getTracks().forEach(track => track.stop());
+  screenStream = null;
+  document.getElementById("screenPreview").srcObject = null;
+  document.getElementById("screenStatus").textContent = "Screen sharing is off.";
+  logEvent("Screen sharing stopped.");
+}
+
+function logEvent(message) {
+  const log = document.getElementById("eventLog");
+  const entry = document.createElement("p");
+  entry.textContent = new Date().toLocaleTimeString() + " — " + message;
+  if (log.textContent === "No events recorded.") log.textContent = "";
+  log.appendChild(entry);
+}
+</script>
+</body>
+</html>
