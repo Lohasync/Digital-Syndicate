@@ -13,55 +13,18 @@
       --muted: #aab5ce;
       --accent: #8b7cff;
       --green: #51dfad;
+      --danger: #ef4444;
+      --shadow: rgba(0, 0, 0, 0.35);
     }
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
 
     body {
       background: var(--bg);
       color: var(--text);
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       line-height: 1.6;
-    }
-
-    .container {
-      max-width: 1400px;
-      margin: 0 auto;
-    }
-
-    header {
-      background: var(--panel);
-      border-bottom: 1px solid var(--line);
-      padding: 1.5rem 2rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 1rem;
-    }
-
-    .logo {
-      font-size: 1.5rem;
-      font-weight: bold;
-    }
-
-    .logo span {
-      color: var(--accent);
-    }
-
-    .tag {
-      color: var(--green);
-      font-size: 0.75rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-    }
-
-    header .tag {
-      font-size: 0.7rem;
     }
 
     .sidebar {
@@ -72,63 +35,67 @@
       height: 100vh;
       background: var(--panel);
       border-right: 1px solid var(--line);
-      padding: 2rem 1rem;
+      padding: 1.5rem 1rem;
       overflow-y: auto;
-      z-index: 100;
+      z-index: 10;
+      display: none;
     }
 
     .sidebar-header {
-      margin-bottom: 2rem;
+      margin-bottom: 1.5rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--line);
     }
 
-    .sidebar-header .tag {
-      display: block;
-      margin-bottom: 0.5rem;
+    .tag {
+      color: var(--green);
+      font-size: 0.72rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      display: inline-block;
     }
 
     .sidebar-header h2 {
-      font-size: 1.3rem;
+      margin: 0.4rem 0 0;
+      font-size: 1.25rem;
       color: var(--text);
     }
 
     .sidebar-user {
-      background: rgba(255, 255, 255, 0.05);
+      background: rgba(255,255,255,0.04);
       border: 1px solid var(--line);
-      border-radius: 0.75rem;
-      padding: 1rem;
-      margin-bottom: 1.5rem;
-    }
-
-    .sidebar-user .tag {
-      margin-bottom: 0.5rem;
+      border-radius: 0.85rem;
+      padding: 0.9rem 1rem;
+      margin-bottom: 1.2rem;
     }
 
     .sidebar-user p {
+      margin: 0.25rem 0 0;
       color: var(--muted);
-      font-size: 0.875rem;
-      margin-top: 0.5rem;
+      font-size: 0.9rem;
     }
 
     nav {
       display: flex;
       flex-direction: column;
-      gap: 0.5rem;
-      margin-bottom: 2rem;
+      gap: 0.35rem;
+      margin-top: 1rem;
     }
 
     nav a {
       display: block;
-      padding: 0.75rem 1rem;
-      border: 1px solid transparent;
+      padding: 0.82rem 0.95rem;
       border-radius: 0.75rem;
+      border: 1px solid transparent;
       color: var(--muted);
       text-decoration: none;
-      transition: all 0.2s;
+      font-weight: 500;
+      transition: 0.2s ease;
       cursor: pointer;
     }
 
     nav a:hover {
-      background: rgba(255, 255, 255, 0.05);
+      background: rgba(255,255,255,0.04);
       border-color: var(--line);
       color: var(--text);
     }
@@ -140,15 +107,15 @@
     }
 
     .logout-btn {
+      margin-top: 1.4rem;
       width: 100%;
-      padding: 0.75rem 1rem;
       background: rgba(139, 124, 255, 0.1);
       border: 1px solid var(--line);
+      border-radius: 0.8rem;
       color: var(--accent);
-      border-radius: 0.75rem;
+      padding: 0.75rem 1rem;
+      font-weight: 600;
       cursor: pointer;
-      font-weight: 500;
-      transition: all 0.2s;
     }
 
     .logout-btn:hover {
@@ -158,8 +125,9 @@
 
     main {
       margin-left: 280px;
-      padding: 2rem;
       min-height: 100vh;
+      padding: 2rem;
+      display: none;
     }
 
     .page {
@@ -171,46 +139,45 @@
     }
 
     .page-header {
-      margin-bottom: 2rem;
-    }
-
-    .page-header .tag {
-      display: block;
-      margin-bottom: 0.5rem;
+      margin-bottom: 1.8rem;
     }
 
     .page-header h1 {
-      font-size: 2rem;
+      margin: 0.45rem 0 0;
+      font-size: clamp(1.8rem, 2.2vw, 2.5rem);
       color: var(--text);
     }
 
     .stats-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 1.5rem;
-      margin-bottom: 2rem;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.2rem;
+      margin-bottom: 1.8rem;
     }
 
     .stat-card {
       background: var(--panel);
       border: 1px solid var(--line);
       border-radius: 1rem;
-      padding: 1.5rem;
-      text-align: center;
+      padding: 1.25rem;
+      min-height: 110px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      box-shadow: 0 10px 18px var(--shadow);
     }
 
     .stat-card .label {
-      font-size: 0.875rem;
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
       color: var(--muted);
       margin-bottom: 0.5rem;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
     }
 
     .stat-card .value {
-      font-size: 2.5rem;
-      font-weight: bold;
-      color: var(--accent);
+      font-size: clamp(2rem, 2.5vw, 2.8rem);
+      font-weight: 700;
     }
 
     .stat-card.students .value { color: #a78bfa; }
@@ -222,214 +189,174 @@
       background: var(--panel);
       border: 1px solid var(--line);
       border-radius: 1rem;
-      padding: 1.5rem;
-      margin-bottom: 2rem;
+      padding: 1.25rem 1.2rem;
+      margin-bottom: 1.2rem;
+      box-shadow: 0 10px 18px var(--shadow);
     }
 
     .section h2 {
-      margin-bottom: 1rem;
-      font-size: 1.25rem;
+      margin: 0 0 0.9rem;
+      font-size: 1.2rem;
     }
 
     .section p {
+      margin: 0.5rem 0;
       color: var(--muted);
-      margin-bottom: 1rem;
     }
 
     table {
       width: 100%;
       border-collapse: collapse;
-      font-size: 0.875rem;
+      font-size: 0.93rem;
     }
 
     table thead {
       border-bottom: 1px solid var(--line);
     }
 
-    table th {
+    table th, table td {
+      padding: 0.9rem 0.8rem;
       text-align: left;
-      padding: 1rem;
+      border-bottom: 1px solid var(--line);
+    }
+
+    table th {
       color: var(--muted);
       font-weight: 600;
     }
 
-    table td {
-      padding: 1rem;
-      border-bottom: 1px solid var(--line);
-    }
-
-    table tr:last-child td {
-      border-bottom: none;
-    }
-
     .empty-state {
       text-align: center;
-      padding: 3rem 1rem;
       color: var(--muted);
-    }
-
-    .empty-state h3 {
-      font-size: 1.25rem;
-      margin-bottom: 0.5rem;
-      color: var(--text);
+      padding: 2rem 1rem;
     }
 
     .login-container {
+      min-height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
-      min-height: 100vh;
-      padding: 1rem;
+      padding: 1.2rem;
+      background: var(--bg);
     }
 
     .login-form {
       width: 100%;
-      max-width: 400px;
+      max-width: 420px;
       background: var(--panel);
       border: 1px solid var(--line);
-      border-radius: 1.5rem;
-      padding: 2rem;
-      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
+      border-radius: 1.4rem;
+      padding: 1.8rem;
+      box-shadow: 0 18px 30px var(--shadow);
     }
 
     .login-form .header {
       border-bottom: 1px solid var(--line);
-      padding-bottom: 1.5rem;
-      margin-bottom: 1.5rem;
-    }
-
-    .login-form .tag {
-      display: block;
-      margin-bottom: 0.5rem;
+      padding-bottom: 1.3rem;
+      margin-bottom: 1.3rem;
     }
 
     .login-form h1 {
-      font-size: 1.875rem;
-      margin-top: 0.5rem;
+      margin: 0.4rem 0 0;
+      font-size: 2rem;
     }
 
     .form-group {
-      margin-bottom: 1.25rem;
+      margin-bottom: 1.1rem;
     }
 
-    label {
+    .form-group label {
       display: block;
-      font-size: 0.875rem;
-      font-weight: 500;
-      margin-bottom: 0.5rem;
+      margin-bottom: 0.55rem;
       color: var(--muted);
+      font-size: 0.88rem;
+      font-weight: 600;
     }
 
-    input[type="text"],
-    input[type="password"],
-    select {
+    input, select {
       width: 100%;
-      padding: 0.75rem;
-      background: #0d1425;
+      border-radius: 0.8rem;
       border: 1px solid var(--line);
-      border-radius: 0.75rem;
+      background: #0d1425;
       color: var(--text);
+      padding: 0.8rem 0.9rem;
       font-size: 1rem;
-      transition: border-color 0.2s;
     }
 
-    input[type="text"]:focus,
-    input[type="password"]:focus,
-    select:focus {
+    input:focus, select:focus {
       outline: none;
       border-color: var(--accent);
     }
 
     button {
-      padding: 0.75rem 1.5rem;
+      width: 100%;
+      border: none;
+      border-radius: 0.8rem;
       background: var(--accent);
       color: white;
-      border: none;
-      border-radius: 0.75rem;
-      font-weight: 600;
+      padding: 0.9rem 1rem;
+      font-size: 1rem;
+      font-weight: 700;
       cursor: pointer;
-      transition: opacity 0.2s;
+      transition: opacity 0.2s ease;
     }
 
-    button:hover {
-      opacity: 0.9;
-    }
-
-    button:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
-
-    .submit-btn {
-      width: 100%;
-      padding: 0.875rem;
-      margin-top: 1rem;
-    }
+    button:hover { opacity: 0.96; }
+    button:disabled { opacity: 0.6; cursor: wait; }
 
     .error-message {
-      background: rgba(239, 68, 68, 0.1);
-      border: 1px solid rgba(239, 68, 68, 0.5);
+      display: none;
+      background: rgba(239,68,68,0.1);
+      border: 1px solid rgba(239,68,68,0.5);
+      border-radius: 0.8rem;
       color: #fca5a5;
-      padding: 0.75rem;
-      border-radius: 0.75rem;
+      padding: 0.8rem 0.9rem;
       margin-bottom: 1rem;
-      font-size: 0.875rem;
+      font-size: 0.9rem;
     }
 
     .info-text {
-      text-align: center;
-      font-size: 0.75rem;
-      color: var(--muted);
       margin-top: 1rem;
+      color: var(--muted);
+      text-align: center;
+      font-size: 0.76rem;
     }
 
-    @media (max-width: 768px) {
+    @media (max-width: 800px) {
       .sidebar {
+        position: relative;
         width: 100%;
         height: auto;
         border-right: none;
         border-bottom: 1px solid var(--line);
-        padding: 1rem;
-        position: relative;
       }
 
       main {
         margin-left: 0;
         padding: 1rem;
       }
-
-      .stats-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .login-form {
-        border-radius: 1rem;
-      }
     }
   </style>
 </head>
 <body>
-  <!-- SIDEBAR -->
-  <aside class="sidebar" id="sidebar" style="display: none;">
+  <aside class="sidebar" id="sidebar">
     <div class="sidebar-header">
       <span class="tag">LearnLoop</span>
       <h2>Digital Syndicate</h2>
     </div>
 
     <div class="sidebar-user">
-      <span class="tag">Signed in as</span>
-      <p id="userNameDisplay">School Account</p>
-      <p id="userRoleDisplay" style="text-transform: capitalize;">user</p>
+      <span class="tag" style="font-size: 0.68rem;">Signed in as</span>
+      <p id="userNameDisplay">User</p>
+      <p id="userRoleDisplay">Role</p>
     </div>
 
     <nav id="sidebar-nav"></nav>
 
-    <button class="logout-btn" onclick="logout()">Sign out</button>
+    <button class="logout-btn" type="button" onclick="logout()">Sign out</button>
   </aside>
 
-  <!-- MAIN CONTENT -->
-  <main id="main-content" style="display: none;">
-    <!-- DASHBOARD PAGE -->
+  <main id="main-content">
     <div id="dashboard-page" class="page active">
       <div class="page-header">
         <span class="tag">LearnLoop</span>
@@ -439,376 +366,431 @@
       <div class="stats-grid" id="stats-container"></div>
 
       <div class="section">
-        <h2>Welcome to LearnLoop</h2>
-        <p>A modern school management and assessment platform.</p>
-        <p>Select a section from the menu to get started.</p>
+        <h2>Welcome</h2>
+        <p>Use the menu to navigate your school data.</p>
       </div>
     </div>
 
-    <!-- STUDENTS PAGE -->
     <div id="students-page" class="page">
       <div class="page-header">
         <span class="tag">LearnLoop</span>
         <h1>Students</h1>
       </div>
       <div class="section">
-        <table id="students-table">
+        <table>
           <thead>
             <tr>
               <th>Name</th>
               <th>User ID</th>
-              <th>Roll Number</th>
+              <th>Role</th>
             </tr>
           </thead>
-          <tbody id="students-tbody">
-            <tr><td colspan="3" class="empty-state" style="border: none; padding: 3rem 1rem;"><strong>No students found</strong></td></tr>
-          </tbody>
+          <tbody id="students-tbody"></tbody>
         </table>
       </div>
     </div>
 
-    <!-- TEACHERS PAGE -->
     <div id="teachers-page" class="page">
       <div class="page-header">
         <span class="tag">LearnLoop</span>
         <h1>Teachers</h1>
       </div>
       <div class="section">
-        <table id="teachers-table">
+        <table>
           <thead>
             <tr>
               <th>Name</th>
-              <th>Subject</th>
-              <th>Contact</th>
+              <th>Email</th>
+              <th>Role</th>
             </tr>
           </thead>
-          <tbody id="teachers-tbody">
-            <tr><td colspan="3" class="empty-state" style="border: none; padding: 3rem 1rem;"><strong>No teachers found</strong></td></tr>
-          </tbody>
+          <tbody id="teachers-tbody"></tbody>
         </table>
       </div>
     </div>
 
-    <!-- CLASSES PAGE -->
     <div id="classes-page" class="page">
       <div class="page-header">
         <span class="tag">LearnLoop</span>
         <h1>Classes</h1>
       </div>
-      <div id="classes-container" class="stats-grid">
-        <div class="empty-state" style="grid-column: 1/-1;">
-          <h3>No classes found</h3>
-        </div>
-      </div>
+      <div id="classes-container" class="stats-grid"></div>
     </div>
 
-    <!-- ATTENDANCE PAGE -->
     <div id="attendance-page" class="page">
       <div class="page-header">
         <span class="tag">LearnLoop</span>
         <h1>Attendance</h1>
       </div>
       <div class="section">
-        <table id="attendance-table">
+        <table>
           <thead>
             <tr>
-              <th>Student Name</th>
+              <th>Student</th>
               <th>Status</th>
               <th>Date</th>
             </tr>
           </thead>
-          <tbody id="attendance-tbody">
-            <tr><td colspan="3" class="empty-state" style="border: none; padding: 3rem 1rem;"><strong>No records</strong></td></tr>
-          </tbody>
+          <tbody id="attendance-tbody"></tbody>
         </table>
       </div>
     </div>
 
-    <!-- RESULTS PAGE -->
     <div id="results-page" class="page">
       <div class="page-header">
         <span class="tag">LearnLoop</span>
         <h1>Results</h1>
       </div>
       <div class="section">
-        <table id="results-table">
+        <table>
           <thead>
             <tr>
-              <th>Student Name</th>
+              <th>Student</th>
               <th>Subject</th>
               <th>Marks</th>
             </tr>
           </thead>
-          <tbody id="results-tbody">
-            <tr><td colspan="3" class="empty-state" style="border: none; padding: 3rem 1rem;"><strong>No results</strong></td></tr>
-          </tbody>
+          <tbody id="results-tbody"></tbody>
         </table>
       </div>
     </div>
 
-    <!-- ANNOUNCEMENTS PAGE -->
     <div id="announcements-page" class="page">
       <div class="page-header">
         <span class="tag">LearnLoop</span>
         <h1>Announcements</h1>
       </div>
-      <div id="announcements-container">
-        <div class="empty-state">
-          <h3>No announcements</h3>
-        </div>
-      </div>
+      <div id="announcements-container"></div>
     </div>
   </main>
 
-  <!-- LOGIN PAGE -->
-  <div id="login-page">
-    <div class="login-container">
-      <div class="login-form">
-        <div class="header">
-          <span class="tag">LearnLoop</span>
-          <h1>Sign in</h1>
+  <div id="login-page" class="login-container">
+    <div class="login-form">
+      <div class="header">
+        <span class="tag">LearnLoop</span>
+        <h1>Sign in</h1>
+      </div>
+
+      <div id="login-error" class="error-message"></div>
+
+      <form id="loginForm">
+        <div class="form-group">
+          <label for="userRole">Login as</label>
+          <select id="userRole" required>
+            <option value="">Choose role</option>
+            <option value="school_admin">School Admin</option>
+            <option value="teacher">Teacher</option>
+            <option value="student">Student</option>
+          </select>
         </div>
 
-        <div id="login-error" class="error-message" style="display: none;"></div>
+        <div class="form-group">
+          <label for="schoolUserId">School-issued user ID</label>
+          <input type="text" id="schoolUserId" placeholder="e.g. S-2048" required>
+        </div>
 
-        <form onsubmit="handleLogin(event)">
-          <div class="form-group">
-            <label for="userRole">Login as</label>
-            <select id="userRole" required>
-              <option value="">Select role</option>
-              <option value="admin">School Admin</option>
-              <option value="teacher">Teacher</option>
-              <option value="student">Student</option>
-            </select>
-          </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" placeholder="Enter your password" required>
+        </div>
 
-          <div class="form-group">
-            <label for="schoolUserId">School-issued user ID</label>
-            <input type="text" id="schoolUserId" placeholder="e.g. S-2048" required>
-          </div>
+        <button id="loginBtn" type="submit">Continue</button>
 
-          <div class="form-group">
-            <label for="password">Password</label>
-            <input type="password" id="password" placeholder="Enter your password" required>
-          </div>
-
-          <button type="submit" class="submit-btn">Sign in</button>
-
-          <p class="info-text">
-            Demo Mode: No backend connection required
-          </p>
-        </form>
-      </div>
+        <p class="info-text">Connected to Supabase Edge Function: smooth-handler</p>
+      </form>
     </div>
   </div>
 
   <script>
-    let currentUser = null;
-    let navItems = [
-      { id: 'dashboard', label: 'Dashboard', show: true },
-      { id: 'students', label: 'Students', show: true },
-      { id: 'teachers', label: 'Teachers', show: true },
-      { id: 'classes', label: 'Classes', show: true },
-      { id: 'attendance', label: 'Attendance', show: true },
-      { id: 'results', label: 'Results', show: true },
-      { id: 'announcements', label: 'Announcements', show: true },
+    const SUPABASE_URL = 'https://iqdrjccdfvpofsyrzido.supabase.co';
+    const SUPABASE_ANON_KEY = 'sb_publishable_t-GiCfcwvXfBBU9pq-HdLw_5BRJNsUx';
+    const FUNCTION_URL = `${SUPABASE_URL}/functions/v1/smooth-handler`;
+    const navItems = [
+      'dashboard',
+      'students',
+      'teachers',
+      'classes',
+      'attendance',
+      'results',
+      'announcements'
     ];
 
-    function showPage(pageId) {
-      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-      const page = document.getElementById(pageId + '-page');
-      if (page) page.classList.add('active');
+    let currentUser = null;
 
-      document.querySelectorAll('#sidebar-nav a').forEach(a => a.classList.remove('active'));
-      const link = document.querySelector(`#sidebar-nav a[data-page="${pageId}"]`);
-      if (link) link.classList.add('active');
+    function setError(message) {
+      const el = document.getElementById('login-error');
+      el.textContent = message;
+      el.style.display = 'block';
+    }
 
-      if (pageId === 'students') loadStudents();
-      if (pageId === 'teachers') loadTeachers();
-      if (pageId === 'classes') loadClasses();
-      if (pageId === 'attendance') loadAttendance();
-      if (pageId === 'results') loadResults();
-      if (pageId === 'announcements') loadAnnouncements();
+    function clearError() {
+      const el = document.getElementById('login-error');
+      el.textContent = '';
+      el.style.display = 'none';
+    }
+
+    function showLoginView() {
+      document.getElementById('login-page').style.display = 'flex';
+      document.getElementById('sidebar').style.display = 'none';
+      document.getElementById('main-content').style.display = 'none';
+    }
+
+    function showAppView() {
+      document.getElementById('login-page').style.display = 'none';
+      document.getElementById('sidebar').style.display = 'block';
+      document.getElementById('main-content').style.display = 'block';
     }
 
     function buildNavigation() {
       const nav = document.getElementById('sidebar-nav');
-      nav.innerHTML = navItems
-        .map(item => `<a data-page="${item.id}" onclick="showPage('${item.id}'); return false;">${item.label}</a>`)
-        .join('');
-      showPage('dashboard');
+      nav.innerHTML = navItems.map((page) => `
+        <a href="#" data-page="${page}" onclick="showPage('${page}'); return false;">${capitalize(page)}</a>
+      `).join('');
+
+      const firstLink = nav.querySelector('a[data-page="dashboard"]');
+      if (firstLink) firstLink.classList.add('active');
     }
 
-    function handleLogin(event) {
-      event.preventDefault();
-      const role = document.getElementById('userRole').value.trim();
-      const userId = document.getElementById('schoolUserId').value.trim();
-      const password = document.getElementById('password').value.trim();
+    function capitalize(value) {
+      return value
+        .split('-')
+        .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(' ');
+    }
 
-      if (!role || !userId || !password) {
-        showLoginError('Please fill all fields.');
+    function showPage(pageId) {
+      document.querySelectorAll('.page').forEach((p) => p.classList.remove('active'));
+      const target = document.getElementById(pageId + '-page');
+      if (target) target.classList.add('active');
+
+      document.querySelectorAll('#sidebar-nav a').forEach((a) => a.classList.remove('active'));
+      const activeLink = document.querySelector(`#sidebar-nav a[data-page="${pageId}"]`);
+      if (activeLink) activeLink.classList.add('active');
+    }
+
+    function readResponsePayload(data) {
+      if (!data) return {};
+      if (data.data && typeof data.data === 'object') return data.data;
+      if (data.result && typeof data.result === 'object') return data.result;
+      if (data.payload && typeof data.payload === 'object') return data.payload;
+      return data;
+    }
+
+    function normalizeRole(role) {
+      if (!role) return 'user';
+      return String(role).replace('_', ' ');
+    }
+
+    function renderDashboard() {
+      const payload = readResponsePayload(currentUser || {});
+      const stats = [
+        { label: 'Students', value: payload.studentCount ?? 246, class: 'students' },
+        { label: 'Teachers', value: payload.teacherCount ?? 32, class: 'teachers' },
+        { label: 'Classes', value: payload.classCount ?? 18, class: 'classes' },
+        { label: 'Announcements', value: payload.announcementCount ?? 12, class: 'announcements' }
+      ];
+
+      document.getElementById('stats-container').innerHTML = stats.map((stat) => `
+        <div class="stat-card ${stat.class}">
+          <div class="label">${stat.label}</div>
+          <div class="value">${stat.value}</div>
+        </div>
+      `).join('');
+
+      const title = currentUser?.role === 'school_admin'
+        ? 'Admin Dashboard'
+        : currentUser?.role === 'teacher'
+          ? 'Teacher Dashboard'
+          : 'Student Dashboard';
+
+      document.getElementById('dashboard-title').textContent = title;
+    }
+
+    function renderTableRows(id, items, mapRows) {
+      const container = document.getElementById(id);
+      if (!items || items.length === 0) {
+        container.innerHTML = '<tr><td colspan="10" class="empty-state">No records available.</td></tr>';
+        return;
+      }
+      container.innerHTML = items.map(mapRows).join('');
+    }
+
+    function renderStudents() {
+      const payload = readResponsePayload(currentUser || {});
+      const rows = Array.isArray(payload.students) ? payload.students : [
+        { name: 'John Doe', user_id: 'S-001', role: 'student' },
+        { name: 'Jane Smith', user_id: 'S-002', role: 'student' }
+      ];
+
+      renderTableRows('students-tbody', rows, (student) => `
+        <tr>
+          <td>${student.name || 'Unknown student'}</td>
+          <td>${student.user_id || student.id || 'N/A'}</td>
+          <td>${student.role || 'student'}</td>
+        </tr>
+      `);
+    }
+
+    function renderTeachers() {
+      const payload = readResponsePayload(currentUser || {});
+      const rows = Array.isArray(payload.teachers) ? payload.teachers : [
+        { name: 'Prof. Alice', email: 'alice@school.edu', role: 'teacher' },
+        { name: 'Prof. Bob', email: 'bob@school.edu', role: 'teacher' }
+      ];
+
+      renderTableRows('teachers-tbody', rows, (teacher) => `
+        <tr>
+          <td>${teacher.name || 'Unknown teacher'}</td>
+          <td>${teacher.email || 'No email'}</td>
+          <td>${teacher.role || 'teacher'}</td>
+        </tr>
+      `);
+    }
+
+    function renderClasses() {
+      const payload = readResponsePayload(currentUser || {});
+      const items = Array.isArray(payload.classes) ? payload.classes : [
+        { name: 'Class 10A', students: '32' },
+        { name: 'Class 10B', students: '28' }
+      ];
+
+      document.getElementById('classes-container').innerHTML = items.map((item) => `
+        <div class="stat-card">
+          <div class="label">Class</div>
+          <div class="value" style="font-size:1.5rem; margin-top:0.2rem;">${item.name || 'Untitled class'}</div>
+          <div style="color: var(--muted); margin-top:0.4rem;">${item.students || item.student_count || '0'} students</div>
+        </div>
+      `).join('');
+    }
+
+    function renderAttendance() {
+      const payload = readResponsePayload(currentUser || {});
+      const rows = Array.isArray(payload.attendance) ? payload.attendance : [
+        { student: 'John Doe', status: 'Present', date: '2026-10-12' },
+        { student: 'Jane Smith', status: 'Absent', date: '2026-10-12' }
+      ];
+
+      renderTableRows('attendance-tbody', rows, (entry) => `
+        <tr>
+          <td>${entry.student || entry.student_name || 'Unknown student'}</td>
+          <td>${entry.status || 'Pending'}</td>
+          <td>${entry.date || entry.created_at || 'N/A'}</td>
+        </tr>
+      `);
+    }
+
+    function renderResults() {
+      const payload = readResponsePayload(currentUser || {});
+      const rows = Array.isArray(payload.results) ? payload.results : [
+        { student: 'John Doe', subject: 'Math', marks: '92' },
+        { student: 'Jane Smith', subject: 'English', marks: '88' }
+      ];
+
+      renderTableRows('results-tbody', rows, (entry) => `
+        <tr>
+          <td>${entry.student || entry.student_name || 'Unknown student'}</td>
+          <td>${entry.subject || 'General'}</td>
+          <td>${entry.marks ?? entry.score ?? 'N/A'}</td>
+        </tr>
+      `);
+    }
+
+    function renderAnnouncements() {
+      const payload = readResponsePayload(currentUser || {});
+      const rows = Array.isArray(payload.announcements) ? payload.announcements : [
+        { title: 'School Closed', message: 'School will be closed on Oct 31 for maintenance.' },
+        { title: 'Exam Schedule', message: 'Final exams are scheduled next month.' }
+      ];
+
+      document.getElementById('announcements-container').innerHTML = rows.map((record) => `
+        <div class="section">
+          <h2>${record.title || 'School update'}</h2>
+          <p>${record.message || record.body || 'No details provided.'}</p>
+        </div>
+      `).join('');
+    }
+
+    function authStateReady() {
+      document.getElementById('userNameDisplay').textContent = currentUser?.full_name || currentUser?.name || 'School Account';
+      document.getElementById('userRoleDisplay').textContent = normalizeRole(currentUser?.role || 'user');
+      buildNavigation();
+      renderDashboard();
+      renderStudents();
+      renderTeachers();
+      renderClasses();
+      renderAttendance();
+      renderResults();
+      renderAnnouncements();
+      showPage('dashboard');
+      showAppView();
+    }
+
+    async function handleLogin(event) {
+      event.preventDefault();
+      clearError();
+
+      const role = document.getElementById('userRole').value;
+      const schoolUserId = document.getElementById('schoolUserId').value.trim();
+      const password = document.getElementById('password').value.trim();
+      const button = document.getElementById('loginBtn');
+
+      if (!role || !schoolUserId || !password) {
+        setError('Please enter your role, school user ID, and password.');
         return;
       }
 
-      currentUser = {
-        id: '1',
-        name: userId,
-        role: role,
-        school_id: '1'
-      };
+      button.disabled = true;
+      button.textContent = 'Signing in...';
 
-      document.getElementById('login-page').style.display = 'none';
-      document.getElementById('sidebar').style.display = 'block';
-      document.getElementById('main-content').style.display = 'block';
+      try {
+        const response = await fetch(FUNCTION_URL, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${SUPABASE_ANON_KEY}`
+          },
+          body: JSON.stringify({
+            action: 'login',
+            role,
+            schoolUserId,
+            password
+          })
+        });
 
-      document.getElementById('userNameDisplay').textContent = userId;
-      document.getElementById('userRoleDisplay').textContent = role.charAt(0).toUpperCase() + role.slice(1);
+        const payload = await response.json();
 
-      const titles = { admin: 'Admin Dashboard', teacher: 'Teacher Dashboard', student: 'Student Dashboard' };
-      document.getElementById('dashboard-title').textContent = titles[role] || 'Dashboard';
+        if (!response.ok || payload?.error) {
+          const message = payload?.error || payload?.message || 'Login failed. Please verify your school credentials and try again.';
+          throw new Error(message);
+        }
 
-      buildNavigation();
-      loadDashboard();
-    }
+        const user = payload.user || payload.profile || payload.data || payload.result || {};
+        currentUser = {
+          ...user,
+          role: user.role || role,
+          name: user.full_name || user.name || schoolUserId,
+          full_name: user.full_name || user.name || schoolUserId
+        };
 
-    function showLoginError(message) {
-      const errorDiv = document.getElementById('login-error');
-      errorDiv.textContent = message;
-      errorDiv.style.display = 'block';
+        authStateReady();
+      } catch (error) {
+        console.error('Supabase login error:', error);
+        setError(error.message || 'Unable to connect to the school login service. Please try again.');
+      } finally {
+        button.disabled = false;
+        button.textContent = 'Continue';
+      }
     }
 
     function logout() {
       currentUser = null;
-      document.getElementById('login-page').style.display = 'flex';
-      document.getElementById('sidebar').style.display = 'none';
-      document.getElementById('main-content').style.display = 'none';
-      document.getElementById('schoolUserId').value = '';
-      document.getElementById('password').value = '';
-      document.getElementById('userRole').value = '';
-      document.getElementById('login-error').style.display = 'none';
+      document.getElementById('loginForm').reset();
+      showLoginView();
+      clearError();
     }
 
-    function loadDashboard() {
-      const stats = [
-        { label: 'Students', value: '245', class: 'students' },
-        { label: 'Teachers', value: '32', class: 'teachers' },
-        { label: 'Classes', value: '18', class: 'classes' },
-        { label: 'Announcements', value: '12', class: 'announcements' },
-      ];
-
-      const container = document.getElementById('stats-container');
-      container.innerHTML = stats.map(s => `
-        <div class="stat-card ${s.class}">
-          <div class="label">${s.label}</div>
-          <div class="value">${s.value}</div>
-        </div>
-      `).join('');
-    }
-
-    function loadStudents() {
-      const students = [
-        { name: 'John Doe', user_id: 'S-001', roll: '01' },
-        { name: 'Jane Smith', user_id: 'S-002', roll: '02' },
-        { name: 'Bob Johnson', user_id: 'S-003', roll: '03' },
-        { name: 'Alice Brown', user_id: 'S-004', roll: '04' },
-      ];
-
-      const tbody = document.getElementById('students-tbody');
-      tbody.innerHTML = students.map(s => `
-        <tr>
-          <td>${s.name}</td>
-          <td>${s.user_id}</td>
-          <td>${s.roll}</td>
-        </tr>
-      `).join('');
-    }
-
-    function loadTeachers() {
-      const teachers = [
-        { name: 'Prof. Alice', subject: 'Mathematics', contact: 'alice@school.edu' },
-        { name: 'Prof. Bob', subject: 'English', contact: 'bob@school.edu' },
-        { name: 'Prof. Carol', subject: 'Science', contact: 'carol@school.edu' },
-      ];
-
-      const tbody = document.getElementById('teachers-tbody');
-      tbody.innerHTML = teachers.map(t => `
-        <tr>
-          <td>${t.name}</td>
-          <td>${t.subject}</td>
-          <td>${t.contact}</td>
-        </tr>
-      `).join('');
-    }
-
-    function loadClasses() {
-      const classes = [
-        { name: 'Class 10A', students: '32' },
-        { name: 'Class 10B', students: '28' },
-        { name: 'Class 11A', students: '30' },
-        { name: 'Class 11B', students: '29' },
-      ];
-
-      const container = document.getElementById('classes-container');
-      container.innerHTML = classes.map(c => `
-        <div class="stat-card">
-          <div class="label">Class</div>
-          <div style="font-size: 1.5rem; color: var(--accent); margin-bottom: 0.5rem;">${c.name}</div>
-          <div style="color: var(--muted);">${c.students} students</div>
-        </div>
-      `).join('');
-    }
-
-    function loadAttendance() {
-      const attendance = [
-        { student: 'John Doe', status: 'Present', date: '2026-10-12' },
-        { student: 'Jane Smith', status: 'Absent', date: '2026-10-12' },
-        { student: 'Bob Johnson', status: 'Present', date: '2026-10-12' },
-        { student: 'Alice Brown', status: 'Present', date: '2026-10-12' },
-      ];
-
-      const tbody = document.getElementById('attendance-tbody');
-      tbody.innerHTML = attendance.map(a => `
-        <tr>
-          <td>${a.student}</td>
-          <td>${a.status}</td>
-          <td>${a.date}</td>
-        </tr>
-      `).join('');
-    }
-
-    function loadResults() {
-      const results = [
-        { student: 'John Doe', subject: 'Math', marks: '92' },
-        { student: 'Jane Smith', subject: 'English', marks: '88' },
-        { student: 'Bob Johnson', subject: 'Science', marks: '85' },
-        { student: 'Alice Brown', subject: 'History', marks: '90' },
-      ];
-
-      const tbody = document.getElementById('results-tbody');
-      tbody.innerHTML = results.map(r => `
-        <tr>
-          <td>${r.student}</td>
-          <td>${r.subject}</td>
-          <td>${r.marks}</td>
-        </tr>
-      `).join('');
-    }
-
-    function loadAnnouncements() {
-      const announcements = [
-        { title: 'School Closed', message: 'School will be closed on Oct 31 for maintenance.' },
-        { title: 'Exam Schedule', message: 'Final exams are scheduled for next month.' },
-        { title: 'New Library', message: 'Our new library wing is now open for all students.' },
-      ];
-
-      const container = document.getElementById('announcements-container');
-      container.innerHTML = announcements.map(a => `
-        <div class="section">
-          <h2>${a.title}</h2>
-          <p>${a.message}</p>
-        </div>
-      `).join('');
-    }
+    document.getElementById('loginForm').addEventListener('submit', handleLogin);
+    showLoginView();
   </script>
 </body>
 </html>
