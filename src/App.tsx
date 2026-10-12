@@ -1,6 +1,6 @@
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { useAuth } from './context/AuthContext';
-import { supabase } from './lib/supabase';
+import { supabase, isSupabaseConfigured } from './lib/supabase';
 import type { Profile } from './types';
 import { Sidebar } from './components/Sidebar';
 import { StatCard } from './components/StatCard';
@@ -78,7 +78,7 @@ function AdminOverviewPage() {
 
   useEffect(() => {
     const loadStats = async () => {
-      if (!profile?.school_id) {
+      if (!profile?.school_id || !isSupabaseConfigured) {
         setLoading(false);
         return;
       }
@@ -97,7 +97,8 @@ function AdminOverviewPage() {
           classes: classesResult.data?.length ?? 0,
           announcements: announcementsResult.data?.length ?? 0,
         });
-      } catch {
+      } catch (error) {
+        console.error('Failed to load admin stats:', error);
         setStats({ students: 0, teachers: 0, classes: 0, announcements: 0 });
       } finally {
         setLoading(false);
@@ -146,7 +147,7 @@ function StudentsPage() {
 
   useEffect(() => {
     const load = async () => {
-      if (!profile?.school_id) {
+      if (!profile?.school_id || !isSupabaseConfigured) {
         setIsLoading(false);
         return;
       }
@@ -208,7 +209,7 @@ function TeachersPage() {
 
   useEffect(() => {
     const load = async () => {
-      if (!profile?.school_id) {
+      if (!profile?.school_id || !isSupabaseConfigured) {
         setIsLoading(false);
         return;
       }
@@ -269,7 +270,7 @@ function ClassesPage() {
 
   useEffect(() => {
     const load = async () => {
-      if (!profile?.school_id) {
+      if (!profile?.school_id || !isSupabaseConfigured) {
         setIsLoading(false);
         return;
       }
@@ -314,7 +315,7 @@ function AttendancePage() {
 
   useEffect(() => {
     const load = async () => {
-      if (!profile?.school_id) {
+      if (!profile?.school_id || !isSupabaseConfigured) {
         setIsLoading(false);
         return;
       }
@@ -370,7 +371,7 @@ function ResultsPage() {
 
   useEffect(() => {
     const load = async () => {
-      if (!profile?.school_id) {
+      if (!profile?.school_id || !isSupabaseConfigured) {
         setIsLoading(false);
         return;
       }
@@ -426,7 +427,7 @@ function AnnouncementsPage() {
 
   useEffect(() => {
     const load = async () => {
-      if (!profile?.school_id) {
+      if (!profile?.school_id || !isSupabaseConfigured) {
         setIsLoading(false);
         return;
       }
@@ -470,7 +471,7 @@ function TeacherOverviewPage() {
 
   useEffect(() => {
     const load = async () => {
-      if (!profile) {
+      if (!profile || !isSupabaseConfigured) {
         setLoading(false);
         return;
       }
@@ -540,7 +541,7 @@ function StudentOverviewPage() {
 
   useEffect(() => {
     const load = async () => {
-      if (!profile) {
+      if (!profile || !isSupabaseConfigured) {
         setLoading(false);
         return;
       }
