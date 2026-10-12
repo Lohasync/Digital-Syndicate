@@ -121,9 +121,30 @@ footer { text-align:center; padding:25px; color:var(--muted); }
   </section>
 
   <section class="panel">
-    <h2>📱 Camera 2 — Phone workspace camera</h2>
-    <p>Planned feature: connect a phone camera to the same exam session over a secure internet connection.</p>
-    <p id="phoneStatus">Phone camera is not connected. Cross-network streaming is not configured in this version.</p>
+    
+<section class="panel">
+  <h2>📱 Camera 2 — Phone workspace camera</h2>
+
+  <p>
+    Open phone-camera.html on your phone and enter this session ID.
+  </p>
+
+  <p>
+    <strong>Session ID:</strong>
+    <span id="phoneSessionId">Connecting...</span>
+  </p>
+
+  <button class="secondary" onclick="copyPhoneSessionId()">
+    Copy session ID
+  </button>
+
+  <video id="phoneVideo" autoplay playsinline></video>
+
+  <p class="status" id="phoneStatus" aria-live="polite">
+    Waiting for connection...
+  </p>
+</section>
+
   </section>
 
   <section class="panel">
