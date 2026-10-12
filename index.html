@@ -160,6 +160,100 @@ footer { text-align:center; padding:25px; color:var(--muted); }
 let cameraStream = null;
 let screenStream = null;
 
+let phonePeer = null;
+let phoneCall = null;
+let phoneRemoteStream = null;
+
+function startPhoneSession() {
+  const status = document.getElementById("phoneStatus");
+  const sessionId = document.getElementById("phoneSessionId");
+
+  if (typeof Peer === "undefined") {
+    status.textContent =
+      "PeerJS failed to load. Check your internet connection.";
+    return;
+  }
+
+  if (phonePeer) {
+    status.textContent = "Laptop session is already running.";
+    return;
+  }
+
+  status.textContent = "Creating laptop session...";
+
+  phonePeer = new Peer();
+
+  phonePeer.on("open", function(id) {
+    sessionId.textContent = id;
+    status.textContent =
+      "Session ready. Enter this ID on your phone.";
+    logEvent("Phone camera session created.");
+  });
+
+  phonePeer.on("call", function(call) {
+    if (phoneCall) {
+      call.close();
+      return;
+    }
+
+    phoneCall = call;
+    status.textContent = "Phone found. Connecting video...";
+
+    // Receive video only; do not request audio.
+    call.answer();
+
+    call.on("stream", function(remoteStream) {
+      phoneRemoteStream = remoteStream;
+
+      const video = document.getElementById("phoneVideo");
+      video.srcObject = remoteStream;
+
+      status.textContent = "Phone camera connected.";
+      logEvent("Phone camera connected.");
+    });
+
+    call.on("close", function() {
+      phoneRemoteStream = null;
+      phoneCall = null;
+
+      document.getElementById("phoneVideo").srcObject = null;
+      status.textContent = "Phone disconnected.";
+      logEvent("Phone camera disconnected.");
+    });
+
+    call.on("error", function(error) {
+      status.textContent =
+        "Video connection error: " + error.type;
+    });
+  });
+
+  phonePeer.on("error", function(error) {
+    status.textContent =
+      "Session error: " + error.type;
+  });
+}
+
+
+async function copyPhoneSessionId() {
+  const id = document.getElementById("phoneSessionId").textContent;
+
+  if (!id || id === "Connecting...") {
+    document.getElementById("phoneStatus").textContent =
+      "Wait for the session ID to appear.";
+    return;
+  }
+
+  try {
+    await navigator.clipboard.writeText(id);
+    document.getElementById("phoneStatus").textContent =
+      "Session ID copied.";
+  } catch (error) {
+    document.getElementById("phoneStatus").textContent =
+      "Copy unavailable. Select and copy the session ID manually.";
+  }
+}
+
+
 
 document.getElementById("quizForm").addEventListener("submit", function(event) {
   event.preventDefault();
